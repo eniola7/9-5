@@ -1,15 +1,17 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { BottomTabs } from './src/navigation/BottomTabs';
+import { LandingScreen } from './src/screens/LandingScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { ProfileProvider, useProfile } from './src/context/ProfileContext';
 import { colors } from './src/theme';
 
 const AppInner = () => {
   const { profile, isReady, completeOnboarding } = useProfile();
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   if (!isReady) {
     return (
@@ -18,6 +20,10 @@ const AppInner = () => {
         <Text style={styles.loadingText}>Loading LOLO demo...</Text>
       </View>
     );
+  }
+
+  if (!profile && !showOnboarding) {
+    return <LandingScreen onStart={() => setShowOnboarding(true)} />;
   }
 
   if (!profile) {

@@ -34,7 +34,7 @@ export const DashboardCard = ({ title, value, subtitle, accent, icon, important,
 
   if (!onPress) return content;
   return (
-    <PressableScale onPress={onPress} pressedStyle={styles.pressed}>
+    <PressableScale onPress={onPress} pressedStyle={styles.pressed} hoveredStyle={styles.hovered}>
       {content}
     </PressableScale>
   );
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
   },
   pressed: {
     borderColor: colors.primary,
+  },
+  hovered: {
+    shadowOpacity: 0.42,
   },
   topRow: {
     flexDirection: 'row',
