@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import { Card } from '../components/Card';
 import { DashboardCard } from '../components/DashboardCard';
 import { PressableScale } from '../components/PressableScale';
@@ -19,9 +19,33 @@ const simulatorOptions = [
   { label: 'Apartment ready', score: 84, risk: 'Lower risk', action: 'Protect cash buffer' },
 ];
 
+const differenceCards = [
+  {
+    icon: 'GO',
+    title: 'Built for action, not just information',
+    body: 'LOLO turns credit education into guided steps, quizzes, readiness checks, and clear next moves so users can practice credit intelligence as they learn.',
+  },
+  {
+    icon: 'PB',
+    title: 'Personal + business credit in one place',
+    body: 'Founders, students, young professionals, and small business owners often need both personal and business credit literacy to make confident funding decisions.',
+  },
+  {
+    icon: 'RR',
+    title: 'Readiness before rejection',
+    body: 'LOLO helps users understand weak points before they apply for loans, cards, apartments, or funding, turning uncertainty into preparation.',
+  },
+  {
+    icon: 'CC',
+    title: 'Credit confidence over confusion',
+    body: 'LOLO simplifies underwriting, utilization, DTI, credit reports, and lender decision-making into practical language and repeatable habits.',
+  },
+];
+
 export const LandingScreen = ({ onStart }: LandingScreenProps) => {
   const [scenario, setScenario] = useState(simulatorOptions[1]);
   const heroPulse = useRef(new Animated.Value(0)).current;
+  const scrollY = useRef(new Animated.Value(0)).current;
   const scoreMotion = useRef(new Animated.Value(scenario.score)).current;
   const [animatedScore, setAnimatedScore] = useState(scenario.score);
 
@@ -51,9 +75,28 @@ export const LandingScreen = ({ onStart }: LandingScreenProps) => {
     opacity: heroPulse.interpolate({ inputRange: [0, 1], outputRange: [0.35, 0.8] }),
     transform: [{ scale: heroPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.04] }) }],
   }), [heroPulse]);
+  const aboutMotionStyle = useMemo(() => ({
+    opacity: scrollY.interpolate({
+      inputRange: [520, 760],
+      outputRange: [0.72, 1],
+      extrapolate: 'clamp',
+    }),
+    transform: [{
+      translateY: scrollY.interpolate({
+        inputRange: [520, 760],
+        outputRange: [18, 0],
+        extrapolate: 'clamp',
+      }),
+    }],
+  }), [scrollY]);
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <Animated.ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      scrollEventThrottle={16}
+      onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+    >
       <View style={styles.nav}>
         <Text style={styles.logo}>LOLO</Text>
         <ProgressPill label="Investor Demo" status="completed" />
@@ -117,16 +160,8 @@ export const LandingScreen = ({ onStart }: LandingScreenProps) => {
         </View>
       </Card>
 
-      <SectionHeader title="Built for the messy middle" subtitle="A premium platform for people whose financial lives are changing fast." />
-      <View style={styles.features}>
-        <Feature icon="CR" title="Credit readiness" body="Translate credit habits into an action plan users can understand." />
-        <Feature icon="RT" title="Rent intelligence" body="Surface apartment readiness and rent-burden pressure before it becomes a blocker." />
-        <Feature icon="AI" title="Contextual coach" body="Rule-based demo guidance today, built for future guardrailed AI tomorrow." />
-        <Feature icon="SG" title="LOLO Signals" body="Risk markers that feel predictive without making unsafe guarantees." />
-      </View>
-
       <Card style={styles.why}>
-        <SectionHeader title="Why LOLO works" subtitle="The platform gives students one calm operating system for credit, cash, and next steps." />
+        <SectionHeader title="How LOLO Works" subtitle="The platform gives users one calm operating system for credit training, loan readiness, and financial confidence." />
         {['It converts confusing credit concepts into visible readiness scores.', 'It uses persona context, not one-size-fits-all financial tips.', 'It nudges one next action at a time, reducing decision fatigue.'].map((item, index) => (
           <View key={item} style={styles.whyRow}>
             <Text style={styles.whyIndex}>{index + 1}</Text>
@@ -134,6 +169,28 @@ export const LandingScreen = ({ onStart }: LandingScreenProps) => {
           </View>
         ))}
       </Card>
+
+      <Animated.View style={[styles.aboutSection, aboutMotionStyle]}>
+        <SectionHeader
+          title="What Makes LOLO Different"
+          subtitle="LOLO is not just a credit education site. It combines structured learning, quizzes, credit readiness simulations, and personalized next steps so users do not just consume information — they build real credit intelligence."
+        />
+        <View style={styles.differenceGrid}>
+          {differenceCards.map((card, index) => (
+            <Animated.View key={card.title} style={[styles.differenceMotion, { opacity: 1 }]}>
+              <AboutCard icon={card.icon} title={card.title} body={card.body} featured={index === 0} />
+            </Animated.View>
+          ))}
+        </View>
+      </Animated.View>
+
+      <SectionHeader title="Features" subtitle="A premium platform for people whose financial lives are changing fast." />
+      <View style={styles.features}>
+        <Feature icon="CR" title="Credit readiness" body="Translate credit habits into an action plan users can understand." />
+        <Feature icon="RT" title="Rent intelligence" body="Surface apartment readiness and rent-burden pressure before it becomes a blocker." />
+        <Feature icon="AI" title="Contextual coach" body="Rule-based demo guidance today, built for future guardrailed AI tomorrow." />
+        <Feature icon="SG" title="LOLO Signals" body="Risk markers that feel predictive without making unsafe guarantees." />
+      </View>
 
       <SectionHeader title="What early users would say" subtitle="Pitch-ready testimonial examples for the demo narrative." />
       <View style={styles.testimonials}>
@@ -154,12 +211,22 @@ export const LandingScreen = ({ onStart }: LandingScreenProps) => {
         <Text style={styles.finalBody}>Launch the demo, build a profile, and watch LOLO generate a personalized readiness system in under a minute.</Text>
         <PrimaryButton label="Start the LOLO Demo" onPress={onStart} style={styles.finalButton} />
       </Card>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
 const Feature = ({ icon, title, body }: { icon: string; title: string; body: string }) => (
   <DashboardCard title={title} icon={icon} subtitle={body} important={icon === 'AI'} />
+);
+
+const AboutCard = ({ icon, title, body, featured }: { icon: string; title: string; body: string; featured?: boolean }) => (
+  <PressableScale style={[styles.aboutCard, featured && styles.aboutCardFeatured]} hoveredStyle={styles.aboutCardHovered} pressedStyle={styles.aboutCardPressed}>
+    <View style={styles.aboutIcon}>
+      <Text style={styles.aboutIconText}>{icon}</Text>
+    </View>
+    <Text style={styles.aboutTitle}>{title}</Text>
+    <Text style={styles.aboutBody}>{body}</Text>
+  </PressableScale>
 );
 
 const Testimonial = ({ quote, name }: { quote: string; name: string }) => (
@@ -349,7 +416,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   why: {
-    marginBottom: spacing.xxl,
+    marginBottom: spacing.xl,
   },
   whyRow: {
     flexDirection: 'row',
@@ -368,6 +435,68 @@ const styles = StyleSheet.create({
     ...typography.body,
     color: colors.textPrimary,
     flex: 1,
+  },
+  aboutSection: {
+    marginBottom: spacing.xxl,
+  },
+  differenceGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.md,
+  },
+  differenceMotion: {
+    flexGrow: 1,
+    flexBasis: 260,
+  },
+  aboutCard: {
+    minHeight: 218,
+    padding: spacing.lg,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: 'rgba(22, 27, 30, 0.76)',
+    overflow: 'hidden',
+    ...shadows.card,
+  },
+  aboutCardFeatured: {
+    borderColor: colors.primary,
+    backgroundColor: 'rgba(20, 32, 25, 0.88)',
+    ...shadows.glow,
+  },
+  aboutCardHovered: {
+    borderColor: colors.accent,
+    backgroundColor: 'rgba(27, 37, 31, 0.92)',
+  },
+  aboutCardPressed: {
+    opacity: 0.92,
+  },
+  aboutIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(74, 222, 128, 0.14)',
+    borderColor: colors.accent,
+    borderWidth: 1,
+    marginBottom: spacing.lg,
+  },
+  aboutIconText: {
+    color: colors.accent,
+    fontWeight: '900',
+    fontSize: 12,
+  },
+  aboutTitle: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: '900',
+    lineHeight: 23,
+  },
+  aboutBody: {
+    color: colors.textSecondary,
+    fontSize: 14,
+    lineHeight: 21,
+    marginTop: spacing.md,
   },
   testimonials: {
     gap: spacing.md,
