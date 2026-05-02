@@ -1,5 +1,7 @@
 # LOLO — Live On. Life Optimized.
 
+[![CI](https://github.com/eniola7/9-5/actions/workflows/ci.yml/badge.svg)](https://github.com/eniola7/9-5/actions/workflows/ci.yml)
+
 A React Native / Expo MVP mobile app built to feel like a fintech product for students, medical students, international students, and early professionals.
 
 ## What’s included
