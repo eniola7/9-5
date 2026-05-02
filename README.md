@@ -1,51 +1,47 @@
 # LOLO — Live On. Life Optimized.
 
-[![CI](https://github.com/eniola7/9-5/actions/workflows/ci.yml/badge.svg)](https://github.com/eniola7/9-5/actions/workflows/ci.yml)
-
-A React Native / Expo MVP mobile app built to feel like a fintech product for students, medical students, international students, and early professionals.
-
-## What’s included
-
-- Expo + TypeScript mobile app
-- Bottom tab navigation with Home, Roadmap, Pro, Coach, Alerts
-- Onboarding flow for profile choice
-- Mock dashboard with credit health, balance, bills, spending cards
-- Roadmap progress and checklist statuses
-- Premium LOLO Pro pricing page
-- Guardrailed AI Coach chat UI with hardcoded responses
-- Alerts / predictive signal cards
-- Mock data only; no real banking integrations
+LOLO is a dark-mode React Native / Expo demo for personalized student and early-career financial guidance. It is built as a pitch-ready interactive prototype, not a production financial product.
 
 ## Run locally
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the Expo app:
-   ```bash
-   npm start
-   ```
-3. Open on your phone with Expo Go or run on simulator.
+Use Node 20 LTS for Expo 49. This repo includes `.nvmrc`.
 
-## Future production notes
+```bash
+nvm use
+npm install
+npm start
+```
 
-- `src/services/placeholders.ts` contains placeholder comments for:
-  - Plaid integration
-  - Stripe checkout
-  - Rent reporting partner
-  - Credit score provider
-  - OpenAI coach API
-- `src/services/storage.ts` provides secure local persistence for selected user profile.
+You can also run:
 
-## Mock data files
+```bash
+npx expo start
+npm run web
+npm run typecheck
+```
 
-- `src/data/mockProfiles.ts`
-- `src/data/mockRoadmap.ts`
-- `src/data/mockAlerts.ts`
-- `src/data/mockSubscriptions.ts`
-- `src/data/mockChat.ts`
+## What is mocked
 
-## Notes
+- Onboarding profile creation
+- LOLO Financial Profile scoring
+- Public/internet-style benchmark data
+- Persona-specific roadmap generation
+- LOLO Signals risk markers
+- Rule-based AI Coach responses
+- Subscription upgrade state
+- Local demo persistence
 
-This app uses only mock data for all financial content. It is designed as a polished UI prototype for LOLO, not a production banking or credit service.
+The app does not scrape the web, call Plaid, call Stripe, pull credit bureau data, access bank data, or call OpenAI. It uses user-entered demo inputs and clearly mocked benchmark objects.
+
+## Future production integrations
+
+- Supabase or Firebase backend
+- Plaid for bank data
+- Stripe for subscriptions
+- Credit or rent reporting partner
+- OpenAI API for a real guardrailed coach
+- Compliance, legal, privacy, and security review
+
+## Product wording
+
+LOLO uses “risk signals,” “personalized guidance,” and “general public benchmark data.” It does not promise guaranteed credit score outcomes or claim to find private data about users online.

@@ -1,26 +1,49 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { mockAlerts } from '../data/mockAlerts';
-import { Colors } from '../constants/theme';
+import { PrimaryButton } from '../components/PrimaryButton';
+import { ProgressPill } from '../components/ProgressPill';
+import { SectionHeader } from '../components/SectionHeader';
+import { useProfile } from '../context/ProfileContext';
+import { colors, spacing, typography } from '../theme';
+import { Signal } from '../types';
 
 export const AlertsScreen = () => {
+  const { signals, refreshSignals } = useProfile();
+  const [selected, setSelected] = useState<Signal | null>(null);
+
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Text style={styles.header}>Early risk signals</Text>
-      <Text style={styles.subtitle}>LOLO flags trends so you can respond before they become issues.</Text>
+      <BrandHeader title="LOLO Signals" subtitle="Rule-based markers, not predictions." />
+      <Card glow>
+        <SectionHeader title="Financial risk signals" subtitle="Generated from your mock profile and roadmap progress." eyebrow="Predictive-style demo" />
+        <Text style={styles.copy}>LOLO uses personalized guidance language without claiming guaranteed outcomes or real-time private data access.</Text>
+        <PrimaryButton label="Refresh signals" onPress={refreshSignals} style={styles.refresh} />
+      </Card>
 
-      {mockAlerts.map((alert) => (
-        <Card key={alert.id} style={styles.alertCard}>
-          <Text style={styles.alertTitle}>{alert.title}</Text>
-          <Text style={styles.alertMessage}>{alert.body}</Text>
-          <View style={[styles.badge, alert.severity === 'warning' ? styles.warning : styles.info]}>
-            <Text style={styles.badgeText}>{alert.severity === 'warning' ? 'Risk signal' : 'Info signal'}</Text>
+      {signals.map((signal) => (
+        <Card key={signal.id}>
+          <View style={styles.row}>
+            <Text style={styles.title}>{signal.title}</Text>
+            <ProgressPill label={signal.riskLevel} risk={signal.riskLevel} />
           </View>
+          <Text style={styles.copy}>{signal.whyItMatters}</Text>
+          <Text style={styles.action}>Suggested action: {signal.suggestedAction}</Text>
+          <PrimaryButton label={signal.ctaLabel} onPress={() => setSelected(signal)} style={styles.cta} />
         </Card>
       ))}
 
-      <Text style={styles.footer}>These alerts are educational and designed to help you stay mindful of your financial momentum.</Text>
+      <Modal transparent visible={!!selected} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <Card glow>
+            <Text style={styles.modalTitle}>{selected?.title}</Text>
+            <Text style={styles.copy}>{selected?.whyItMatters}</Text>
+            <Text style={styles.action}>{selected?.suggestedAction}</Text>
+            <PrimaryButton label="Got it" onPress={() => setSelected(null)} style={styles.cta} />
+          </Card>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -28,57 +51,48 @@ export const AlertsScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   content: {
-    padding: 24,
-    paddingBottom: 32,
+    padding: spacing.xl,
+    paddingBottom: spacing.xxl,
   },
-  header: {
-    fontSize: 26,
+  copy: {
+    ...typography.body,
+  },
+  refresh: {
+    marginTop: spacing.lg,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  title: {
+    color: colors.textPrimary,
+    fontSize: 17,
+    fontWeight: '900',
+    flex: 1,
+  },
+  action: {
+    color: colors.accent,
     fontWeight: '800',
-    color: Colors.primary,
-    marginBottom: 8,
-  },
-  subtitle: {
-    color: Colors.muted,
-    marginBottom: 18,
+    marginTop: spacing.md,
     lineHeight: 20,
   },
-  alertCard: {
-    paddingVertical: 18,
+  cta: {
+    marginTop: spacing.lg,
   },
-  alertTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.secondary,
-    marginBottom: 6,
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: spacing.xl,
+    backgroundColor: colors.overlay,
   },
-  alertMessage: {
-    color: Colors.muted,
-    lineHeight: 20,
-  },
-  badge: {
-    alignSelf: 'flex-start',
-    marginTop: 14,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 16,
-  },
-  warning: {
-    backgroundColor: '#FFF2DB',
-  },
-  info: {
-    backgroundColor: '#EAF3FF',
-  },
-  badgeText: {
-    color: Colors.secondary,
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  footer: {
-    marginTop: 22,
-    color: Colors.muted,
-    lineHeight: 20,
+  modalTitle: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '900',
+    marginBottom: spacing.md,
   },
 });

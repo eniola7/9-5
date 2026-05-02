@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Colors } from '../constants/theme';
+import { colors, spacing, typography } from '../theme';
 
 interface SectionHeaderProps {
   title: string;
   subtitle?: string;
+  eyebrow?: string;
 }
 
-export const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
+export const SectionHeader = ({ title, subtitle, eyebrow }: SectionHeaderProps) => (
   <View style={styles.container}>
+    {eyebrow ? <Text style={typography.eyebrow}>{eyebrow}</Text> : null}
     <Text style={styles.title}>{title}</Text>
     {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
   </View>
@@ -16,16 +18,15 @@ export const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   title: {
-    fontSize: 18,
-    color: Colors.text,
-    fontWeight: '700',
+    ...typography.sectionTitle,
+    marginTop: spacing.xs,
   },
   subtitle: {
-    marginTop: 2,
-    color: Colors.muted,
-    fontSize: 13,
+    ...typography.body,
+    marginTop: spacing.xs,
+    color: colors.textSecondary,
   },
 });

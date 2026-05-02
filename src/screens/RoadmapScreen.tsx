@@ -1,34 +1,61 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { SectionHeader } from '../components/SectionHeader';
+import { MetricBar } from '../components/MetricBar';
+import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressPill } from '../components/ProgressPill';
-import { mockRoadmap } from '../data/mockRoadmap';
-import { Colors } from '../constants/theme';
+import { SectionHeader } from '../components/SectionHeader';
+import { useProfile } from '../context/ProfileContext';
+import { colors, spacing, typography } from '../theme';
+import { RoadmapItem } from '../types';
 
 export const RoadmapScreen = () => {
-  const progress = 60;
+  const { profile, roadmap, toggleRoadmapItem } = useProfile();
+  const [selected, setSelected] = useState<RoadmapItem | null>(null);
+  const progress = useMemo(() => roadmap.length ? Math.round((roadmap.filter((item) => item.completed).length / roadmap.length) * 100) : 0, [roadmap]);
+
+  if (!profile) return null;
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <SectionHeader title="Your LOLO Roadmap" subtitle="Track progress toward stronger credit and better financial habits." />
-      <Card>
-        <Text style={styles.progressLabel}>Roadmap completion</Text>
-        <View style={styles.progressTrack}>
-          <View style={[styles.progressFill, { width: `${progress}%` }]} />
-        </View>
-        <Text style={styles.progressValue}>{progress}% complete</Text>
+      <BrandHeader title="Roadmap" subtitle={`${profile.persona} path`} />
+      <Card glow>
+        <SectionHeader title="Personalized roadmap" subtitle="Tasks update your progress and LOLO Signals." eyebrow="Dynamic plan" />
+        <MetricBar label="Roadmap progress" value={progress} />
       </Card>
 
-      {mockRoadmap.map((item) => (
-        <Card key={item.id} style={styles.itemCard}>
-          <View style={styles.itemHeader}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <ProgressPill label={item.status === 'in-progress' ? 'In progress' : item.status === 'completed' ? 'Completed' : 'Upcoming'} status={item.status} />
-          </View>
-          <Text style={styles.itemDescription}>{item.description}</Text>
-        </Card>
+      {roadmap.map((item) => (
+        <Pressable key={item.id} onPress={() => setSelected(item)}>
+          <Card style={item.completed && styles.completedCard}>
+            <View style={styles.itemHeader}>
+              <View style={styles.flex}>
+                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={styles.copy}>{item.description}</Text>
+              </View>
+              <ProgressPill label={item.completed ? 'Done' : item.status === 'in-progress' ? 'Next' : 'Later'} status={item.completed ? 'completed' : item.status} />
+            </View>
+            <PrimaryButton
+              label={item.completed ? 'Mark incomplete' : 'Mark complete'}
+              variant={item.completed ? 'ghost' : 'primary'}
+              onPress={() => toggleRoadmapItem(item.id, !item.completed)}
+              style={styles.taskButton}
+            />
+          </Card>
+        </Pressable>
       ))}
+
+      <Modal transparent visible={!!selected} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <Card glow>
+            <Text style={styles.modalTitle}>{selected?.title}</Text>
+            <Text style={styles.copy}>{selected?.description}</Text>
+            <Text style={styles.why}>Why this matters</Text>
+            <Text style={styles.copy}>{selected?.whyItMatters}</Text>
+            <PrimaryButton label="Close" onPress={() => setSelected(null)} style={styles.taskButton} />
+          </Card>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -36,50 +63,50 @@ export const RoadmapScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   content: {
-    padding: 24,
-    paddingBottom: 32,
+    padding: spacing.xl,
+    paddingBottom: spacing.xxl,
   },
-  progressLabel: {
-    color: Colors.muted,
-    marginBottom: 12,
-  },
-  progressTrack: {
-    width: '100%',
-    height: 14,
-    backgroundColor: '#E3EEFF',
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.primary,
-    borderRadius: 12,
-  },
-  progressValue: {
-    marginTop: 12,
-    color: Colors.secondary,
-    fontWeight: '700',
-  },
-  itemCard: {
-    paddingVertical: 18,
+  completedCard: {
+    borderColor: colors.primary,
+    backgroundColor: '#142019',
   },
   itemHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    gap: spacing.md,
+  },
+  flex: {
+    flex: 1,
   },
   itemTitle: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.secondary,
+    color: colors.textPrimary,
+    fontSize: 17,
+    fontWeight: '900',
   },
-  itemDescription: {
-    marginTop: 10,
-    color: Colors.muted,
-    lineHeight: 20,
+  copy: {
+    ...typography.body,
+    marginTop: spacing.sm,
+  },
+  taskButton: {
+    marginTop: spacing.lg,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: spacing.xl,
+    backgroundColor: colors.overlay,
+  },
+  modalTitle: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '900',
+  },
+  why: {
+    color: colors.accent,
+    fontWeight: '900',
+    marginTop: spacing.lg,
   },
 });

@@ -1,55 +1,89 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
+import { PrimaryButton } from '../components/PrimaryButton';
 import { SectionHeader } from '../components/SectionHeader';
-import { samplePrompts, hardcodedResponses, mockChatMessages } from '../data/mockChat';
-import { Colors } from '../constants/theme';
+import { useProfile } from '../context/ProfileContext';
+import { generateCoachResponse } from '../services/coachService';
+import { colors, radii, spacing, typography } from '../theme';
+import { CoachMessage } from '../types';
+
+const promptChips = [
+  'What should I do next?',
+  'How can I improve my credit?',
+  'Am I ready for an apartment?',
+  'How do I prepare for residency?',
+  'What should I avoid?',
+];
 
 export const CoachScreen = () => {
-  const [messages, setMessages] = useState(mockChatMessages);
+  const { profile, roadmap, signals } = useProfile();
   const [query, setQuery] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState<CoachMessage[]>([
+    {
+      id: 'welcome',
+      role: 'assistant',
+      text: 'Ask LOLO Coach about credit, rent, loans, residency, subscriptions, or your next best step. Educational guidance only, not financial advice.',
+    },
+  ]);
+
+  if (!profile) return null;
 
   const sendMessage = (text: string) => {
-    const userMessage = { id: `user-${Date.now()}`, role: 'user' as const, text };
-    const assistantText = hardcodedResponses[text] || 'Great question — LOLO Coach is here to help with credit-friendly steps.';
-    const assistantMessage = { id: `assistant-${Date.now()}`, role: 'assistant' as const, text: assistantText };
-    setMessages((current) => [...current, userMessage, assistantMessage]);
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    setMessages((current) => [...current, { id: `user-${Date.now()}`, role: 'user', text: trimmed }]);
     setQuery('');
+    setIsTyping(true);
+    setTimeout(() => {
+      setMessages((current) => [
+        ...current,
+        {
+          id: `assistant-${Date.now()}`,
+          role: 'assistant',
+          text: generateCoachResponse(trimmed, profile, roadmap, signals),
+        },
+      ]);
+      setIsTyping(false);
+    }, 650);
   };
 
   return (
     <View style={styles.screen}>
-      <ScrollView style={styles.messageList} contentContainerStyle={styles.messageContent}>
-        <SectionHeader title="LOLO AI Coach" subtitle="Educational guidance for students and early professionals." />
+      <ScrollView style={styles.messages} contentContainerStyle={styles.messageContent}>
+        <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
+        <Card glow>
+          <SectionHeader title="Context-aware mock coach" subtitle="Rule-based responses using your profile, roadmap, and LOLO Signals." eyebrow="No OpenAI calls yet" />
+        </Card>
         {messages.map((message) => (
-          <View key={message.id} style={[styles.messageBubble, message.role === 'assistant' ? styles.assistantBubble : styles.userBubble]}>
-            <Text style={[styles.messageText, message.role === 'assistant' ? styles.assistantText : styles.userText]}>{message.text}</Text>
+          <View key={message.id} style={[styles.bubble, message.role === 'user' ? styles.userBubble : styles.assistantBubble]}>
+            <Text style={[styles.messageText, message.role === 'user' && styles.userText]}>{message.text}</Text>
           </View>
         ))}
+        {isTyping ? <Text style={styles.typing}>LOLO Coach is typing...</Text> : null}
       </ScrollView>
 
-      <View style={styles.promptPanel}>
-        <Text style={styles.promptTitle}>Try these prompts</Text>
-        <View style={styles.promptRow}>
-          {samplePrompts.map((prompt) => (
-            <Pressable key={prompt} style={styles.promptChip} onPress={() => sendMessage(prompt)}>
-              <Text style={styles.promptChipText}>{prompt}</Text>
+      <View style={styles.panel}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
+          {promptChips.map((prompt) => (
+            <Pressable key={prompt} style={styles.chip} onPress={() => sendMessage(prompt)}>
+              <Text style={styles.chipText}>{prompt}</Text>
             </Pressable>
           ))}
-        </View>
+        </ScrollView>
         <Card style={styles.inputCard}>
           <TextInput
             value={query}
             onChangeText={setQuery}
-            placeholder="Ask LOLO Coach anything..."
-            placeholderTextColor={Colors.muted}
-            style={styles.textInput}
-            onSubmitEditing={() => query.trim() && sendMessage(query.trim())}
+            placeholder="Ask LOLO Coach..."
+            placeholderTextColor={colors.textMuted}
+            style={styles.input}
+            onSubmitEditing={() => sendMessage(query)}
             returnKeyType="send"
           />
-          <Pressable style={styles.sendButton} onPress={() => query.trim() && sendMessage(query.trim())}>
-            <Text style={styles.sendText}>Send</Text>
-          </Pressable>
+          <PrimaryButton label="Send" onPress={() => sendMessage(query)} style={styles.send} />
         </Card>
       </View>
     </View>
@@ -59,83 +93,79 @@ export const CoachScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
-  messageList: {
+  messages: {
     flex: 1,
-    paddingHorizontal: 24,
   },
   messageContent: {
-    paddingBottom: 14,
+    padding: spacing.xl,
+    paddingBottom: spacing.md,
   },
-  messageBubble: {
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 12,
-    maxWidth: '88%',
+  bubble: {
+    borderRadius: radii.lg,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
+    maxWidth: '90%',
+    borderWidth: 1,
   },
   assistantBubble: {
-    backgroundColor: Colors.surface,
     alignSelf: 'flex-start',
+    backgroundColor: colors.card,
+    borderColor: colors.border,
   },
   userBubble: {
-    backgroundColor: Colors.primary,
     alignSelf: 'flex-end',
+    backgroundColor: colors.primaryDark,
+    borderColor: colors.primary,
   },
   messageText: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  assistantText: {
-    color: Colors.text,
+    ...typography.body,
+    color: colors.textPrimary,
   },
   userText: {
-    color: '#FFFFFF',
+    color: '#F0FFF4',
   },
-  promptPanel: {
-    backgroundColor: '#F8FBFF',
-    paddingTop: 14,
-    paddingBottom: 20,
-    paddingHorizontal: 24,
+  typing: {
+    color: colors.accent,
+    fontWeight: '800',
+    marginBottom: spacing.md,
   },
-  promptTitle: {
-    color: Colors.secondary,
-    fontSize: 15,
-    fontWeight: '700',
-    marginBottom: 10,
+  panel: {
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.md,
+    backgroundColor: colors.background,
   },
-  promptRow: {
-    flexDirection: 'column',
-    marginBottom: 16,
+  chips: {
+    gap: spacing.sm,
+    paddingBottom: spacing.md,
   },
-  promptChip: {
-    backgroundColor: Colors.surface,
-    borderRadius: 18,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+  chip: {
+    backgroundColor: colors.cardSoft,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radii.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
   },
-  promptChipText: {
-    color: Colors.muted,
-    fontSize: 13,
+  chipText: {
+    color: colors.textPrimary,
+    fontWeight: '800',
   },
   inputCard: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: 0,
   },
-  textInput: {
+  input: {
     flex: 1,
-    minHeight: 48,
-    color: Colors.secondary,
-    fontSize: 15,
-  },
-  sendButton: {
-    backgroundColor: Colors.primary,
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-  sendText: {
-    color: '#FFFFFF',
+    minHeight: 44,
+    color: colors.textPrimary,
     fontWeight: '700',
+  },
+  send: {
+    minWidth: 76,
+    paddingVertical: spacing.sm,
   },
 });

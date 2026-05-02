@@ -1,41 +1,108 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { UserProfile } from '../types';
-import { loadUserProfile, saveUserProfile } from '../services/storage';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createAndSaveProfile,
+  getSavedRoadmap,
+  getSignals,
+  getSubscriptionPlan,
+  getUserProfile,
+  resetDemoData,
+  setSubscriptionPlan,
+  updateRoadmapItem,
+} from '../services/mockBackend';
+import { OnboardingAnswers, RoadmapItem, Signal, SubscriptionPlan, UserProfile } from '../types';
 
 interface ProfileContextValue {
   profile: UserProfile | null;
-  setProfile: (profile: UserProfile) => void;
+  roadmap: RoadmapItem[];
+  signals: Signal[];
+  plan: SubscriptionPlan;
+  isReady: boolean;
+  completeOnboarding: (answers: OnboardingAnswers) => Promise<void>;
+  toggleRoadmapItem: (id: string, completed: boolean) => Promise<void>;
+  upgradePlan: (plan: SubscriptionPlan) => Promise<void>;
+  resetDemo: () => Promise<void>;
+  refreshSignals: () => Promise<void>;
 }
 
 const ProfileContext = createContext<ProfileContextValue | undefined>(undefined);
 
 export const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
-  const [profile, setProfileState] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [roadmap, setRoadmap] = useState<RoadmapItem[]>([]);
+  const [signals, setSignals] = useState<Signal[]>([]);
+  const [plan, setPlan] = useState<SubscriptionPlan>('Free');
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    loadUserProfile().then((storedProfile) => {
+    const load = async () => {
+      const [storedProfile, storedRoadmap, storedPlan] = await Promise.all([
+        getUserProfile(),
+        getSavedRoadmap(),
+        getSubscriptionPlan(),
+      ]);
+      setProfile(storedProfile);
+      setRoadmap(storedRoadmap);
+      setPlan(storedPlan);
       if (storedProfile) {
-        setProfileState(storedProfile);
+        setSignals(await getSignals(storedProfile, storedRoadmap));
       }
       setIsReady(true);
-    });
+    };
+
+    load();
   }, []);
 
-  const setProfile = async (nextProfile: UserProfile) => {
-    setProfileState(nextProfile);
-    await saveUserProfile(nextProfile);
+  const completeOnboarding = async (answers: OnboardingAnswers) => {
+    const nextProfile = await createAndSaveProfile(answers);
+    const nextRoadmap = await getSavedRoadmap();
+    const nextPlan = await getSubscriptionPlan();
+    setProfile(nextProfile);
+    setRoadmap(nextRoadmap);
+    setPlan(nextPlan);
+    setSignals(await getSignals(nextProfile, nextRoadmap));
   };
 
-  if (!isReady) {
-    return null;
-  }
+  const toggleRoadmapItem = async (id: string, completed: boolean) => {
+    const nextRoadmap = await updateRoadmapItem(id, completed);
+    setRoadmap(nextRoadmap);
+    if (profile) setSignals(await getSignals(profile, nextRoadmap));
+  };
 
-  return (
-    <ProfileContext.Provider value={{ profile, setProfile }}>
-      {children}
-    </ProfileContext.Provider>
+  const upgradePlan = async (nextPlan: SubscriptionPlan) => {
+    await setSubscriptionPlan(nextPlan);
+    setPlan(nextPlan);
+  };
+
+  const resetDemo = async () => {
+    await resetDemoData();
+    setProfile(null);
+    setRoadmap([]);
+    setSignals([]);
+    setPlan('Free');
+  };
+
+  const refreshSignals = async () => {
+    if (!profile) return;
+    setSignals(await getSignals(profile, roadmap));
+  };
+
+  const value = useMemo(
+    () => ({
+      profile,
+      roadmap,
+      signals,
+      plan,
+      isReady,
+      completeOnboarding,
+      toggleRoadmapItem,
+      upgradePlan,
+      resetDemo,
+      refreshSignals,
+    }),
+    [profile, roadmap, signals, plan, isReady],
   );
+
+  return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
 };
 
 export const useProfile = () => {

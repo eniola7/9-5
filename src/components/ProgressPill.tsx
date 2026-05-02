@@ -1,36 +1,44 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Colors } from '../constants/theme';
+import { colors, radii, spacing } from '../theme';
+import { RiskLevel, RoadmapStatus } from '../types';
 
 interface ProgressPillProps {
   label: string;
-  status: 'completed' | 'in-progress' | 'upcoming';
+  status?: RoadmapStatus;
+  risk?: RiskLevel;
 }
 
-export const ProgressPill = ({ label, status }: ProgressPillProps) => {
-  const statusStyles = {
-    completed: { backgroundColor: '#DFF7E5', color: Colors.success },
-    'in-progress': { backgroundColor: '#EAF3FF', color: Colors.primary },
-    upcoming: { backgroundColor: '#F2F5FB', color: Colors.muted },
-  }[status];
+export const ProgressPill = ({ label, status, risk }: ProgressPillProps) => {
+  const tone = getTone(status, risk);
 
   return (
-    <View style={[styles.pill, { backgroundColor: statusStyles.backgroundColor }]}> 
-      <Text style={[styles.text, { color: statusStyles.color }]}>{label}</Text>
+    <View style={[styles.pill, { backgroundColor: tone.background, borderColor: tone.border }]}>
+      <Text style={[styles.text, { color: tone.text }]}>{label}</Text>
     </View>
   );
+};
+
+const getTone = (status?: RoadmapStatus, risk?: RiskLevel) => {
+  if (risk === 'High') return { background: 'rgba(239, 68, 68, 0.14)', border: colors.danger, text: colors.danger };
+  if (risk === 'Medium') return { background: 'rgba(245, 158, 11, 0.14)', border: colors.warning, text: colors.warning };
+  if (status === 'completed' || risk === 'Low') {
+    return { background: 'rgba(34, 197, 94, 0.14)', border: colors.primary, text: colors.accent };
+  }
+  if (status === 'in-progress') return { background: 'rgba(74, 222, 128, 0.12)', border: colors.primaryDark, text: colors.primary };
+  return { background: colors.cardSoft, border: colors.border, text: colors.textSecondary };
 };
 
 const styles = StyleSheet.create({
   pill: {
     alignSelf: 'flex-start',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 16,
-    marginTop: 8,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: radii.md,
+    borderWidth: 1,
   },
   text: {
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: '800',
   },
 });

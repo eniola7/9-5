@@ -1,134 +1,204 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
+import { MetricBar } from '../components/MetricBar';
+import { PrimaryButton } from '../components/PrimaryButton';
+import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
-import { Colors } from '../constants/theme';
 import { useProfile } from '../context/ProfileContext';
+import { colors, radii, spacing, typography } from '../theme';
+import { Signal } from '../types';
 
 export const HomeScreen = () => {
-  const { profile } = useProfile();
-  const score = profile?.creditScore ?? 700;
+  const { profile, roadmap, signals, plan, resetDemo } = useProfile();
+  const [detail, setDetail] = useState<{ title: string; body: string } | null>(null);
+  const progress = useMemo(() => {
+    if (!roadmap.length) return 0;
+    return Math.round((roadmap.filter((item) => item.completed).length / roadmap.length) * 100);
+  }, [roadmap]);
+
+  if (!profile) return null;
+
+  const nextAction = roadmap.find((item) => !item.completed);
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <View style={styles.header}>
-        <Text style={styles.welcome}>Hello, {profile?.name}</Text>
-        <Text style={styles.subheading}>Your LOLO financial summary</Text>
+      <BrandHeader title="LOLO" subtitle={`Hi ${profile.name}. ${profile.persona}`} showReset onReset={resetDemo} />
+
+      <Card glow>
+        <View style={styles.heroRow}>
+          <View style={styles.heroCopy}>
+            <Text style={typography.eyebrow}>Financial readiness</Text>
+            <Text style={styles.bigScore}>{profile.financialReadinessScore}</Text>
+            <Text style={styles.copy}>Based on your inputs and general student financial benchmarks.</Text>
+          </View>
+          <ProgressPill label={`${plan} Track`} risk={profile.riskLevel} />
+        </View>
+        <MetricBar label="Confidence meter" value={profile.confidenceScore} />
+      </Card>
+
+      <View style={styles.grid}>
+        <Pressable style={styles.gridItem} onPress={() => setDetail({ title: 'Credit improvement tips', body: 'Keep utilization low, avoid unnecessary applications, and protect on-time payments. LOLO does not guarantee credit score changes.' })}>
+          <Card style={styles.metricCard}>
+            <Text style={styles.metricLabel}>Credit health</Text>
+            <Text style={styles.metricValue}>{profile.creditReadinessScore}</Text>
+          </Card>
+        </Pressable>
+        <Card style={styles.metricCard}>
+          <Text style={styles.metricLabel}>Cash buffer</Text>
+          <Text style={styles.metricValue}>{profile.cashBufferMonths} mo</Text>
+        </Card>
       </View>
 
-      <Card style={styles.cardPrimary}>
-        <Text style={styles.sectionTitle}>Credit health</Text>
-        <Text style={styles.score}>{score}</Text>
-        <Text style={styles.cardText}>Recommended next step: {profile?.nextStep}</Text>
-      </Card>
-
-      <View style={styles.row}>
-        <Card style={styles.smallCard}>
-          <Text style={styles.label}>Account balance</Text>
-          <Text style={styles.value}>{profile?.balance}</Text>
+      <Pressable onPress={() => nextAction && setDetail({ title: nextAction.title, body: `${nextAction.description}\n\nWhy this matters: ${nextAction.whyItMatters}` })}>
+        <Card>
+          <SectionHeader title="Next best action" subtitle={nextAction?.description ?? 'Your core roadmap is complete.'} />
+          <PrimaryButton label={nextAction ? 'View action detail' : 'Review profile'} onPress={() => nextAction && setDetail({ title: nextAction.title, body: nextAction.whyItMatters })} />
         </Card>
-        <Card style={styles.smallCard}>
-          <Text style={styles.label}>Available budget</Text>
-          <Text style={styles.value}>{profile?.monthlyBudget}</Text>
-        </Card>
-      </View>
+      </Pressable>
 
       <Card>
-        <SectionHeader title="Upcoming bills" subtitle="Plan ahead with confidence." />
-        <View style={styles.billRow}>
-          <Text style={styles.billName}>Rent</Text>
-          <Text style={styles.billAmount}>$1,150</Text>
-        </View>
-        <View style={styles.billRow}>
-          <Text style={styles.billName}>Phone & utilities</Text>
-          <Text style={styles.billAmount}>$220</Text>
-        </View>
+        <SectionHeader title="Roadmap progress" subtitle={`${progress}% complete`} />
+        <MetricBar label="Completion" value={progress} />
       </Card>
 
       <Card>
-        <SectionHeader title="Spending insights" subtitle="A calm view of your money habits." />
-        <Text style={styles.cardText}>You are doing well keeping credit use under 30%. Try shifting small recurring payments to rent reporting.</Text>
+        <SectionHeader title="Upcoming bills" subtitle="Demo cash-flow reminders." />
+        <BillRow label="Rent" value={`$${profile.answers.monthlyRent.toLocaleString()}`} />
+        <BillRow label="Student loan planning" value={profile.answers.studentLoanAmount > 0 ? 'Review' : 'No loan added'} />
       </Card>
 
-      <Card>
-        <SectionHeader title="Action plan preview" subtitle="Your next steps with LOLO." />
-        <Text style={styles.cardText}>- Check your monthly credit health score.</Text>
-        <Text style={styles.cardText}>- Log rent payments for stronger reporting.</Text>
-        <Text style={styles.cardText}>- Save a safe emergency buffer for unexpected moves.</Text>
-      </Card>
+      <SectionHeader title="LOLO Signals" subtitle="Rule-based risk signals, not predictions." />
+      {signals.slice(0, 3).map((signal) => (
+        <SignalCard key={signal.id} signal={signal} onPress={() => setDetail({ title: signal.title, body: `${signal.whyItMatters}\n\nSuggested action: ${signal.suggestedAction}` })} />
+      ))}
+
+      <DetailModal detail={detail} onClose={() => setDetail(null)} />
     </ScrollView>
   );
 };
 
+const SignalCard = ({ signal, onPress }: { signal: Signal; onPress: () => void }) => (
+  <Pressable onPress={onPress}>
+    <Card>
+      <View style={styles.row}>
+        <Text style={styles.signalTitle}>{signal.title}</Text>
+        <ProgressPill label={signal.riskLevel} risk={signal.riskLevel} />
+      </View>
+      <Text style={styles.copy}>{signal.suggestedAction}</Text>
+    </Card>
+  </Pressable>
+);
+
+const BillRow = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.billRow}>
+    <Text style={styles.billLabel}>{label}</Text>
+    <Text style={styles.billValue}>{value}</Text>
+  </View>
+);
+
+const DetailModal = ({ detail, onClose }: { detail: { title: string; body: string } | null; onClose: () => void }) => (
+  <Modal transparent visible={!!detail} animationType="fade">
+    <View style={styles.modalOverlay}>
+      <Card style={styles.modalCard} glow>
+        <Text style={styles.modalTitle}>{detail?.title}</Text>
+        <Text style={styles.copy}>{detail?.body}</Text>
+        <PrimaryButton label="Close" onPress={onClose} style={styles.modalButton} />
+      </Card>
+    </View>
+  </Modal>
+);
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   content: {
-    padding: 24,
-    paddingBottom: 32,
+    padding: spacing.xl,
+    paddingBottom: spacing.xxl,
   },
-  header: {
-    marginBottom: 22,
+  heroRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: spacing.md,
   },
-  welcome: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: Colors.primary,
+  heroCopy: {
+    flex: 1,
   },
-  subheading: {
-    marginTop: 8,
-    color: Colors.muted,
-    fontSize: 15,
-  },
-  cardPrimary: {
-    paddingBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.secondary,
-    marginBottom: 10,
-  },
-  score: {
-    fontSize: 52,
+  bigScore: {
+    color: colors.textPrimary,
+    fontSize: 58,
     fontWeight: '900',
-    color: Colors.primary,
+    marginTop: spacing.sm,
   },
-  cardText: {
-    marginTop: 12,
-    color: Colors.muted,
-    lineHeight: 20,
+  copy: {
+    ...typography.body,
+  },
+  grid: {
+    flexDirection: 'row',
+    gap: spacing.md,
+  },
+  gridItem: {
+    flex: 1,
+  },
+  metricCard: {
+    flex: 1,
+    minHeight: 116,
+  },
+  metricLabel: {
+    color: colors.textSecondary,
+    fontWeight: '800',
+  },
+  metricValue: {
+    color: colors.accent,
+    fontSize: 30,
+    fontWeight: '900',
+    marginTop: spacing.md,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: spacing.md,
   },
-  smallCard: {
+  signalTitle: {
+    color: colors.textPrimary,
     flex: 1,
-  },
-  label: {
-    color: Colors.muted,
-    fontSize: 13,
-    marginBottom: 8,
-  },
-  value: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: Colors.secondary,
+    fontSize: 16,
+    fontWeight: '900',
   },
   billRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 12,
+    paddingVertical: spacing.md,
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
   },
-  billName: {
-    color: Colors.secondary,
-    fontWeight: '600',
+  billLabel: {
+    color: colors.textSecondary,
   },
-  billAmount: {
-    color: Colors.primary,
-    fontWeight: '700',
+  billValue: {
+    color: colors.textPrimary,
+    fontWeight: '900',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: colors.overlay,
+    justifyContent: 'center',
+    padding: spacing.xl,
+  },
+  modalCard: {
+    borderRadius: radii.xl,
+  },
+  modalTitle: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '900',
+    marginBottom: spacing.md,
+  },
+  modalButton: {
+    marginTop: spacing.xl,
   },
 });
