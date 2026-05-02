@@ -1,0 +1,10 @@
+node_modules/
+.expo/
+.expo-shared/
+.vscode/
+*.log
+*.lock
+android/
+ios/
+web-build/
+.DS_Store
