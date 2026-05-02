@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { colors, radii, shadows, spacing } from '../theme';
+import { PressableScale } from './PressableScale';
 
 interface PrimaryButtonProps {
   label: string;
@@ -10,17 +11,17 @@ interface PrimaryButtonProps {
 }
 
 export const PrimaryButton = ({ label, onPress, variant = 'primary', style }: PrimaryButtonProps) => (
-  <Pressable
-    style={({ pressed }) => [
+  <PressableScale
+    style={[
       styles.button,
       variant === 'ghost' && styles.ghost,
-      pressed && styles.pressed,
       style,
     ]}
+    pressedStyle={variant === 'ghost' ? styles.ghostPressed : styles.pressed}
     onPress={onPress}
   >
     <Text style={[styles.text, variant === 'ghost' && styles.ghostText]}>{label}</Text>
-  </Pressable>
+  </PressableScale>
 );
 
 const styles = StyleSheet.create({
@@ -41,7 +42,12 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   pressed: {
-    opacity: 0.82,
+    backgroundColor: colors.accent,
+    shadowOpacity: 0.42,
+  },
+  ghostPressed: {
+    borderColor: colors.primary,
+    backgroundColor: 'rgba(34, 197, 94, 0.14)',
   },
   text: {
     color: '#07100A',

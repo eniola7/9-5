@@ -3,8 +3,9 @@ import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
+import { ScreenFade } from '../components/ScreenFade';
+import { SignalCard } from '../components/SignalCard';
 import { useProfile } from '../context/ProfileContext';
 import { colors, spacing, typography } from '../theme';
 import { Signal } from '../types';
@@ -15,7 +16,8 @@ export const AlertsScreen = () => {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <BrandHeader title="LOLO Signals" subtitle="Rule-based markers, not predictions." />
+      <ScreenFade>
+        <BrandHeader title="LOLO Signals" subtitle="Rule-based markers, not predictions." />
       <Card glow>
         <SectionHeader title="Financial risk signals" subtitle="Generated from your mock profile and roadmap progress." eyebrow="Predictive-style demo" />
         <Text style={styles.copy}>LOLO uses personalized guidance language without claiming guaranteed outcomes or real-time private data access.</Text>
@@ -23,27 +25,20 @@ export const AlertsScreen = () => {
       </Card>
 
       {signals.map((signal) => (
-        <Card key={signal.id}>
-          <View style={styles.row}>
-            <Text style={styles.title}>{signal.title}</Text>
-            <ProgressPill label={signal.riskLevel} risk={signal.riskLevel} />
-          </View>
-          <Text style={styles.copy}>{signal.whyItMatters}</Text>
-          <Text style={styles.action}>Suggested action: {signal.suggestedAction}</Text>
-          <PrimaryButton label={signal.ctaLabel} onPress={() => setSelected(signal)} style={styles.cta} />
-        </Card>
+        <SignalCard key={signal.id} signal={signal} onPress={() => setSelected(signal)} />
       ))}
 
-      <Modal transparent visible={!!selected} animationType="fade">
-        <View style={styles.modalOverlay}>
-          <Card glow>
-            <Text style={styles.modalTitle}>{selected?.title}</Text>
-            <Text style={styles.copy}>{selected?.whyItMatters}</Text>
-            <Text style={styles.action}>{selected?.suggestedAction}</Text>
-            <PrimaryButton label="Got it" onPress={() => setSelected(null)} style={styles.cta} />
-          </Card>
-        </View>
-      </Modal>
+        <Modal transparent visible={!!selected} animationType="fade">
+          <View style={styles.modalOverlay}>
+            <Card glow>
+              <Text style={styles.modalTitle}>{selected?.title}</Text>
+              <Text style={styles.copy}>{selected?.whyItMatters}</Text>
+              <Text style={styles.action}>{selected?.suggestedAction}</Text>
+              <PrimaryButton label="Got it" onPress={() => setSelected(null)} style={styles.cta} />
+            </Card>
+          </View>
+        </Modal>
+      </ScreenFade>
     </ScrollView>
   );
 };
@@ -62,17 +57,6 @@ const styles = StyleSheet.create({
   },
   refresh: {
     marginTop: spacing.lg,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontSize: 17,
-    fontWeight: '900',
-    flex: 1,
   },
   action: {
     color: colors.accent,

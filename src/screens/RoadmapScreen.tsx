@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { MetricBar } from '../components/MetricBar';
+import { ProgressBar } from '../components/ProgressBar';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { ProgressPill } from '../components/ProgressPill';
+import { RoadmapItem as RoadmapItemCard } from '../components/RoadmapItem';
+import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
 import { useProfile } from '../context/ProfileContext';
 import { colors, spacing, typography } from '../theme';
@@ -19,43 +20,34 @@ export const RoadmapScreen = () => {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <BrandHeader title="Roadmap" subtitle={`${profile.persona} path`} />
+      <ScreenFade>
+        <BrandHeader title="Roadmap" subtitle={`${profile.persona} path`} />
       <Card glow>
         <SectionHeader title="Personalized roadmap" subtitle="Tasks update your progress and LOLO Signals." eyebrow="Dynamic plan" />
-        <MetricBar label="Roadmap progress" value={progress} />
+        <ProgressBar label="Roadmap progress" value={progress} height={12} />
       </Card>
 
       {roadmap.map((item) => (
-        <Pressable key={item.id} onPress={() => setSelected(item)}>
-          <Card style={item.completed && styles.completedCard}>
-            <View style={styles.itemHeader}>
-              <View style={styles.flex}>
-                <Text style={styles.itemTitle}>{item.title}</Text>
-                <Text style={styles.copy}>{item.description}</Text>
-              </View>
-              <ProgressPill label={item.completed ? 'Done' : item.status === 'in-progress' ? 'Next' : 'Later'} status={item.completed ? 'completed' : item.status} />
-            </View>
-            <PrimaryButton
-              label={item.completed ? 'Mark incomplete' : 'Mark complete'}
-              variant={item.completed ? 'ghost' : 'primary'}
-              onPress={() => toggleRoadmapItem(item.id, !item.completed)}
-              style={styles.taskButton}
-            />
-          </Card>
-        </Pressable>
+        <RoadmapItemCard
+          key={item.id}
+          item={item}
+          onPress={() => setSelected(item)}
+          onToggle={() => toggleRoadmapItem(item.id, !item.completed)}
+        />
       ))}
 
-      <Modal transparent visible={!!selected} animationType="fade">
-        <View style={styles.modalOverlay}>
-          <Card glow>
-            <Text style={styles.modalTitle}>{selected?.title}</Text>
-            <Text style={styles.copy}>{selected?.description}</Text>
-            <Text style={styles.why}>Why this matters</Text>
-            <Text style={styles.copy}>{selected?.whyItMatters}</Text>
-            <PrimaryButton label="Close" onPress={() => setSelected(null)} style={styles.taskButton} />
-          </Card>
-        </View>
-      </Modal>
+        <Modal transparent visible={!!selected} animationType="fade">
+          <View style={styles.modalOverlay}>
+            <Card glow>
+              <Text style={styles.modalTitle}>{selected?.title}</Text>
+              <Text style={styles.copy}>{selected?.description}</Text>
+              <Text style={styles.why}>Why this matters</Text>
+              <Text style={styles.copy}>{selected?.whyItMatters}</Text>
+              <PrimaryButton label="Close" onPress={() => setSelected(null)} style={styles.taskButton} />
+            </Card>
+          </View>
+        </Modal>
+      </ScreenFade>
     </ScrollView>
   );
 };
@@ -68,23 +60,6 @@ const styles = StyleSheet.create({
   content: {
     padding: spacing.xl,
     paddingBottom: spacing.xxl,
-  },
-  completedCard: {
-    borderColor: colors.primary,
-    backgroundColor: '#142019',
-  },
-  itemHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-  },
-  flex: {
-    flex: 1,
-  },
-  itemTitle: {
-    color: colors.textPrimary,
-    fontSize: 17,
-    fontWeight: '900',
   },
   copy: {
     ...typography.body,

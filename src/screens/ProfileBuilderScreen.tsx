@@ -2,22 +2,26 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { MetricBar } from '../components/MetricBar';
+import { DashboardCard } from '../components/DashboardCard';
+import { LoloInsightCard } from '../components/LoloInsightCard';
+import { ProgressBar } from '../components/ProgressBar';
 import { ProgressPill } from '../components/ProgressPill';
+import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
 import { publicBenchmarks } from '../data/publicBenchmarks';
 import { useProfile } from '../context/ProfileContext';
 import { colors, spacing, typography } from '../theme';
 
 export const ProfileBuilderScreen = () => {
-  const { profile, plan, resetDemo } = useProfile();
+  const { profile, plan, resetDemo, roadmap, signals } = useProfile();
   if (!profile) return null;
 
   const relevantBenchmarks = publicBenchmarks.filter((benchmark) => benchmark.appliesTo.includes(profile.persona));
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <BrandHeader title="LOLO Profile" subtitle="Your generated financial profile." showReset onReset={resetDemo} />
+      <ScreenFade>
+        <BrandHeader title="LOLO Profile" subtitle="Your generated financial profile." showReset onReset={resetDemo} />
 
       <Card glow>
         <View style={styles.row}>
@@ -31,13 +35,25 @@ export const ProfileBuilderScreen = () => {
         <Text style={styles.disclaimer}>Based on your inputs and general student financial benchmarks.</Text>
       </Card>
 
+      <LoloInsightCard profile={profile} nextAction={roadmap.find((item) => !item.completed)} signal={signals[0]} />
+
+      <DashboardCard title="LOLO sees you as..." icon="ID" important>
+        <Text style={styles.analysisTitle}>{getPersonaInsight(profile.persona)}</Text>
+        <Text style={styles.copy}>
+          LOLO is weighting your credit setup, rent burden, loan timing, and current goal to generate a practical readiness profile.
+        </Text>
+      </DashboardCard>
+
       <Card>
         <SectionHeader title="Readiness profile" subtitle={`Recommended LOLO track: ${profile.recommendedTrack}. Current plan: ${plan}.`} />
-        <MetricBar label="Credit readiness" value={profile.creditReadinessScore} />
+        <ProgressBar label="Credit readiness" value={profile.creditReadinessScore} />
         <View style={styles.spacer} />
-        <MetricBar label="Financial readiness" value={profile.financialReadinessScore} />
+        <ProgressBar label="Financial readiness" value={profile.financialReadinessScore} />
         <View style={styles.spacer} />
-        <MetricBar label="Confidence meter" value={profile.confidenceScore} />
+        <ProgressBar label="Confidence meter" value={profile.confidenceScore} />
+        <Text style={styles.confidenceNote}>
+          Confidence reflects how complete and stable your demo profile appears. It is not a credit guarantee.
+        </Text>
       </Card>
 
       <Card>
@@ -51,15 +67,24 @@ export const ProfileBuilderScreen = () => {
       </Card>
 
       <SectionHeader title="Mock benchmark context" subtitle="Clearly mocked, public/internet-style benchmarks for this demo." />
-      {relevantBenchmarks.map((benchmark) => (
-        <Card key={benchmark.id}>
-          <Text style={styles.benchmarkLabel}>{benchmark.label}</Text>
-          <Text style={styles.benchmarkValue}>{benchmark.value}</Text>
-          <Text style={styles.copy}>{benchmark.insight}</Text>
-        </Card>
-      ))}
+        {relevantBenchmarks.map((benchmark) => (
+          <Card key={benchmark.id}>
+            <Text style={styles.benchmarkLabel}>{benchmark.label}</Text>
+            <Text style={styles.benchmarkValue}>{benchmark.value}</Text>
+            <Text style={styles.copy}>{benchmark.insight}</Text>
+          </Card>
+        ))}
+      </ScreenFade>
     </ScrollView>
   );
+};
+
+const getPersonaInsight = (persona: string) => {
+  if (persona === 'Med Student') return 'a future high-earning professional with a near-term relocation and housing window.';
+  if (persona === 'International Student') return 'a student building a U.S. financial identity while avoiding unnecessary credit friction.';
+  if (persona === 'Law Student' || persona === 'MBA Student') return 'a professional student balancing delayed income with high planning stakes.';
+  if (persona === 'Young Professional') return 'an early-career builder ready to turn cash flow into a repeatable system.';
+  return 'a student credit builder who benefits most from simple habits and predictable payments.';
 };
 
 const styles = StyleSheet.create({
@@ -88,6 +113,18 @@ const styles = StyleSheet.create({
   copy: {
     ...typography.body,
     marginTop: spacing.md,
+  },
+  analysisTitle: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: '900',
+    lineHeight: 24,
+    marginTop: spacing.md,
+  },
+  confidenceNote: {
+    ...typography.small,
+    color: colors.accent,
+    marginTop: spacing.lg,
   },
   disclaimer: {
     color: colors.accent,

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
+import { CoachMessageBubble } from '../components/CoachMessageBubble';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
 import { useProfile } from '../context/ProfileContext';
 import { generateCoachResponse } from '../services/coachService';
-import { colors, radii, spacing, typography } from '../theme';
+import { colors, radii, spacing } from '../theme';
 import { CoachMessage } from '../types';
 
 const promptChips = [
@@ -53,16 +55,16 @@ export const CoachScreen = () => {
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.messages} contentContainerStyle={styles.messageContent}>
-        <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
-        <Card glow>
-          <SectionHeader title="Context-aware mock coach" subtitle="Rule-based responses using your profile, roadmap, and LOLO Signals." eyebrow="No OpenAI calls yet" />
-        </Card>
-        {messages.map((message) => (
-          <View key={message.id} style={[styles.bubble, message.role === 'user' ? styles.userBubble : styles.assistantBubble]}>
-            <Text style={[styles.messageText, message.role === 'user' && styles.userText]}>{message.text}</Text>
-          </View>
-        ))}
-        {isTyping ? <Text style={styles.typing}>LOLO Coach is typing...</Text> : null}
+        <ScreenFade>
+          <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
+          <Card glow>
+            <SectionHeader title="Context-aware mock coach" subtitle="Rule-based responses using your profile, roadmap, and LOLO Signals." eyebrow="No OpenAI calls yet" />
+          </Card>
+          {messages.map((message) => (
+            <CoachMessageBubble key={message.id} message={message} />
+          ))}
+          {isTyping ? <Text style={styles.typing}>LOLO Coach is typing...</Text> : null}
+        </ScreenFade>
       </ScrollView>
 
       <View style={styles.panel}>
@@ -101,30 +103,6 @@ const styles = StyleSheet.create({
   messageContent: {
     padding: spacing.xl,
     paddingBottom: spacing.md,
-  },
-  bubble: {
-    borderRadius: radii.lg,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-    maxWidth: '90%',
-    borderWidth: 1,
-  },
-  assistantBubble: {
-    alignSelf: 'flex-start',
-    backgroundColor: colors.card,
-    borderColor: colors.border,
-  },
-  userBubble: {
-    alignSelf: 'flex-end',
-    backgroundColor: colors.primaryDark,
-    borderColor: colors.primary,
-  },
-  messageText: {
-    ...typography.body,
-    color: colors.textPrimary,
-  },
-  userText: {
-    color: '#F0FFF4',
   },
   typing: {
     color: colors.accent,

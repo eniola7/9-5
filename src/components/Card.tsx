@@ -9,7 +9,10 @@ interface CardProps {
 }
 
 export const Card = ({ children, style, glow }: CardProps) => (
-  <View style={[styles.card, glow && styles.glow, style]}>{children}</View>
+  <View style={[styles.card, glow && styles.glow, style]}>
+    <View pointerEvents="none" style={[styles.highlight, glow && styles.highlightGlow]} />
+    <View style={styles.content}>{children}</View>
+  </View>
 );
 
 const styles = StyleSheet.create({
@@ -21,10 +24,25 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     marginBottom: spacing.lg,
     width: '100%',
+    overflow: 'hidden',
     ...shadows.card,
   },
   glow: {
     borderColor: colors.primary,
     ...shadows.glow,
+  },
+  highlight: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 90,
+    backgroundColor: 'rgba(255, 255, 255, 0.025)',
+  },
+  highlightGlow: {
+    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+  },
+  content: {
+    position: 'relative',
   },
 });
