@@ -17,8 +17,13 @@ You can also run:
 ```bash
 npx expo start
 npm run web
+npm run build:web
 npm run typecheck
 ```
+
+## PWA support
+
+The web build includes a custom PWA manifest, app icons, mobile viewport metadata, splash screen markup, and a basic service worker for offline shell caching. After running `npm run build:web`, deploy the `web-build/` folder over HTTPS so users can install LOLO with “Add to Home Screen” and open it like a native app.
 
 ## What is mocked
 

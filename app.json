@@ -7,11 +7,18 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "resizeMode": "contain",
-      "backgroundColor": "#EAF3FF"
+      "backgroundColor": "#0E1113"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "web": {
+      "name": "LOLO — Credit Intelligence Platform",
+      "shortName": "LOLO",
+      "themeColor": "#0E1113",
+      "backgroundColor": "#0E1113",
+      "description": "Credit training, loan readiness, and financial confidence in one premium command center."
     }
   }
 }

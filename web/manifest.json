@@ -1,0 +1,35 @@
+{
+  "name": "LOLO — Credit Intelligence Platform",
+  "short_name": "LOLO",
+  "description": "Credit training, loan readiness, and financial confidence in one premium command center.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E1113",
+  "theme_color": "#0E1113",
+  "categories": ["finance", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/lolo-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/lolo-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/lolo-screenshot.svg",
+      "sizes": "540x960",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "LOLO mobile command center"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
@@ -7,6 +7,7 @@ import { BottomTabs } from './src/navigation/BottomTabs';
 import { LandingScreen } from './src/screens/LandingScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { ProfileProvider, useProfile } from './src/context/ProfileContext';
+import { hidePwaSplash, registerServiceWorker } from './src/services/registerServiceWorker';
 import { colors } from './src/theme';
 
 const AppInner = () => {
@@ -34,6 +35,11 @@ const AppInner = () => {
 };
 
 export default function App() {
+  useEffect(() => {
+    hidePwaSplash();
+    registerServiceWorker();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
