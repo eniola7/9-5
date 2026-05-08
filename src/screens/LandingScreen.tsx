@@ -1,243 +1,167 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card } from '../components/Card';
-import { DashboardCard } from '../components/DashboardCard';
-import { PressableScale } from '../components/PressableScale';
+import { InsightCard, LineChartMock, MiniBars, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressBar } from '../components/ProgressBar';
 import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
+import { aiRecommendations, creditGrowthSeries, demoMetrics, roadmapItems, spendingDriftSeries, trustPillars } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
 interface LandingScreenProps {
   onStart: () => void;
+  onDemo: () => void;
 }
 
-const simulatorOptions = [
-  { label: 'Thin file', score: 48, risk: 'High risk', action: 'Start secured card path' },
-  { label: 'Student builder', score: 68, risk: 'Medium risk', action: 'Keep utilization below 30%' },
-  { label: 'Apartment ready', score: 84, risk: 'Lower risk', action: 'Protect cash buffer' },
+const featureSections = [
+  ['Trust Score', 'A single calm read on credit habits, cash rhythm, runway, and financial consistency.'],
+  ['AI insights', 'Personal recommendations that explain what changed, why it matters, and what to do next.'],
+  ['Credit growth', 'Statement timing, utilization, payment history, and score movement in one readable profile.'],
+  ['Spending drift', 'Behavioral analytics that catch pressure before it turns into a stressful month.'],
+  ['Financial journal', 'Private reflections, monthly reviews, and tasteful social proof without net-worth flexing.'],
 ];
 
-const differenceCards = [
-  {
-    icon: 'GO',
-    title: 'Built for action, not just information',
-    body: 'LOLO turns credit education into guided steps, quizzes, readiness checks, and clear next moves so users can practice credit intelligence as they learn.',
-  },
-  {
-    icon: 'PB',
-    title: 'Personal + business credit in one place',
-    body: 'Founders, students, young professionals, and small business owners often need both personal and business credit literacy to make confident funding decisions.',
-  },
-  {
-    icon: 'RR',
-    title: 'Readiness before rejection',
-    body: 'LOLO helps users understand weak points before they apply for loans, cards, apartments, or funding, turning uncertainty into preparation.',
-  },
-  {
-    icon: 'CC',
-    title: 'Credit confidence over confusion',
-    body: 'LOLO simplifies underwriting, utilization, DTI, credit reports, and lender decision-making into practical language and repeatable habits.',
-  },
-];
-
-export const LandingScreen = ({ onStart }: LandingScreenProps) => {
-  const [scenario, setScenario] = useState(simulatorOptions[1]);
-  const heroPulse = useRef(new Animated.Value(0)).current;
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const scoreMotion = useRef(new Animated.Value(scenario.score)).current;
-  const [animatedScore, setAnimatedScore] = useState(scenario.score);
-
-  useEffect(() => {
-    const listener = scoreMotion.addListener(({ value }) => setAnimatedScore(Math.round(value)));
-    return () => scoreMotion.removeListener(listener);
-  }, [scoreMotion]);
-
-  useEffect(() => {
-    Animated.timing(scoreMotion, {
-      toValue: scenario.score,
-      duration: 550,
-      useNativeDriver: false,
-    }).start();
-  }, [scenario, scoreMotion]);
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(heroPulse, { toValue: 1, duration: 1800, useNativeDriver: true }),
-        Animated.timing(heroPulse, { toValue: 0, duration: 1800, useNativeDriver: true }),
-      ]),
-    ).start();
-  }, [heroPulse]);
-
-  const pulseStyle = useMemo(() => ({
-    opacity: heroPulse.interpolate({ inputRange: [0, 1], outputRange: [0.35, 0.8] }),
-    transform: [{ scale: heroPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.04] }) }],
-  }), [heroPulse]);
-  const aboutMotionStyle = useMemo(() => ({
-    opacity: scrollY.interpolate({
-      inputRange: [520, 760],
-      outputRange: [0.72, 1],
-      extrapolate: 'clamp',
-    }),
-    transform: [{
-      translateY: scrollY.interpolate({
-        inputRange: [520, 760],
-        outputRange: [18, 0],
-        extrapolate: 'clamp',
-      }),
-    }],
-  }), [scrollY]);
-
-  return (
-    <Animated.ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.content}
-      scrollEventThrottle={16}
-      onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
-    >
-      <View style={styles.nav}>
+export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
+  <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <View style={styles.nav}>
+      <View>
         <Text style={styles.logo}>LOLO</Text>
-        <ProgressPill label="Investor Demo" status="completed" />
+        <Text style={styles.navSubtitle}>Personal financial trust OS</Text>
       </View>
+      <View style={styles.navChips}>
+        <ProgressPill label="Bank-grade privacy" status="completed" />
+        <ProgressPill label="YC Demo Mode" />
+      </View>
+    </View>
 
-      <View style={styles.hero}>
-        <Animated.View pointerEvents="none" style={[styles.heroGlow, pulseStyle]} />
-        <View style={styles.heroCopy}>
-          <Text style={typography.eyebrow}>Premium credit intelligence for students</Text>
-          <Text style={styles.headline}>The financial command center for life before the first big paycheck.</Text>
-          <Text style={styles.subheadline}>
-            LOLO helps students, professional students, international students, and early professionals build credit, organize money, and act before risk turns into stress.
-          </Text>
-          <View style={styles.ctaRow}>
-            <PrimaryButton label="Launch Interactive Demo" onPress={onStart} style={styles.primaryCta} />
-            <PrimaryButton label="View Product Preview" variant="ghost" onPress={() => undefined} />
-          </View>
+    <View style={styles.hero}>
+      <View style={styles.heroCopy}>
+        <Text style={typography.eyebrow}>Apple Wallet for credit growth. Linear for financial clarity.</Text>
+        <Text style={styles.headline}>The modern operating system for personal financial trust.</Text>
+        <Text style={styles.subheadline}>
+          LOLO helps young adults build financial trust before banks fully understand them, turning credit habits, cash rhythm, and financial behavior into clear next steps.
+        </Text>
+        <View style={styles.ctaRow}>
+          <PrimaryButton label="Start building trust" onPress={onStart} style={styles.cta} />
+          <PrimaryButton label="View demo" variant="ghost" onPress={onDemo} />
         </View>
-
-        <Card glow style={styles.heroMock}>
-          <View style={styles.mockTop}>
-            <View>
-              <Text style={styles.mockLabel}>Credit readiness</Text>
-              <Text style={styles.animatedScore}>{animatedScore}</Text>
-            </View>
-            <View style={styles.intelBadge}>
-              <Text style={styles.intelText}>AI</Text>
-            </View>
-          </View>
-          <ProgressBar label="Apartment readiness" value={animatedScore} height={12} />
-          <View style={styles.riskStrip}>
-            <Text style={styles.riskStripLabel}>Next best action</Text>
-            <Text style={styles.riskStripText}>{scenario.action}</Text>
-          </View>
-        </Card>
-      </View>
-
-      <SectionHeader title="Product dashboard preview" subtitle="A live-feeling fintech surface designed for clarity, confidence, and action." />
-      <View style={styles.dashboardPreview}>
-        <DashboardCard title="Financial readiness" value="76" subtitle="LOLO blends credit, rent, cash buffer, and roadmap progress." icon="FR" important />
-        <DashboardCard title="Biggest risk" value="Rent burden" subtitle="LOLO surfaces what matters now, not a pile of generic tips." icon="!" />
-        <DashboardCard title="Next action" value="Set autopay" subtitle="Every insight points toward one concrete move." icon="→" />
-      </View>
-
-      <Card glow style={styles.simulator}>
-        <SectionHeader title="Interactive credit simulator" subtitle="Teaser logic that makes the product feel responsive before real integrations." eyebrow="Mock intelligence" />
-        <View style={styles.simScoreRow}>
-          <Text style={styles.simScore}>{animatedScore}</Text>
-          <View style={styles.simRisk}>
-            <Text style={styles.simRiskLabel}>Scenario</Text>
-            <Text style={styles.simRiskText}>{scenario.risk}</Text>
-          </View>
-        </View>
-        <ProgressBar label="Credit readiness" value={animatedScore} height={14} />
-        <View style={styles.segmented}>
-          {simulatorOptions.map((option) => (
-            <PressableScale key={option.label} onPress={() => setScenario(option)} style={[styles.segment, scenario.label === option.label && styles.segmentActive]}>
-              <Text style={[styles.segmentText, scenario.label === option.label && styles.segmentTextActive]}>{option.label}</Text>
-            </PressableScale>
+        <View style={styles.trustRow}>
+          {['Read-only data', 'No score impact', 'Encrypted by default'].map((item) => (
+            <Text key={item} style={styles.trustChip}>{item}</Text>
           ))}
         </View>
-      </Card>
+      </View>
 
-      <Card style={styles.why}>
-        <SectionHeader title="How LOLO Works" subtitle="The platform gives users one calm operating system for credit training, loan readiness, and financial confidence." />
-        {['It converts confusing credit concepts into visible readiness scores.', 'It uses persona context, not one-size-fits-all financial tips.', 'It nudges one next action at a time, reducing decision fatigue.'].map((item, index) => (
-          <View key={item} style={styles.whyRow}>
-            <Text style={styles.whyIndex}>{index + 1}</Text>
-            <Text style={styles.whyText}>{item}</Text>
+      <Card glow style={styles.mockup}>
+        <View style={styles.mockTop}>
+          <View>
+            <Text style={styles.mockLabel}>Trust Score</Text>
+            <Text style={styles.mockScore}>742</Text>
+          </View>
+          <Text style={styles.mockDelta}>+18 this month</Text>
+        </View>
+        <ProgressBar label="Financial trust trajectory" value={86} height={12} />
+        <View style={styles.mockGrid}>
+          <View style={styles.mockPanel}>
+            <Text style={styles.mockPanelLabel}>Credit growth</Text>
+            <LineChartMock values={creditGrowthSeries} />
+          </View>
+          <View style={styles.mockPanel}>
+            <Text style={styles.mockPanelLabel}>Utilization</Text>
+            <UtilizationRing value={38} afterValue={24} />
+          </View>
+        </View>
+        <InsightCard {...aiRecommendations[0]} />
+      </Card>
+    </View>
+
+    <Card style={styles.incomplete}>
+      <SectionHeader title="Credit scores are incomplete" subtitle="They are useful, but they miss the lived reality of people building trust from thin files, new jobs, new cities, and uneven income timing." />
+      <View style={styles.storyGrid}>
+        <StoryPoint title="Banks see reports" body="LOLO adds behavior: payment timing, cash flow stability, recurring pressure, and follow-through." />
+        <StoryPoint title="AI explains the signal" body="Instead of generic tips, every insight becomes: what changed, why it matters, what to do next." />
+        <StoryPoint title="Trust grows over time" body="Renters, borrowers, immigrants, students, and early professionals need a layer that reflects progress before legacy systems catch up." />
+      </View>
+    </Card>
+
+    <Card glow style={styles.metrics}>
+      <Text style={styles.metricsKicker}>Built for the next generation of credit invisible and credit misunderstood consumers</Text>
+      <Text style={styles.metricsNote}>Placeholder demo metrics for investor storytelling, not production claims.</Text>
+      <View style={styles.metricsGrid}>
+        {demoMetrics.map((metric) => (
+          <View key={metric.label} style={styles.metricTile}>
+            <Text style={styles.metricValue}>{metric.value}</Text>
+            <Text style={styles.metricLabel}>{metric.label}</Text>
           </View>
         ))}
-      </Card>
-
-      <Animated.View style={[styles.aboutSection, aboutMotionStyle]}>
-        <SectionHeader
-          title="What Makes LOLO Different"
-          subtitle="LOLO is not just a credit education site. It combines structured learning, quizzes, credit readiness simulations, and personalized next steps so users do not just consume information — they build real credit intelligence."
-        />
-        <View style={styles.differenceGrid}>
-          {differenceCards.map((card, index) => (
-            <Animated.View key={card.title} style={[styles.differenceMotion, { opacity: 1 }]}>
-              <AboutCard icon={card.icon} title={card.title} body={card.body} featured={index === 0} />
-            </Animated.View>
-          ))}
-        </View>
-      </Animated.View>
-
-      <SectionHeader title="Features" subtitle="A premium platform for people whose financial lives are changing fast." />
-      <View style={styles.features}>
-        <Feature icon="CR" title="Credit readiness" body="Translate credit habits into an action plan users can understand." />
-        <Feature icon="RT" title="Rent intelligence" body="Surface apartment readiness and rent-burden pressure before it becomes a blocker." />
-        <Feature icon="AI" title="Contextual coach" body="Rule-based demo guidance today, built for future guardrailed AI tomorrow." />
-        <Feature icon="SG" title="LOLO Signals" body="Risk markers that feel predictive without making unsafe guarantees." />
       </View>
+    </Card>
 
-      <SectionHeader title="What early users would say" subtitle="Pitch-ready testimonial examples for the demo narrative." />
-      <View style={styles.testimonials}>
-        <Testimonial quote="LOLO made credit feel like a roadmap instead of a mystery." name="College student" />
-        <Testimonial quote="The residency move planning angle is exactly what med students need earlier." name="Med student" />
-        <Testimonial quote="It explains U.S. credit setup without making me feel behind." name="International student" />
-      </View>
-
-      <SectionHeader title="Pricing preview" subtitle="Simple tiers with a clear Pro wedge for professional students." />
-      <View style={styles.pricing}>
-        <Price name="Free" price="$0" body="Profile, roadmap, and core signals." />
-        <Price name="Plus" price="$9/mo" body="Advanced nudges and deeper planning." featured />
-        <Price name="Pro" price="$19/mo" body="Residency, relocation, loans, and priority coach." />
-      </View>
-
-      <Card glow style={styles.finalCta}>
-        <Text style={styles.finalTitle}>Turn financial uncertainty into a daily command center.</Text>
-        <Text style={styles.finalBody}>Launch the demo, build a profile, and watch LOLO generate a personalized readiness system in under a minute.</Text>
-        <PrimaryButton label="Start the LOLO Demo" onPress={onStart} style={styles.finalButton} />
-      </Card>
-    </Animated.ScrollView>
-  );
-};
-
-const Feature = ({ icon, title, body }: { icon: string; title: string; body: string }) => (
-  <DashboardCard title={title} icon={icon} subtitle={body} important={icon === 'AI'} />
-);
-
-const AboutCard = ({ icon, title, body, featured }: { icon: string; title: string; body: string; featured?: boolean }) => (
-  <PressableScale style={[styles.aboutCard, featured && styles.aboutCardFeatured]} hoveredStyle={styles.aboutCardHovered} pressedStyle={styles.aboutCardPressed}>
-    <View style={styles.aboutIcon}>
-      <Text style={styles.aboutIconText}>{icon}</Text>
+    <SectionHeader title="The five pillars" subtitle="Every screen answers what changed, why it matters, and what to do next." />
+    <View style={styles.pillarGrid}>
+      {trustPillars.map((pillar) => (
+        <Card key={pillar.title} style={styles.pillar}>
+          <Text style={styles.pillarTitle}>{pillar.title}</Text>
+          <Text style={styles.pillarValue}>{pillar.value}</Text>
+          <Text style={styles.pillarWhy}>{pillar.why}</Text>
+          <Text style={styles.pillarNext}>{pillar.next}</Text>
+        </Card>
+      ))}
     </View>
-    <Text style={styles.aboutTitle}>{title}</Text>
-    <Text style={styles.aboutBody}>{body}</Text>
-  </PressableScale>
+
+    <Card style={styles.analytics}>
+      <SectionHeader title="Spending drift that feels human" subtitle="Not a scolding budget. A financial behavior layer that names patterns early." />
+      <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
+    </Card>
+
+    <SectionHeader title="Product surface" subtitle="Investor-ready modules for desktop command center and Glass Wallet mobile." />
+    <View style={styles.features}>
+      {featureSections.map(([title, body], index) => (
+        <Card key={title} glow={index === 0} style={styles.featureCard}>
+          <Text style={styles.featureIndex}>0{index + 1}</Text>
+          <Text style={styles.featureTitle}>{title}</Text>
+          <Text style={styles.featureBody}>{body}</Text>
+        </Card>
+      ))}
+    </View>
+
+    <Card style={styles.social}>
+      <SectionHeader
+        title="Reflection becomes reputation"
+        subtitle="A Notion-like money journal and Letterboxd-style review layer for milestones, products, cities, apartments, and decisions."
+        eyebrow="Social trust layer"
+      />
+      <View style={styles.socialPreview}>
+        <Text style={styles.socialTitle}>Built my first 3-month emergency fund</Text>
+        <Text style={styles.socialBody}>Same life, less background noise. The win was not dramatic, just repeatable.</Text>
+        <Text style={styles.socialMeta}>5.0 rating · emergency fund · 211 helpful</Text>
+      </View>
+    </Card>
+
+    <Card glow style={styles.finalCta}>
+      <Text style={styles.finalTitle}>Ready for demo day.</Text>
+      <Text style={styles.finalBody}>A premium fintech prototype for credit growth, financial trust, AI guidance, and reflective money habits.</Text>
+      <PrimaryButton label="Start building trust" onPress={onStart} style={styles.finalButton} />
+      <PrimaryButton label="View guided demo" variant="ghost" onPress={onDemo} style={styles.demoButton} />
+    </Card>
+
+    <View style={styles.footer}>
+      <Text style={styles.footerTitle}>Roadmap</Text>
+      <View style={styles.roadmapGrid}>
+        {roadmapItems.map((item) => (
+          <Text key={item} style={styles.roadmapItem}>{item}</Text>
+        ))}
+      </View>
+    </View>
+  </ScrollView>
 );
 
-const Testimonial = ({ quote, name }: { quote: string; name: string }) => (
-  <Card style={styles.testimonial}>
-    <Text style={styles.quote}>“{quote}”</Text>
-    <Text style={styles.name}>{name}</Text>
-  </Card>
-);
-
-const Price = ({ name, price, body, featured }: { name: string; price: string; body: string; featured?: boolean }) => (
-  <DashboardCard title={name} value={price} subtitle={body} icon="$" important={featured} />
+const StoryPoint = ({ title, body }: { title: string; body: string }) => (
+  <View style={styles.storyPoint}>
+    <Text style={styles.storyTitle}>{title}</Text>
+    <Text style={styles.storyBody}>{body}</Text>
+  </View>
 );
 
 const styles = StyleSheet.create({
@@ -250,293 +174,285 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl * 2,
   },
   nav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.xl,
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
+    marginBottom: spacing.xxl,
   },
   logo: {
     color: colors.textPrimary,
-    fontSize: 30,
+    fontSize: 34,
     fontWeight: '900',
   },
+  navSubtitle: {
+    ...typography.small,
+  },
+  navChips: {
+    alignItems: 'flex-end',
+    gap: spacing.sm,
+  },
   hero: {
-    position: 'relative',
     gap: spacing.xl,
     marginBottom: spacing.xxl,
   },
-  heroGlow: {
-    position: 'absolute',
-    top: 16,
-    right: 18,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: 'rgba(34, 197, 94, 0.18)',
-  },
   heroCopy: {
-    paddingTop: spacing.xl,
+    paddingTop: spacing.lg,
   },
   headline: {
     color: colors.textPrimary,
-    fontSize: 44,
+    fontSize: 50,
     fontWeight: '900',
-    lineHeight: 50,
+    lineHeight: 56,
     marginTop: spacing.md,
+    maxWidth: 860,
   },
   subheadline: {
     color: colors.textSecondary,
-    fontSize: 17,
-    lineHeight: 26,
+    fontSize: 18,
+    lineHeight: 28,
     marginTop: spacing.lg,
+    maxWidth: 720,
   },
   ctaRow: {
     gap: spacing.md,
     marginTop: spacing.xl,
   },
-  primaryCta: {
+  cta: {
     borderColor: colors.accent,
   },
-  heroMock: {
-    padding: spacing.xl,
-    backgroundColor: 'rgba(22, 27, 30, 0.92)',
+  trustRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginTop: spacing.xl,
+  },
+  trustChip: {
+    backgroundColor: 'rgba(244, 246, 242, 0.08)',
+    borderColor: colors.borderSoft,
+    borderRadius: radii.pill,
+    borderWidth: 1,
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '900',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  mockup: {
+    backgroundColor: '#101814',
+    ...shadows.glow,
   },
   mockTop: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
     marginBottom: spacing.lg,
   },
   mockLabel: {
     color: colors.textSecondary,
-    fontWeight: '800',
+    fontWeight: '900',
   },
-  animatedScore: {
+  mockScore: {
     color: colors.textPrimary,
-    fontSize: 70,
+    fontSize: 74,
     fontWeight: '900',
-    lineHeight: 78,
+    lineHeight: 80,
   },
-  intelBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(74, 222, 128, 0.14)',
-    borderColor: colors.accent,
-    borderWidth: 1,
-  },
-  intelText: {
-    color: colors.accent,
-    fontWeight: '900',
-  },
-  riskStrip: {
-    marginTop: spacing.lg,
-    borderRadius: radii.lg,
-    padding: spacing.lg,
-    backgroundColor: 'rgba(14, 17, 19, 0.72)',
-    borderColor: colors.border,
-    borderWidth: 1,
-  },
-  riskStripLabel: {
+  mockDelta: {
     color: colors.accent,
     fontSize: 12,
     fontWeight: '900',
-    marginBottom: spacing.xs,
   },
-  riskStripText: {
+  mockGrid: {
+    gap: spacing.md,
+    marginTop: spacing.lg,
+  },
+  mockPanel: {
+    backgroundColor: colors.backgroundElevated,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    padding: spacing.lg,
+  },
+  mockPanelLabel: {
     color: colors.textPrimary,
     fontWeight: '900',
   },
-  dashboardPreview: {
-    gap: spacing.md,
+  pillarGrid: {
+    gap: spacing.lg,
+  },
+  incomplete: {
+    backgroundColor: '#101814',
     marginBottom: spacing.xl,
   },
-  simulator: {
-    padding: spacing.xl,
-    marginBottom: spacing.xxl,
+  storyGrid: {
+    gap: spacing.md,
+    marginTop: spacing.lg,
   },
-  simScoreRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.lg,
-  },
-  simScore: {
-    color: colors.accent,
-    fontSize: 54,
-    fontWeight: '900',
-  },
-  simRisk: {
-    borderRadius: radii.md,
-    padding: spacing.md,
+  storyPoint: {
     backgroundColor: colors.backgroundElevated,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
     borderWidth: 1,
+    padding: spacing.lg,
   },
-  simRiskLabel: {
-    color: colors.textSecondary,
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  simRiskText: {
+  storyTitle: {
     color: colors.textPrimary,
+    fontSize: 18,
     fontWeight: '900',
+  },
+  storyBody: {
+    ...typography.body,
+    marginTop: spacing.sm,
+  },
+  metrics: {
+    backgroundColor: '#102018',
+  },
+  metricsKicker: {
+    color: colors.textPrimary,
+    fontSize: 24,
+    fontWeight: '900',
+    lineHeight: 30,
+  },
+  metricsNote: {
+    ...typography.small,
+    color: colors.accent,
+    fontWeight: '800',
+    marginTop: spacing.sm,
+  },
+  metricsGrid: {
+    gap: spacing.md,
+    marginTop: spacing.lg,
+  },
+  metricTile: {
+    backgroundColor: 'rgba(244, 246, 242, 0.08)',
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    padding: spacing.lg,
+  },
+  metricValue: {
+    color: colors.textPrimary,
+    fontSize: 34,
+    fontWeight: '900',
+  },
+  metricLabel: {
+    ...typography.small,
     marginTop: spacing.xs,
   },
-  segmented: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
+  pillar: {
+    backgroundColor: '#121A16',
+  },
+  pillarTitle: {
+    color: colors.textSecondary,
+    fontWeight: '900',
+  },
+  pillarValue: {
+    color: colors.textPrimary,
+    fontSize: 34,
+    fontWeight: '900',
+    marginTop: spacing.sm,
+  },
+  pillarWhy: {
+    ...typography.small,
+    marginTop: spacing.md,
+  },
+  pillarNext: {
+    color: colors.accent,
+    fontWeight: '900',
+    marginTop: spacing.md,
+  },
+  analytics: {
     marginTop: spacing.lg,
   },
-  segment: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.md,
-    borderRadius: radii.md,
-    backgroundColor: colors.cardSoft,
-    borderColor: colors.border,
-    borderWidth: 1,
-  },
-  segmentActive: {
-    backgroundColor: 'rgba(34, 197, 94, 0.16)',
-    borderColor: colors.primary,
-    ...shadows.glow,
-  },
-  segmentText: {
-    color: colors.textSecondary,
-    fontWeight: '800',
-  },
-  segmentTextActive: {
-    color: colors.accent,
-  },
   features: {
-    gap: spacing.md,
-    marginBottom: spacing.xl,
+    gap: spacing.lg,
   },
-  why: {
-    marginBottom: spacing.xl,
+  featureCard: {
+    minHeight: 160,
   },
-  whyRow: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    paddingVertical: spacing.md,
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
-  },
-  whyIndex: {
+  featureIndex: {
     color: colors.accent,
-    fontSize: 18,
-    fontWeight: '900',
-    width: 26,
-  },
-  whyText: {
-    ...typography.body,
-    color: colors.textPrimary,
-    flex: 1,
-  },
-  aboutSection: {
-    marginBottom: spacing.xxl,
-  },
-  differenceGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.md,
-  },
-  differenceMotion: {
-    flexGrow: 1,
-    flexBasis: 260,
-  },
-  aboutCard: {
-    minHeight: 218,
-    padding: spacing.lg,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: 'rgba(22, 27, 30, 0.76)',
-    overflow: 'hidden',
-    ...shadows.card,
-  },
-  aboutCardFeatured: {
-    borderColor: colors.primary,
-    backgroundColor: 'rgba(20, 32, 25, 0.88)',
-    ...shadows.glow,
-  },
-  aboutCardHovered: {
-    borderColor: colors.accent,
-    backgroundColor: 'rgba(27, 37, 31, 0.92)',
-  },
-  aboutCardPressed: {
-    opacity: 0.92,
-  },
-  aboutIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(74, 222, 128, 0.14)',
-    borderColor: colors.accent,
-    borderWidth: 1,
-    marginBottom: spacing.lg,
-  },
-  aboutIconText: {
-    color: colors.accent,
-    fontWeight: '900',
     fontSize: 12,
-  },
-  aboutTitle: {
-    color: colors.textPrimary,
-    fontSize: 18,
     fontWeight: '900',
-    lineHeight: 23,
   },
-  aboutBody: {
-    color: colors.textSecondary,
-    fontSize: 14,
+  featureTitle: {
+    color: colors.textPrimary,
+    fontSize: 24,
+    fontWeight: '900',
+    marginTop: spacing.md,
+  },
+  featureBody: {
+    ...typography.body,
+    marginTop: spacing.sm,
+  },
+  social: {
+    backgroundColor: '#111714',
+  },
+  socialPreview: {
+    backgroundColor: colors.surfaceLight,
+    borderRadius: radii.lg,
+    marginTop: spacing.lg,
+    padding: spacing.lg,
+  },
+  socialTitle: {
+    color: colors.background,
+    fontSize: 20,
+    fontWeight: '900',
+  },
+  socialBody: {
+    color: '#405047',
     lineHeight: 21,
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
   },
-  testimonials: {
-    gap: spacing.md,
-    marginBottom: spacing.xl,
-  },
-  testimonial: {
-    backgroundColor: 'rgba(22, 27, 30, 0.82)',
-  },
-  quote: {
-    color: colors.textPrimary,
-    fontSize: 17,
-    fontWeight: '800',
-    lineHeight: 24,
-  },
-  name: {
-    color: colors.accent,
+  socialMeta: {
+    color: colors.primaryDark,
     fontWeight: '900',
     marginTop: spacing.md,
-  },
-  pricing: {
-    gap: spacing.md,
-    marginBottom: spacing.xl,
   },
   finalCta: {
-    padding: spacing.xxl,
-    backgroundColor: '#111A14',
+    backgroundColor: '#102018',
+    marginTop: spacing.lg,
   },
   finalTitle: {
     color: colors.textPrimary,
     fontSize: 30,
     fontWeight: '900',
-    lineHeight: 36,
   },
   finalBody: {
-    color: colors.textSecondary,
-    fontSize: 16,
-    lineHeight: 24,
+    ...typography.body,
     marginTop: spacing.md,
   },
   finalButton: {
     marginTop: spacing.xl,
+  },
+  demoButton: {
+    marginTop: spacing.md,
+  },
+  footer: {
+    paddingTop: spacing.xl,
+  },
+  footerTitle: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: '900',
+    marginBottom: spacing.md,
+  },
+  roadmapGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  roadmapItem: {
+    backgroundColor: colors.cardSoft,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.pill,
+    borderWidth: 1,
+    color: colors.textSecondary,
+    fontWeight: '800',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
   },
 });

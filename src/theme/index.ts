@@ -1,22 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#0E1113',
-  backgroundElevated: '#111618',
-  card: '#161B1E',
-  cardSoft: '#1D2428',
-  border: '#263036',
-  primary: '#22C55E',
+  background: '#080D0B',
+  backgroundElevated: '#0E1412',
+  card: '#161D1A',
+  cardSoft: '#202923',
+  surfaceLight: '#F4F6F2',
+  surfaceMuted: '#DDE4DB',
+  border: '#27322D',
+  borderSoft: 'rgba(244, 246, 242, 0.1)',
+  primary: '#42F28B',
   primaryDark: '#16A34A',
-  accent: '#4ADE80',
-  purple: '#A78BFA',
-  textPrimary: '#E5E7EB',
-  textSecondary: '#9CA3AF',
-  textMuted: '#6B7280',
+  accent: '#42F28B',
+  secondaryGreen: '#1DB954',
+  purple: '#A7A6FB',
+  textPrimary: '#F4F6F2',
+  textSecondary: '#B8C2B8',
+  textMuted: '#738077',
+  slate: '#9AA7A0',
   danger: '#EF4444',
-  warning: '#F59E0B',
-  success: '#22C55E',
-  overlay: 'rgba(0, 0, 0, 0.72)',
+  warning: '#EAB75C',
+  success: '#42F28B',
+  overlay: 'rgba(3, 7, 5, 0.78)',
 };
 
 export const spacing = {
@@ -30,9 +35,10 @@ export const spacing = {
 
 export const radii = {
   sm: 10,
-  md: 16,
-  lg: 22,
-  xl: 28,
+  md: 18,
+  lg: 24,
+  xl: 32,
+  pill: 999,
 };
 
 export const typography = StyleSheet.create({
@@ -45,20 +51,20 @@ export const typography = StyleSheet.create({
   },
   title: {
     color: colors.textPrimary,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '900',
     letterSpacing: 0,
   },
   sectionTitle: {
     color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 20,
+    fontWeight: '900',
     letterSpacing: 0,
   },
   body: {
     color: colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 15,
+    lineHeight: 23,
   },
   small: {
     color: colors.textSecondary,
@@ -70,20 +76,20 @@ export const typography = StyleSheet.create({
 export const shadows = StyleSheet.create({
   card: {
     shadowColor: '#000000',
-    shadowOpacity: 0.32,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.38,
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: 14 },
     elevation: 8,
   },
   glow: {
     shadowColor: colors.primary,
-    shadowOpacity: 0.28,
-    shadowRadius: 16,
+    shadowOpacity: 0.2,
+    shadowRadius: 22,
     shadowOffset: { width: 0, height: 0 },
     elevation: 10,
   },
 });
 
 export const gradients = {
-  hero: ['#0E1113', '#102017', '#0E1113'],
+  hero: ['#080D0B', '#0E2118', '#080D0B'],
 };

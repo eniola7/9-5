@@ -9,6 +9,19 @@ import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { ProfileProvider, useProfile } from './src/context/ProfileContext';
 import { hidePwaSplash, registerServiceWorker } from './src/services/registerServiceWorker';
 import { colors } from './src/theme';
+import { OnboardingAnswers } from './src/types';
+
+const demoAnswers: OnboardingAnswers = {
+  name: 'Ava',
+  persona: 'Young Professional',
+  creditScoreRange: '670-739',
+  monthlyIncome: 5800,
+  monthlyRent: 2050,
+  studentLoanAmount: 18500,
+  hasCreditCard: true,
+  hasSsnOrItin: true,
+  mainGoal: 'Build credit',
+};
 
 const AppInner = () => {
   const { profile, isReady, completeOnboarding } = useProfile();
@@ -23,8 +36,12 @@ const AppInner = () => {
     );
   }
 
+  const startDemo = async () => {
+    await completeOnboarding(demoAnswers);
+  };
+
   if (!profile && !showOnboarding) {
-    return <LandingScreen onStart={() => setShowOnboarding(true)} />;
+    return <LandingScreen onStart={() => setShowOnboarding(true)} onDemo={startDemo} />;
   }
 
   if (!profile) {

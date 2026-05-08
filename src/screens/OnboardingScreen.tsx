@@ -42,9 +42,9 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
       <ScrollView contentContainerStyle={styles.content}>
         <BrandHeader title="LOLO" subtitle="Build your financial profile in demo mode." />
         <Card glow>
-          <Text style={typography.eyebrow}>Profile Builder</Text>
-          <Text style={styles.heroTitle}>Personalized guidance, built from your inputs.</Text>
-          <Text style={styles.copy}>LOLO uses mock benchmark data in this demo. It does not pull real personal data or scrape the internet.</Text>
+          <Text style={typography.eyebrow}>Trust Profile</Text>
+          <Text style={styles.heroTitle}>Build the financial story banks do not fully see yet.</Text>
+          <Text style={styles.copy}>LOLO uses mock benchmark data in this demo. In production, this would become a read-only behavioral trust layer around credit, cash flow, and follow-through.</Text>
         </Card>
 
         <Card>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: colors.backgroundElevated,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.md,
     color: colors.textPrimary,
@@ -155,14 +155,14 @@ const styles = StyleSheet.create({
   },
   choice: {
     backgroundColor: colors.backgroundElevated,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.md,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
   },
   choiceActive: {
-    backgroundColor: 'rgba(34, 197, 94, 0.14)',
+    backgroundColor: 'rgba(66, 242, 139, 0.14)',
     borderColor: colors.primary,
   },
   choiceText: {

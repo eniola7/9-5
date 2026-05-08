@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   ghost: {
     backgroundColor: colors.cardSoft,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     shadowOpacity: 0,
     elevation: 0,
   },
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   ghostPressed: {
     borderColor: colors.primary,
-    backgroundColor: 'rgba(34, 197, 94, 0.14)',
+    backgroundColor: 'rgba(66, 242, 139, 0.14)',
   },
   text: {
     color: '#07100A',

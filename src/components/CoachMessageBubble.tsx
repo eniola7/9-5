@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   assistantBubble: {
     alignSelf: 'flex-start',
     backgroundColor: colors.card,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
   },
   userBubble: {
     alignSelf: 'flex-end',

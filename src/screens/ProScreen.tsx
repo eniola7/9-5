@@ -1,66 +1,59 @@
-import React, { useState } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
-import { subscriptionTiers } from '../data/subscriptionTiers';
-import { useProfile } from '../context/ProfileContext';
-import { colors, spacing, typography } from '../theme';
-import { SubscriptionPlan } from '../types';
+import { productReviews, roadmapItems } from '../data/financeMvp';
+import { colors, radii, spacing, typography } from '../theme';
 
-export const ProScreen = () => {
-  const { plan, upgradePlan } = useProfile();
-  const [modalVisible, setModalVisible] = useState(false);
+export const ProScreen = () => (
+  <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <BrandHeader title="Reviews" subtitle="Tasteful notes on products and life decisions, not status signaling." />
 
-  const upgrade = async (nextPlan: SubscriptionPlan) => {
-    await upgradePlan(nextPlan);
-    setModalVisible(true);
-  };
+    <Card glow>
+      <SectionHeader
+        title="Product and decision reviews"
+        subtitle="People can rate credit cards, banks, budgeting methods, apartments, cities, and car ownership decisions in context."
+        eyebrow="Social intelligence"
+      />
+      <Text style={styles.copy}>The goal is practical pattern matching: what worked, what was expensive, and what someone wishes they knew earlier.</Text>
+    </Card>
 
-  return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <BrandHeader title="LOLO Pro" subtitle="Premium demo subscription flow." />
-      <Card glow>
-        <SectionHeader title="Upgrade the money operating system" subtitle="Professional-school and relocation guidance for higher-stakes planning." eyebrow="Pitch-ready plan" />
-        <Text style={styles.copy}>Stripe integration coming soon. In this demo, upgrades unlock local Pro badges and premium positioning.</Text>
-      </Card>
-
-      {subscriptionTiers.map((tier) => (
-        <Card key={tier.id} glow={tier.highlight || plan === tier.id}>
-          <View style={styles.row}>
-            <View>
-              <Text style={styles.name}>{tier.name}</Text>
-              <Text style={styles.price}>{tier.priceLabel}</Text>
-            </View>
-            {plan === tier.id ? <ProgressPill label="Active" status="completed" /> : null}
+    {productReviews.map((review) => (
+      <Card key={review.title} style={styles.reviewCard}>
+        <View style={styles.reviewTop}>
+          <View>
+            <Text style={styles.category}>{review.category}</Text>
+            <Text style={styles.title}>{review.title}</Text>
           </View>
-          <Text style={styles.copy}>{tier.description}</Text>
-          {tier.features.map((feature) => (
-            <Text key={feature} style={styles.feature}>+ {feature}</Text>
-          ))}
-          <PrimaryButton
-            label={plan === tier.id ? 'Current plan' : tier.id === 'Pro' ? 'Upgrade to LOLO Pro' : `Choose ${tier.name}`}
-            variant={plan === tier.id ? 'ghost' : 'primary'}
-            onPress={() => upgrade(tier.id)}
-            style={styles.button}
-          />
-        </Card>
-      ))}
-
-      <Modal transparent visible={modalVisible} animationType="fade">
-        <View style={styles.modalOverlay}>
-          <Card glow>
-            <Text style={styles.modalTitle}>Demo upgrade activated</Text>
-            <Text style={styles.copy}>Stripe integration coming soon. Your local demo plan is now active.</Text>
-            <PrimaryButton label="Continue" onPress={() => setModalVisible(false)} style={styles.button} />
-          </Card>
+          <View style={styles.ratingBadge}>
+            <Text style={styles.rating}>{review.rating}</Text>
+          </View>
         </View>
-      </Modal>
-    </ScrollView>
-  );
-};
+        <Text style={styles.copy}>{review.reflection}</Text>
+        <View style={styles.reviewFooter}>
+          <View style={styles.tagRow}>
+            {review.tags.map((tag) => (
+              <Text key={tag} style={styles.tag}>{tag}</Text>
+            ))}
+          </View>
+          <Text style={styles.helpful}>{review.helpful} helpful</Text>
+        </View>
+      </Card>
+    ))}
+
+    <Card style={styles.roadmap}>
+      <View style={styles.roadmapTop}>
+        <SectionHeader title="Future roadmap" subtitle="The production path after the clickable MVP." />
+        <ProgressPill label="Planned" />
+      </View>
+      {roadmapItems.map((item) => (
+        <Text key={item} style={styles.roadmapItem}>+ {item}</Text>
+      ))}
+    </Card>
+  </ScrollView>
+);
 
 const styles = StyleSheet.create({
   screen: {
@@ -69,46 +62,82 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: spacing.xl,
-    paddingBottom: spacing.xxl,
+    paddingBottom: spacing.xxl * 2,
   },
   copy: {
     ...typography.body,
     marginTop: spacing.sm,
   },
-  row: {
+  reviewCard: {
+    backgroundColor: '#151A1D',
+  },
+  reviewTop: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: spacing.lg,
+    justifyContent: 'space-between',
+  },
+  category: {
+    color: colors.accent,
+    fontSize: 12,
+    fontWeight: '900',
+    marginBottom: spacing.xs,
+  },
+  title: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '900',
+    lineHeight: 27,
+  },
+  ratingBadge: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(74, 222, 128, 0.12)',
+    borderColor: colors.primary,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    justifyContent: 'center',
+    minWidth: 50,
+    padding: spacing.sm,
+  },
+  rating: {
+    color: colors.accent,
+    fontWeight: '900',
+  },
+  reviewFooter: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
+    marginTop: spacing.lg,
+  },
+  tagRow: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  tag: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '900',
+  },
+  helpful: {
+    color: colors.textMuted,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  roadmap: {
+    backgroundColor: '#111A14',
+  },
+  roadmapTop: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: spacing.md,
   },
-  name: {
-    color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '900',
-  },
-  price: {
-    color: colors.accent,
-    fontSize: 26,
-    fontWeight: '900',
-    marginTop: spacing.sm,
-  },
-  feature: {
+  roadmapItem: {
     color: colors.textSecondary,
+    fontWeight: '800',
     marginTop: spacing.md,
-    fontWeight: '700',
-  },
-  button: {
-    marginTop: spacing.lg,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: spacing.xl,
-    backgroundColor: colors.overlay,
-  },
-  modalTitle: {
-    color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '900',
-    marginBottom: spacing.md,
   },
 });

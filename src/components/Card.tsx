@@ -18,7 +18,7 @@ export const Card = ({ children, style, glow }: CardProps) => (
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.card,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.lg,
     padding: spacing.lg,
@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 90,
-    backgroundColor: 'rgba(255, 255, 255, 0.025)',
+    backgroundColor: 'rgba(244, 246, 242, 0.035)',
   },
   highlightGlow: {
-    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+    backgroundColor: 'rgba(66, 242, 139, 0.1)',
   },
   content: {
     position: 'relative',

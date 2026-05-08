@@ -3,9 +3,11 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { CoachMessageBubble } from '../components/CoachMessageBubble';
+import { InsightCard } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
+import { aiRecommendations } from '../data/financeMvp';
 import { useProfile } from '../context/ProfileContext';
 import { generateCoachResponse } from '../services/coachService';
 import { colors, radii, spacing } from '../theme';
@@ -13,10 +15,10 @@ import { CoachMessage } from '../types';
 
 const promptChips = [
   'What should I do next?',
-  'How can I improve my credit?',
-  'Am I ready for an apartment?',
-  'How do I prepare for residency?',
-  'What should I avoid?',
+  'How should I time my card payment?',
+  'What subscriptions should I review?',
+  'Is next month getting tight?',
+  'Help me write a monthly reflection.',
 ];
 
 export const CoachScreen = () => {
@@ -27,7 +29,7 @@ export const CoachScreen = () => {
     {
       id: 'welcome',
       role: 'assistant',
-      text: 'Ask LOLO Coach about credit, rent, loans, residency, subscriptions, or your next best step. Educational guidance only, not financial advice.',
+      text: 'Ask LOLO Coach about credit habits, spending drift, subscriptions, stress forecasting, or your next reflection. Educational guidance only, not financial advice.',
     },
   ]);
 
@@ -58,7 +60,8 @@ export const CoachScreen = () => {
         <ScreenFade>
           <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
           <Card glow>
-            <SectionHeader title="Context-aware mock coach" subtitle="Rule-based responses using your profile, roadmap, and LOLO Signals." eyebrow="No OpenAI calls yet" />
+            <SectionHeader title="Ask what changed, why it matters, and what to do next." subtitle="A calm AI interface for credit growth, spending behavior, and financial trust." eyebrow="LOLO Coach" />
+            <InsightCard {...aiRecommendations[0]} />
           </Card>
           {messages.map((message) => (
             <CoachMessageBubble key={message.id} message={message} />
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     backgroundColor: colors.cardSoft,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.md,
     paddingHorizontal: spacing.md,

@@ -20,7 +20,7 @@ export const DashboardCard = ({ title, value, subtitle, accent, icon, important,
     <View style={[styles.card, important && styles.important, style]}>
       <View pointerEvents="none" style={[styles.highlight, important && styles.highlightImportant]} />
       <View style={styles.topRow}>
-        <View style={styles.iconBadge}>
+        <View style={[styles.iconBadge, important && styles.iconBadgeImportant]}>
           <Text style={styles.icon}>{icon ?? '•'}</Text>
         </View>
         {accent ? <Text style={styles.accent}>{accent}</Text> : null}
@@ -43,7 +43,7 @@ export const DashboardCard = ({ title, value, subtitle, accent, icon, important,
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.card,
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.lg,
     padding: spacing.lg,
@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 88,
-    backgroundColor: 'rgba(255, 255, 255, 0.025)',
+    backgroundColor: 'rgba(244, 246, 242, 0.035)',
   },
   highlightImportant: {
-    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+    backgroundColor: 'rgba(66, 242, 139, 0.11)',
   },
   important: {
     borderColor: colors.primary,
-    backgroundColor: '#17201A',
+    backgroundColor: '#102018',
     ...shadows.glow,
   },
   pressed: {
@@ -85,13 +85,16 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(34, 197, 94, 0.14)',
+    backgroundColor: 'rgba(66, 242, 139, 0.12)',
     borderColor: colors.primary,
     borderWidth: 1,
   },
   icon: {
     color: colors.accent,
     fontWeight: '900',
+  },
+  iconBadgeImportant: {
+    backgroundColor: 'rgba(244, 246, 242, 0.92)',
   },
   accent: {
     color: colors.accent,

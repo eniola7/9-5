@@ -46,22 +46,23 @@ export const BottomTabs = () => (
       }}
     >
       <Tab.Screen name="Dashboard" component={HomeScreen} options={{ tabBarLabel: tabLabel('Home'), tabBarIcon: tabIcon('H') }} />
-      <Tab.Screen name="Roadmap" component={RoadmapScreen} options={{ tabBarLabel: tabLabel('Roadmap'), tabBarIcon: tabIcon('R') }} />
-      <Tab.Screen name="Signals" component={AlertsScreen} options={{ tabBarLabel: tabLabel('Signals'), tabBarIcon: tabIcon('S') }} />
+      <Tab.Screen name="Journal" component={RoadmapScreen} options={{ tabBarLabel: tabLabel('Journal'), tabBarIcon: tabIcon('J') }} />
+      <Tab.Screen name="Insights" component={AlertsScreen} options={{ tabBarLabel: tabLabel('Insights'), tabBarIcon: tabIcon('IN') }} />
       <Tab.Screen name="Coach" component={CoachScreen} options={{ tabBarLabel: tabLabel('Coach'), tabBarIcon: tabIcon('C') }} />
-      <Tab.Screen name="Profile" component={ProfileBuilderScreen} options={{ tabBarLabel: tabLabel('Profile'), tabBarIcon: tabIcon('P') }} />
-      <Tab.Screen name="Pro" component={ProScreen} options={{ tabBarLabel: tabLabel('Pro'), tabBarIcon: tabIcon('$') }} />
+      <Tab.Screen name="Credit" component={ProfileBuilderScreen} options={{ tabBarLabel: tabLabel('Credit'), tabBarIcon: tabIcon('CR') }} />
+      <Tab.Screen name="Reviews" component={ProScreen} options={{ tabBarLabel: tabLabel('Reviews'), tabBarIcon: tabIcon('RV') }} />
     </Tab.Navigator>
   </NavigationContainer>
 );
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: colors.card,
-    borderTopColor: colors.border,
-    height: 78,
-    paddingBottom: 10,
-    paddingTop: 8,
+    backgroundColor: '#0B110F',
+    borderTopColor: colors.borderSoft,
+    borderTopWidth: 1,
+    height: 82,
+    paddingBottom: 12,
+    paddingTop: 10,
     ...shadows.card,
   },
   tabItem: {
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.textMuted,
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '800',
   },
   labelActive: {
@@ -79,14 +80,14 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: colors.backgroundElevated,
+    backgroundColor: 'rgba(244, 246, 242, 0.06)',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: colors.border,
+    borderColor: colors.borderSoft,
     borderWidth: 1,
   },
   iconActive: {
-    backgroundColor: 'rgba(34, 197, 94, 0.16)',
+    backgroundColor: colors.surfaceLight,
     borderColor: colors.primary,
     ...shadows.glow,
   },
@@ -96,6 +97,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   iconTextActive: {
-    color: colors.accent,
+    color: colors.background,
   },
 });

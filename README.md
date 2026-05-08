@@ -1,8 +1,10 @@
-# LOLO — Live On. Life Optimized.
+# LOLO - Quiet Financial Intelligence
 
-LOLO is a dark-mode React Native / Expo demo for personalized student and early-career financial guidance. It is built as a pitch-ready interactive prototype, not a production financial product.
+LOLO is a polished React Native / Expo MVP for a financial operating system for young professionals. It helps people understand spending, improve credit habits, track subscriptions, forecast financial stress, and reflect on their money journey without shame, noise, or finance-bro energy.
 
-## Run locally
+Core positioning: **Quiet financial intelligence for people building a stable life.**
+
+## Run Locally
 
 Use Node 20 LTS for Expo 49. This repo includes `.nvmrc`.
 
@@ -12,41 +14,51 @@ npm install
 npm start
 ```
 
-You can also run:
+Useful scripts:
 
 ```bash
-npx expo start
 npm run web
 npm run build:web
 npm run typecheck
 ```
 
-## PWA support
+## Key Features
 
-The web build includes a custom PWA manifest, app icons, mobile viewport metadata, splash screen markup, and a basic service worker for offline shell caching. After running `npm run build:web`, deploy the `web-build/` folder over HTTPS so users can install LOLO with “Add to Home Screen” and open it like a native app.
+- Landing page with hero, product preview, waitlist CTA, feature sections, social layer explanation, and roadmap.
+- Guided investor demo path from the landing page with four steps: Trust Score, score movement, credit action simulation, and AI next action.
+- Dashboard MVP with cash flow, spending trend, credit utilization, emergency runway, upcoming bills, subscriptions, and AI-style weekly insight.
+- Trust Score breakdown across payment consistency, utilization control, cash flow stability, debt pressure, and financial behavior trend.
+- Credit intelligence card with utilization, recommended payment timing, statement date, credit habit score, and simulation copy.
+- Spending intelligence screen with recurring subscriptions, discretionary trend, lifestyle drift alert, and stress forecast.
+- Money Journal with Letterboxd-style milestone/reflection cards, ratings, tags, and helpful counts.
+- Product review cards for credit cards, banks, budgeting methods, city/apartment decisions, and car ownership.
+- Dark-premium responsive styling using the existing React Native component system.
 
-## What is mocked
+## What Is Mocked
 
 - Onboarding profile creation
-- LOLO Financial Profile scoring
-- Public/internet-style benchmark data
-- Persona-specific roadmap generation
-- LOLO Signals risk markers
-- Rule-based AI Coach responses
-- Subscription upgrade state
+- Dashboard operating metrics
+- Credit utilization simulation
+- Spending and stress insights
+- Subscription list
+- Money journal posts
+- Product reviews
+- Rule-based coach responses
 - Local demo persistence
 
-The app does not scrape the web, call Plaid, call Stripe, pull credit bureau data, access bank data, or call OpenAI. It uses user-entered demo inputs and clearly mocked benchmark objects.
+The app does not call Plaid, Stripe, credit bureaus, banks, or OpenAI. All financial information in this prototype is mock data and should not be treated as financial, legal, or credit advice.
 
-## Future production integrations
+## Future Roadmap
 
-- Supabase or Firebase backend
-- Plaid for bank data
-- Stripe for subscriptions
-- Credit or rent reporting partner
-- OpenAI API for a real guardrailed coach
-- Compliance, legal, privacy, and security review
+- Plaid integration
+- Credit bureau integration
+- AI financial coach
+- Anonymous community posts
+- Subscription cancellation workflows
+- Personalized credit action plans
+- Financial stress forecasting
+- Mobile app version
 
-## Product wording
+## PWA Support
 
-LOLO uses “risk signals,” “personalized guidance,” and “general public benchmark data.” It does not promise guaranteed credit score outcomes or claim to find private data about users online.
+The web build includes a custom PWA manifest, app icons, mobile viewport metadata, splash screen markup, and a basic service worker for offline shell caching. After running `npm run build:web`, deploy the `web-build/` folder over HTTPS so users can install LOLO with "Add to Home Screen" and open it like a native app.
