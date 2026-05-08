@@ -3,26 +3,19 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { CoachMessageBubble } from '../components/CoachMessageBubble';
+import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { InsightCard } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
-import { aiRecommendations } from '../data/financeMvp';
+import { loloEngineDisclaimer } from '../data/loloDemoData';
 import { useProfile } from '../context/ProfileContext';
 import { generateCoachResponse } from '../services/coachService';
 import { colors, radii, spacing } from '../theme';
 import { CoachMessage } from '../types';
 
-const promptChips = [
-  'What should I do next?',
-  'How should I time my card payment?',
-  'What subscriptions should I review?',
-  'Is next month getting tight?',
-  'Help me write a monthly reflection.',
-];
-
 export const CoachScreen = () => {
-  const { profile, roadmap, signals } = useProfile();
+  const { profile, roadmap, signals, selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
   const [query, setQuery] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<CoachMessage[]>([
@@ -34,6 +27,32 @@ export const CoachScreen = () => {
   ]);
 
   if (!profile) return null;
+
+  const promptChips = [
+    `What should ${selectedDemoUser.rawUser.name} do next?`,
+    `Why is ${selectedDemoUser.topRisk} the top risk?`,
+    `How can I improve ${selectedDemoUser.primaryCardName}?`,
+    `What changed for ${selectedDemoUser.label}?`,
+    'Write a monthly review from this data.',
+  ];
+
+  const generateDemoResponse = (text: string) => {
+    const rec = selectedDemoUser.recommendations[0];
+    const changed = selectedDemoUser.whatChanged[0] ?? 'The profile stayed mostly stable this month.';
+    if (/risk|why/i.test(text)) {
+      return `Why this matters: ${selectedDemoUser.topRisk} is the weakest signal in this demo profile, which means it has the clearest ability to change how stable the user looks.\n\nWhat to do next: ${selectedDemoUser.upside.action}.\n\n${loloEngineDisclaimer}`;
+    }
+    if (/card|score|payment|improve/i.test(text)) {
+      return `Why this matters: utilization is ${selectedDemoUser.utilizationLabel}, and the engine simulation shows ${selectedDemoUser.simulations.make_payment.score_delta >= 0 ? '+' : ''}${selectedDemoUser.simulations.make_payment.score_delta} points after a payment scenario.\n\nWhat to do next: ${selectedDemoUser.simulations.make_payment.explanation}`;
+    }
+    if (/changed|month/i.test(text)) {
+      return `What changed: ${changed}\n\nWhy this matters: LOLO turns behavior into a trust narrative before traditional credit systems fully understand the user.\n\nWhat to do next: ${selectedDemoUser.upside.action}.`;
+    }
+    if (/review|journal|reflection/i.test(text)) {
+      return `Monthly review draft: ${selectedDemoUser.rawUser.name} is building trust through ${selectedDemoUser.topStrength.toLowerCase()}, while ${selectedDemoUser.topRisk.toLowerCase()} needs attention. The next best action is ${rec?.title ?? selectedDemoUser.upside.action}.`;
+    }
+    return `What to do next: ${rec?.title ?? selectedDemoUser.upside.action}.\n\nWhy this matters: ${rec?.explanation ?? selectedDemoUser.whatChanged.join(' ')}\n\nEstimated impact: ${rec?.estimated_impact ?? `+${selectedDemoUser.upside.points} possible points in the demo model`}.`;
+  };
 
   const sendMessage = (text: string) => {
     const trimmed = text.trim();
@@ -47,7 +66,7 @@ export const CoachScreen = () => {
         {
           id: `assistant-${Date.now()}`,
           role: 'assistant',
-          text: generateCoachResponse(trimmed, profile, roadmap, signals),
+          text: `${generateDemoResponse(trimmed)}\n\n${generateCoachResponse(trimmed, profile, roadmap, signals)}`,
         },
       ]);
       setIsTyping(false);
@@ -59,9 +78,17 @@ export const CoachScreen = () => {
       <ScrollView style={styles.messages} contentContainerStyle={styles.messageContent}>
         <ScreenFade>
           <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
+          <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
           <Card glow>
             <SectionHeader title="Ask what changed, why it matters, and what to do next." subtitle="A calm AI interface for credit growth, spending behavior, and financial trust." eyebrow="LOLO Coach" />
-            <InsightCard {...aiRecommendations[0]} />
+            {selectedDemoUser.recommendations[0] ? (
+              <InsightCard
+                title={selectedDemoUser.recommendations[0].title}
+                body={selectedDemoUser.recommendations[0].explanation}
+                action={`${selectedDemoUser.recommendations[0].urgency} urgency · ${selectedDemoUser.recommendations[0].estimated_impact}`}
+              />
+            ) : null}
+            <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
           </Card>
           {messages.map((message) => (
             <CoachMessageBubble key={message.id} message={message} />
@@ -148,5 +175,11 @@ const styles = StyleSheet.create({
   send: {
     minWidth: 76,
     paddingVertical: spacing.sm,
+  },
+  disclaimer: {
+    color: colors.textMuted,
+    fontSize: 12,
+    lineHeight: 18,
+    marginTop: spacing.lg,
   },
 });

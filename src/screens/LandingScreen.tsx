@@ -22,6 +22,14 @@ const featureSections = [
   ['Financial journal', 'Private reflections, monthly reviews, and tasteful social proof without net-worth flexing.'],
 ];
 
+const whyMatters = [
+  ['Immigrants with thin files', 'A stable job, rent payments, and careful habits can exist before a traditional credit file catches up.'],
+  ['Students building credit', 'Early habits matter, but most tools explain credit only after mistakes become expensive.'],
+  ['Early professionals with high utilization', 'A strong income can still look risky if statement timing tells the wrong story.'],
+  ['Renters proving reliability', 'LOLO turns payment consistency and runway into a clearer trust narrative for housing moments.'],
+  ['Families building stability', 'Progress can be slow and responsible; the system should make that visible.'],
+];
+
 export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
     <View style={styles.nav}>
@@ -44,7 +52,7 @@ export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
         </Text>
         <View style={styles.ctaRow}>
           <PrimaryButton label="Start building trust" onPress={onStart} style={styles.cta} />
-          <PrimaryButton label="View demo" variant="ghost" onPress={onDemo} />
+          <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} />
         </View>
         <View style={styles.trustRow}>
           {['Read-only data', 'No score impact', 'Encrypted by default'].map((item) => (
@@ -84,6 +92,16 @@ export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
         <StoryPoint title="Trust grows over time" body="Renters, borrowers, immigrants, students, and early professionals need a layer that reflects progress before legacy systems catch up." />
       </View>
     </Card>
+
+    <SectionHeader title="Why this matters" subtitle="LOLO helps credit-invisible and credit-misunderstood users build a behavioral trust profile before traditional banks fully understand them." />
+    <View style={styles.whyGrid}>
+      {whyMatters.map(([title, body]) => (
+        <Card key={title} style={styles.whyCard}>
+          <Text style={styles.whyTitle}>{title}</Text>
+          <Text style={styles.whyBody}>{body}</Text>
+        </Card>
+      ))}
+    </View>
 
     <Card glow style={styles.metrics}>
       <Text style={styles.metricsKicker}>Built for the next generation of credit invisible and credit misunderstood consumers</Text>
@@ -143,7 +161,7 @@ export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
       <Text style={styles.finalTitle}>Ready for demo day.</Text>
       <Text style={styles.finalBody}>A premium fintech prototype for credit growth, financial trust, AI guidance, and reflective money habits.</Text>
       <PrimaryButton label="Start building trust" onPress={onStart} style={styles.finalButton} />
-      <PrimaryButton label="View guided demo" variant="ghost" onPress={onDemo} style={styles.demoButton} />
+      <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} style={styles.demoButton} />
     </Card>
 
     <View style={styles.footer}>
@@ -308,6 +326,21 @@ const styles = StyleSheet.create({
   },
   metrics: {
     backgroundColor: '#102018',
+  },
+  whyGrid: {
+    gap: spacing.lg,
+  },
+  whyCard: {
+    backgroundColor: '#101814',
+  },
+  whyTitle: {
+    color: colors.textPrimary,
+    fontSize: 20,
+    fontWeight: '900',
+  },
+  whyBody: {
+    ...typography.body,
+    marginTop: spacing.sm,
   },
   metricsKicker: {
     color: colors.textPrimary,

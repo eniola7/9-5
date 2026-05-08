@@ -1,0 +1,3617 @@
+{
+  "metadata": {
+    "product": "LOLO",
+    "engine": "prototype-demo-engine",
+    "version": "0.1.0",
+    "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+  },
+  "demo_users": [
+    {
+      "id": "immigrant-thin-file",
+      "name": "Mina A.",
+      "persona": "Recent immigrant with thin credit file",
+      "monthly_income": 4200,
+      "rent": 1450,
+      "fixed_expenses": {
+        "utilities": 180,
+        "phone": 55,
+        "transit": 140,
+        "insurance": 90
+      },
+      "variable_spending": {
+        "groceries": 430,
+        "dining": 360,
+        "rideshare": 120,
+        "shopping": 180,
+        "travel": 80
+      },
+      "credit_cards": [
+        {
+          "id": "card-secured",
+          "name": "Secured Builder Visa",
+          "balance": 420,
+          "limit": 1000,
+          "apr": 24.99,
+          "due_in_days": 9
+        }
+      ],
+      "payment_history": {
+        "on_time_payments": 7,
+        "late_payments": 0,
+        "months_tracked": 7
+      },
+      "subscriptions": [
+        {
+          "name": "Spotify",
+          "amount": 10.99
+        },
+        {
+          "name": "Duolingo",
+          "amount": 12.99
+        }
+      ],
+      "emergency_savings": 1600,
+      "transaction_categories": {
+        "needs": 2315,
+        "wants": 740,
+        "savings": 450,
+        "debt_payments": 95
+      },
+      "credit_age_months": 7,
+      "recent_credit_inquiries": 1,
+      "goals": [
+        "Build U.S. credit",
+        "Qualify for apartment",
+        "Avoid unnecessary inquiries"
+      ],
+      "last_month": {
+        "variable_spending": 820,
+        "savings": 360,
+        "utilization": 0.35
+      }
+    },
+    {
+      "id": "college-builder",
+      "name": "Jordan P.",
+      "persona": "College student building credit",
+      "monthly_income": 1800,
+      "rent": 650,
+      "fixed_expenses": {
+        "utilities": 80,
+        "phone": 45,
+        "transit": 60,
+        "insurance": 0
+      },
+      "variable_spending": {
+        "groceries": 280,
+        "dining": 220,
+        "rideshare": 95,
+        "shopping": 160,
+        "books": 75
+      },
+      "credit_cards": [
+        {
+          "id": "card-student",
+          "name": "Student Rewards Card",
+          "balance": 260,
+          "limit": 900,
+          "apr": 25.49,
+          "due_in_days": 12
+        }
+      ],
+      "payment_history": {
+        "on_time_payments": 14,
+        "late_payments": 0,
+        "months_tracked": 14
+      },
+      "subscriptions": [
+        {
+          "name": "Apple Music Student",
+          "amount": 5.99
+        },
+        {
+          "name": "Notion AI",
+          "amount": 10.0
+        }
+      ],
+      "emergency_savings": 700,
+      "transaction_categories": {
+        "needs": 1115,
+        "wants": 475,
+        "savings": 130,
+        "debt_payments": 60
+      },
+      "credit_age_months": 14,
+      "recent_credit_inquiries": 0,
+      "goals": [
+        "Keep utilization under 30%",
+        "Build emergency savings",
+        "Graduate with good credit habits"
+      ],
+      "last_month": {
+        "variable_spending": 720,
+        "savings": 100,
+        "utilization": 0.32
+      }
+    },
+    {
+      "id": "early-pro-high-util",
+      "name": "Ava R.",
+      "persona": "Early professional with stable income but high utilization",
+      "monthly_income": 5800,
+      "rent": 2050,
+      "fixed_expenses": {
+        "utilities": 220,
+        "phone": 70,
+        "transit": 160,
+        "insurance": 145,
+        "student_loan": 184
+      },
+      "variable_spending": {
+        "groceries": 520,
+        "dining": 640,
+        "rideshare": 260,
+        "shopping": 410,
+        "fitness": 75
+      },
+      "credit_cards": [
+        {
+          "id": "card-savor",
+          "name": "SavorOne Starter Rewards",
+          "balance": 1520,
+          "limit": 4000,
+          "apr": 24.49,
+          "due_in_days": 8
+        },
+        {
+          "id": "card-travel",
+          "name": "Travel Flex Card",
+          "balance": 680,
+          "limit": 2500,
+          "apr": 27.24,
+          "due_in_days": 17
+        }
+      ],
+      "payment_history": {
+        "on_time_payments": 32,
+        "late_payments": 0,
+        "months_tracked": 32
+      },
+      "subscriptions": [
+        {
+          "name": "Spotify",
+          "amount": 10.99
+        },
+        {
+          "name": "ClassPass",
+          "amount": 59.0
+        },
+        {
+          "name": "HBO Max",
+          "amount": 15.99
+        }
+      ],
+      "emergency_savings": 8300,
+      "transaction_categories": {
+        "needs": 2829,
+        "wants": 1385,
+        "savings": 860,
+        "debt_payments": 390
+      },
+      "credit_age_months": 32,
+      "recent_credit_inquiries": 1,
+      "goals": [
+        "Reduce utilization",
+        "Preserve emergency fund",
+        "Prepare for first apartment renewal"
+      ],
+      "last_month": {
+        "variable_spending": 1700,
+        "savings": 720,
+        "utilization": 0.42
+      }
+    },
+    {
+      "id": "high-earner-drift",
+      "name": "Nia C.",
+      "persona": "High earner with spending drift",
+      "monthly_income": 11200,
+      "rent": 3300,
+      "fixed_expenses": {
+        "utilities": 310,
+        "phone": 90,
+        "transit": 80,
+        "insurance": 260,
+        "student_loan": 620
+      },
+      "variable_spending": {
+        "groceries": 780,
+        "dining": 1650,
+        "rideshare": 520,
+        "shopping": 1350,
+        "travel": 900
+      },
+      "credit_cards": [
+        {
+          "id": "card-premium",
+          "name": "Premium Travel Card",
+          "balance": 3100,
+          "limit": 18000,
+          "apr": 22.99,
+          "due_in_days": 5
+        },
+        {
+          "id": "card-cashback",
+          "name": "Cash Back Reserve",
+          "balance": 1150,
+          "limit": 9000,
+          "apr": 21.99,
+          "due_in_days": 19
+        }
+      ],
+      "payment_history": {
+        "on_time_payments": 72,
+        "late_payments": 0,
+        "months_tracked": 72
+      },
+      "subscriptions": [
+        {
+          "name": "Equinox",
+          "amount": 220.0
+        },
+        {
+          "name": "The New York Times",
+          "amount": 25.0
+        },
+        {
+          "name": "Dropbox",
+          "amount": 11.99
+        }
+      ],
+      "emergency_savings": 26000,
+      "transaction_categories": {
+        "needs": 4660,
+        "wants": 4420,
+        "savings": 1200,
+        "debt_payments": 920
+      },
+      "credit_age_months": 86,
+      "recent_credit_inquiries": 2,
+      "goals": [
+        "Stop lifestyle drift",
+        "Increase savings rate",
+        "Keep premium cards disciplined"
+      ],
+      "last_month": {
+        "variable_spending": 4200,
+        "savings": 1900,
+        "utilization": 0.12
+      }
+    },
+    {
+      "id": "responsible-low-income",
+      "name": "Sam T.",
+      "persona": "Responsible user with low income",
+      "monthly_income": 2600,
+      "rent": 900,
+      "fixed_expenses": {
+        "utilities": 130,
+        "phone": 45,
+        "transit": 95,
+        "insurance": 80
+      },
+      "variable_spending": {
+        "groceries": 360,
+        "dining": 120,
+        "rideshare": 45,
+        "shopping": 90,
+        "family_support": 180
+      },
+      "credit_cards": [
+        {
+          "id": "card-local",
+          "name": "Local Credit Union Card",
+          "balance": 120,
+          "limit": 1800,
+          "apr": 18.99,
+          "due_in_days": 14
+        }
+      ],
+      "payment_history": {
+        "on_time_payments": 48,
+        "late_payments": 1,
+        "months_tracked": 49
+      },
+      "subscriptions": [
+        {
+          "name": "Mint Mobile",
+          "amount": 15.0
+        },
+        {
+          "name": "Peacock",
+          "amount": 5.99
+        }
+      ],
+      "emergency_savings": 2400,
+      "transaction_categories": {
+        "needs": 1610,
+        "wants": 255,
+        "savings": 260,
+        "debt_payments": 60
+      },
+      "credit_age_months": 54,
+      "recent_credit_inquiries": 0,
+      "goals": [
+        "Maintain stability",
+        "Grow savings slowly",
+        "Avoid high-interest debt"
+      ],
+      "last_month": {
+        "variable_spending": 780,
+        "savings": 220,
+        "utilization": 0.08
+      }
+    }
+  ],
+  "trust_score_results": {
+    "immigrant-thin-file": {
+      "user_id": "immigrant-thin-file",
+      "trust_score": 649,
+      "factor_scores": {
+        "payment_consistency": 100,
+        "utilization_control": 56,
+        "cash_flow_stability": 100,
+        "emergency_runway": 16,
+        "spending_drift": 27,
+        "debt_pressure": 79,
+        "behavior_trend": 58,
+        "credit_age": 8,
+        "recent_inquiries": 78
+      },
+      "weighted_breakdown": {
+        "payment_consistency": {
+          "factor_score": 100,
+          "weight": 0.2,
+          "weighted_points": 20.0
+        },
+        "utilization_control": {
+          "factor_score": 56,
+          "weight": 0.18,
+          "weighted_points": 10.08
+        },
+        "cash_flow_stability": {
+          "factor_score": 100,
+          "weight": 0.14,
+          "weighted_points": 14.0
+        },
+        "emergency_runway": {
+          "factor_score": 16,
+          "weight": 0.12,
+          "weighted_points": 1.92
+        },
+        "spending_drift": {
+          "factor_score": 27,
+          "weight": 0.1,
+          "weighted_points": 2.7
+        },
+        "debt_pressure": {
+          "factor_score": 79,
+          "weight": 0.09,
+          "weighted_points": 7.11
+        },
+        "behavior_trend": {
+          "factor_score": 58,
+          "weight": 0.07,
+          "weighted_points": 4.06
+        },
+        "credit_age": {
+          "factor_score": 8,
+          "weight": 0.06,
+          "weighted_points": 0.48
+        },
+        "recent_inquiries": {
+          "factor_score": 78,
+          "weight": 0.04,
+          "weighted_points": 3.12
+        }
+      },
+      "what_changed_this_month": [
+        "Utilization increased versus last month.",
+        "Variable spending drifted upward this month.",
+        "Savings contribution increased this month."
+      ],
+      "top_risk": "Credit Age",
+      "top_strength": "Payment Consistency",
+      "possible_upside_this_month": {
+        "points": 26,
+        "action": "Pay $120 toward Secured Builder Visa before statement close",
+        "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+      },
+      "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+    },
+    "college-builder": {
+      "user_id": "college-builder",
+      "trust_score": 669,
+      "factor_scores": {
+        "payment_consistency": 100,
+        "utilization_control": 71,
+        "cash_flow_stability": 64,
+        "emergency_runway": 16,
+        "spending_drift": 62,
+        "debt_pressure": 74,
+        "behavior_trend": 79,
+        "credit_age": 17,
+        "recent_inquiries": 100
+      },
+      "weighted_breakdown": {
+        "payment_consistency": {
+          "factor_score": 100,
+          "weight": 0.2,
+          "weighted_points": 20.0
+        },
+        "utilization_control": {
+          "factor_score": 71,
+          "weight": 0.18,
+          "weighted_points": 12.78
+        },
+        "cash_flow_stability": {
+          "factor_score": 64,
+          "weight": 0.14,
+          "weighted_points": 8.96
+        },
+        "emergency_runway": {
+          "factor_score": 16,
+          "weight": 0.12,
+          "weighted_points": 1.92
+        },
+        "spending_drift": {
+          "factor_score": 62,
+          "weight": 0.1,
+          "weighted_points": 6.2
+        },
+        "debt_pressure": {
+          "factor_score": 74,
+          "weight": 0.09,
+          "weighted_points": 6.66
+        },
+        "behavior_trend": {
+          "factor_score": 79,
+          "weight": 0.07,
+          "weighted_points": 5.53
+        },
+        "credit_age": {
+          "factor_score": 17,
+          "weight": 0.06,
+          "weighted_points": 1.02
+        },
+        "recent_inquiries": {
+          "factor_score": 100,
+          "weight": 0.04,
+          "weighted_points": 4.0
+        }
+      },
+      "what_changed_this_month": [
+        "Utilization improved versus last month.",
+        "Variable spending drifted upward this month.",
+        "Savings contribution increased this month."
+      ],
+      "top_risk": "Emergency Runway",
+      "top_strength": "Payment Consistency",
+      "possible_upside_this_month": {
+        "points": 22,
+        "action": "Keep balances low through statement close",
+        "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+      },
+      "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+    },
+    "early-pro-high-util": {
+      "user_id": "early-pro-high-util",
+      "trust_score": 696,
+      "factor_scores": {
+        "payment_consistency": 100,
+        "utilization_control": 65,
+        "cash_flow_stability": 81,
+        "emergency_runway": 59,
+        "spending_drift": 66,
+        "debt_pressure": 48,
+        "behavior_trend": 80,
+        "credit_age": 38,
+        "recent_inquiries": 78
+      },
+      "weighted_breakdown": {
+        "payment_consistency": {
+          "factor_score": 100,
+          "weight": 0.2,
+          "weighted_points": 20.0
+        },
+        "utilization_control": {
+          "factor_score": 65,
+          "weight": 0.18,
+          "weighted_points": 11.7
+        },
+        "cash_flow_stability": {
+          "factor_score": 81,
+          "weight": 0.14,
+          "weighted_points": 11.34
+        },
+        "emergency_runway": {
+          "factor_score": 59,
+          "weight": 0.12,
+          "weighted_points": 7.08
+        },
+        "spending_drift": {
+          "factor_score": 66,
+          "weight": 0.1,
+          "weighted_points": 6.6
+        },
+        "debt_pressure": {
+          "factor_score": 48,
+          "weight": 0.09,
+          "weighted_points": 4.32
+        },
+        "behavior_trend": {
+          "factor_score": 80,
+          "weight": 0.07,
+          "weighted_points": 5.6
+        },
+        "credit_age": {
+          "factor_score": 38,
+          "weight": 0.06,
+          "weighted_points": 2.28
+        },
+        "recent_inquiries": {
+          "factor_score": 78,
+          "weight": 0.04,
+          "weighted_points": 3.12
+        }
+      },
+      "what_changed_this_month": [
+        "Utilization improved versus last month.",
+        "Variable spending drifted upward this month.",
+        "Savings contribution increased this month."
+      ],
+      "top_risk": "Credit Age",
+      "top_strength": "Payment Consistency",
+      "possible_upside_this_month": {
+        "points": 17,
+        "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+        "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+      },
+      "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+    },
+    "high-earner-drift": {
+      "user_id": "high-earner-drift",
+      "trust_score": 717,
+      "factor_scores": {
+        "payment_consistency": 100,
+        "utilization_control": 81,
+        "cash_flow_stability": 63,
+        "emergency_runway": 100,
+        "spending_drift": 51,
+        "debt_pressure": 45,
+        "behavior_trend": 44,
+        "credit_age": 100,
+        "recent_inquiries": 56
+      },
+      "weighted_breakdown": {
+        "payment_consistency": {
+          "factor_score": 100,
+          "weight": 0.2,
+          "weighted_points": 20.0
+        },
+        "utilization_control": {
+          "factor_score": 81,
+          "weight": 0.18,
+          "weighted_points": 14.58
+        },
+        "cash_flow_stability": {
+          "factor_score": 63,
+          "weight": 0.14,
+          "weighted_points": 8.82
+        },
+        "emergency_runway": {
+          "factor_score": 100,
+          "weight": 0.12,
+          "weighted_points": 12.0
+        },
+        "spending_drift": {
+          "factor_score": 51,
+          "weight": 0.1,
+          "weighted_points": 5.1
+        },
+        "debt_pressure": {
+          "factor_score": 45,
+          "weight": 0.09,
+          "weighted_points": 4.05
+        },
+        "behavior_trend": {
+          "factor_score": 44,
+          "weight": 0.07,
+          "weighted_points": 3.08
+        },
+        "credit_age": {
+          "factor_score": 100,
+          "weight": 0.06,
+          "weighted_points": 6.0
+        },
+        "recent_inquiries": {
+          "factor_score": 56,
+          "weight": 0.04,
+          "weighted_points": 2.24
+        }
+      },
+      "what_changed_this_month": [
+        "Utilization increased versus last month.",
+        "Variable spending drifted upward this month."
+      ],
+      "top_risk": "Behavior Trend",
+      "top_strength": "Payment Consistency",
+      "possible_upside_this_month": {
+        "points": 13,
+        "action": "Keep balances low through statement close",
+        "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+      },
+      "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+    },
+    "responsible-low-income": {
+      "user_id": "responsible-low-income",
+      "trust_score": 754,
+      "factor_scores": {
+        "payment_consistency": 93,
+        "utilization_control": 96,
+        "cash_flow_stability": 97,
+        "emergency_runway": 36,
+        "spending_drift": 80,
+        "debt_pressure": 83,
+        "behavior_trend": 79,
+        "credit_age": 64,
+        "recent_inquiries": 100
+      },
+      "weighted_breakdown": {
+        "payment_consistency": {
+          "factor_score": 93,
+          "weight": 0.2,
+          "weighted_points": 18.6
+        },
+        "utilization_control": {
+          "factor_score": 96,
+          "weight": 0.18,
+          "weighted_points": 17.28
+        },
+        "cash_flow_stability": {
+          "factor_score": 97,
+          "weight": 0.14,
+          "weighted_points": 13.58
+        },
+        "emergency_runway": {
+          "factor_score": 36,
+          "weight": 0.12,
+          "weighted_points": 4.32
+        },
+        "spending_drift": {
+          "factor_score": 80,
+          "weight": 0.1,
+          "weighted_points": 8.0
+        },
+        "debt_pressure": {
+          "factor_score": 83,
+          "weight": 0.09,
+          "weighted_points": 7.47
+        },
+        "behavior_trend": {
+          "factor_score": 79,
+          "weight": 0.07,
+          "weighted_points": 5.53
+        },
+        "credit_age": {
+          "factor_score": 64,
+          "weight": 0.06,
+          "weighted_points": 3.84
+        },
+        "recent_inquiries": {
+          "factor_score": 100,
+          "weight": 0.04,
+          "weighted_points": 4.0
+        }
+      },
+      "what_changed_this_month": [
+        "Savings contribution increased this month."
+      ],
+      "top_risk": "Emergency Runway",
+      "top_strength": "Recent Inquiries",
+      "possible_upside_this_month": {
+        "points": 4,
+        "action": "Keep balances low through statement close",
+        "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+      },
+      "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+    }
+  },
+  "recommendations": {
+    "immigrant-thin-file": [
+      {
+        "title": "Pay $120 toward Secured Builder Visa",
+        "explanation": "This could bring Secured Builder Visa below 30% utilization before the next statement reports.",
+        "estimated_impact": "+8 to +22 LOLO Trust Score points in the demo model",
+        "difficulty": "Medium",
+        "urgency": "High",
+        "category": "Credit utilization"
+      },
+      {
+        "title": "Reduce dining spend by $65",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      {
+        "title": "Avoid new credit inquiries this month",
+        "explanation": "A quiet month helps thin or rebuilding files look more stable in the LOLO trust layer.",
+        "estimated_impact": "Protects recent-inquiry factor",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Credit behavior"
+      },
+      {
+        "title": "Set autopay before the next due date",
+        "explanation": "Payment consistency is the highest-weighted factor in the LOLO demo score.",
+        "estimated_impact": "Protects up to 20% of weighted score",
+        "difficulty": "Low",
+        "urgency": "High",
+        "category": "Payment consistency"
+      },
+      {
+        "title": "Build emergency savings by $1960/mo for 3 months",
+        "explanation": "Three months of essential runway gives the trust layer more confidence during rent, job, or income shocks.",
+        "estimated_impact": "+5 to +14 points through emergency runway",
+        "difficulty": "Medium",
+        "urgency": "Medium",
+        "category": "Emergency runway"
+      }
+    ],
+    "college-builder": [
+      {
+        "title": "Reduce dining spend by $40",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      {
+        "title": "Build emergency savings by $880/mo for 3 months",
+        "explanation": "Three months of essential runway gives the trust layer more confidence during rent, job, or income shocks.",
+        "estimated_impact": "+5 to +14 points through emergency runway",
+        "difficulty": "Medium",
+        "urgency": "Medium",
+        "category": "Emergency runway"
+      }
+    ],
+    "early-pro-high-util": [
+      {
+        "title": "Pay $320 toward SavorOne Starter Rewards",
+        "explanation": "This could bring SavorOne Starter Rewards below 30% utilization before the next statement reports.",
+        "estimated_impact": "+8 to +22 LOLO Trust Score points in the demo model",
+        "difficulty": "Medium",
+        "urgency": "High",
+        "category": "Credit utilization"
+      },
+      {
+        "title": "Reduce dining spend by $115",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      {
+        "title": "Avoid new credit inquiries this month",
+        "explanation": "A quiet month helps thin or rebuilding files look more stable in the LOLO trust layer.",
+        "estimated_impact": "Protects recent-inquiry factor",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Credit behavior"
+      },
+      {
+        "title": "Set autopay before the next due date",
+        "explanation": "Payment consistency is the highest-weighted factor in the LOLO demo score.",
+        "estimated_impact": "Protects up to 20% of weighted score",
+        "difficulty": "Low",
+        "urgency": "High",
+        "category": "Payment consistency"
+      },
+      {
+        "title": "Build emergency savings by $770/mo for 3 months",
+        "explanation": "Three months of essential runway gives the trust layer more confidence during rent, job, or income shocks.",
+        "estimated_impact": "+5 to +14 points through emergency runway",
+        "difficulty": "Medium",
+        "urgency": "Medium",
+        "category": "Emergency runway"
+      }
+    ],
+    "high-earner-drift": [
+      {
+        "title": "Reduce dining spend by $297",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      {
+        "title": "Avoid new credit inquiries this month",
+        "explanation": "A quiet month helps thin or rebuilding files look more stable in the LOLO trust layer.",
+        "estimated_impact": "Protects recent-inquiry factor",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Credit behavior"
+      },
+      {
+        "title": "Set autopay before the next due date",
+        "explanation": "Payment consistency is the highest-weighted factor in the LOLO demo score.",
+        "estimated_impact": "Protects up to 20% of weighted score",
+        "difficulty": "Low",
+        "urgency": "High",
+        "category": "Payment consistency"
+      }
+    ],
+    "responsible-low-income": [
+      {
+        "title": "Set autopay before the next due date",
+        "explanation": "Payment consistency is the highest-weighted factor in the LOLO demo score.",
+        "estimated_impact": "Protects up to 20% of weighted score",
+        "difficulty": "Low",
+        "urgency": "High",
+        "category": "Payment consistency"
+      },
+      {
+        "title": "Build emergency savings by $852/mo for 3 months",
+        "explanation": "Three months of essential runway gives the trust layer more confidence during rent, job, or income shocks.",
+        "estimated_impact": "+5 to +14 points through emergency runway",
+        "difficulty": "Medium",
+        "urgency": "Medium",
+        "category": "Emergency runway"
+      }
+    ]
+  },
+  "simulation_examples": {
+    "immigrant-thin-file": {
+      "make_payment": {
+        "updated_trust_score": 700,
+        "score_delta": 51,
+        "changed_factors": [
+          "utilization_control",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Paying $320 toward card-secured reduces reported revolving balance and can improve utilization control.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 700,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 96,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 27,
+            "debt_pressure": 85,
+            "behavior_trend": 80,
+            "credit_age": 8,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 27,
+              "weight": 0.1,
+              "weighted_points": 2.7
+            },
+            "debt_pressure": {
+              "factor_score": 85,
+              "weight": 0.09,
+              "weighted_points": 7.65
+            },
+            "behavior_trend": {
+              "factor_score": 80,
+              "weight": 0.07,
+              "weighted_points": 5.6
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "reduce_category_spending": {
+        "updated_trust_score": 659,
+        "score_delta": 10,
+        "changed_factors": [
+          "spending_drift",
+          "behavior_trend"
+        ],
+        "explanation": "Reducing dining by 18% redirects about $65 toward savings and improves cash-flow behavior.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 659,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 56,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 37,
+            "debt_pressure": 79,
+            "behavior_trend": 69,
+            "credit_age": 8,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 56,
+              "weight": 0.18,
+              "weighted_points": 10.08
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 37,
+              "weight": 0.1,
+              "weighted_points": 3.7
+            },
+            "debt_pressure": {
+              "factor_score": 79,
+              "weight": 0.09,
+              "weighted_points": 7.11
+            },
+            "behavior_trend": {
+              "factor_score": 69,
+              "weight": 0.07,
+              "weighted_points": 4.83
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "increase_income": {
+        "updated_trust_score": 659,
+        "score_delta": 10,
+        "changed_factors": [
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Adding $400 of monthly income improves cash-flow stability when at least part of it is preserved.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 659,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 56,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 27,
+            "debt_pressure": 81,
+            "behavior_trend": 80,
+            "credit_age": 8,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 56,
+              "weight": 0.18,
+              "weighted_points": 10.08
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 27,
+              "weight": 0.1,
+              "weighted_points": 2.7
+            },
+            "debt_pressure": {
+              "factor_score": 81,
+              "weight": 0.09,
+              "weighted_points": 7.29
+            },
+            "behavior_trend": {
+              "factor_score": 80,
+              "weight": 0.07,
+              "weighted_points": 5.6
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "add_emergency_savings": {
+        "updated_trust_score": 652,
+        "score_delta": 3,
+        "changed_factors": [
+          "emergency_runway"
+        ],
+        "explanation": "Adding $500 to emergency savings improves runway and reduces stress risk.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 652,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 56,
+            "cash_flow_stability": 100,
+            "emergency_runway": 21,
+            "spending_drift": 27,
+            "debt_pressure": 79,
+            "behavior_trend": 58,
+            "credit_age": 8,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 56,
+              "weight": 0.18,
+              "weighted_points": 10.08
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 21,
+              "weight": 0.12,
+              "weighted_points": 2.52
+            },
+            "spending_drift": {
+              "factor_score": 27,
+              "weight": 0.1,
+              "weighted_points": 2.7
+            },
+            "debt_pressure": {
+              "factor_score": 79,
+              "weight": 0.09,
+              "weighted_points": 7.11
+            },
+            "behavior_trend": {
+              "factor_score": 58,
+              "weight": 0.07,
+              "weighted_points": 4.06
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "missed_payment": {
+        "updated_trust_score": 605,
+        "score_delta": -44,
+        "changed_factors": [
+          "payment_consistency"
+        ],
+        "explanation": "A missed payment materially weakens payment consistency, the highest-weighted LOLO demo factor.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 605,
+          "factor_scores": {
+            "payment_consistency": 60,
+            "utilization_control": 56,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 27,
+            "debt_pressure": 79,
+            "behavior_trend": 58,
+            "credit_age": 8,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 60,
+              "weight": 0.2,
+              "weighted_points": 12.0
+            },
+            "utilization_control": {
+              "factor_score": 56,
+              "weight": 0.18,
+              "weighted_points": 10.08
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 27,
+              "weight": 0.1,
+              "weighted_points": 2.7
+            },
+            "debt_pressure": {
+              "factor_score": 79,
+              "weight": 0.09,
+              "weighted_points": 7.11
+            },
+            "behavior_trend": {
+              "factor_score": 58,
+              "weight": 0.07,
+              "weighted_points": 4.06
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Cash Flow Stability",
+          "possible_upside_this_month": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "new_credit_inquiry": {
+        "updated_trust_score": 644,
+        "score_delta": -5,
+        "changed_factors": [
+          "recent_inquiries"
+        ],
+        "explanation": "A new credit inquiry lowers the recent-inquiries factor, especially for thin or newer credit files.",
+        "score_result": {
+          "user_id": "immigrant-thin-file",
+          "trust_score": 644,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 56,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 27,
+            "debt_pressure": 79,
+            "behavior_trend": 58,
+            "credit_age": 8,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 56,
+              "weight": 0.18,
+              "weighted_points": 10.08
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 27,
+              "weight": 0.1,
+              "weighted_points": 2.7
+            },
+            "debt_pressure": {
+              "factor_score": 79,
+              "weight": 0.09,
+              "weighted_points": 7.11
+            },
+            "behavior_trend": {
+              "factor_score": 58,
+              "weight": 0.07,
+              "weighted_points": 4.06
+            },
+            "credit_age": {
+              "factor_score": 8,
+              "weight": 0.06,
+              "weighted_points": 0.48
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      }
+    },
+    "college-builder": {
+      "make_payment": {
+        "updated_trust_score": 707,
+        "score_delta": 38,
+        "changed_factors": [
+          "utilization_control",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Paying $320 toward card-student reduces reported revolving balance and can improve utilization control.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 707,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 96,
+            "cash_flow_stability": 64,
+            "emergency_runway": 16,
+            "spending_drift": 62,
+            "debt_pressure": 84,
+            "behavior_trend": 100,
+            "credit_age": 17,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 64,
+              "weight": 0.14,
+              "weighted_points": 8.96
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 62,
+              "weight": 0.1,
+              "weighted_points": 6.2
+            },
+            "debt_pressure": {
+              "factor_score": 84,
+              "weight": 0.09,
+              "weighted_points": 7.56
+            },
+            "behavior_trend": {
+              "factor_score": 100,
+              "weight": 0.07,
+              "weighted_points": 7.0
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 11,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "reduce_category_spending": {
+        "updated_trust_score": 684,
+        "score_delta": 15,
+        "changed_factors": [
+          "cash_flow_stability",
+          "spending_drift",
+          "behavior_trend"
+        ],
+        "explanation": "Reducing dining by 18% redirects about $40 toward savings and improves cash-flow behavior.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 684,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 71,
+            "cash_flow_stability": 69,
+            "emergency_runway": 16,
+            "spending_drift": 69,
+            "debt_pressure": 74,
+            "behavior_trend": 98,
+            "credit_age": 17,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 69,
+              "weight": 0.14,
+              "weighted_points": 9.66
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 69,
+              "weight": 0.1,
+              "weighted_points": 6.9
+            },
+            "debt_pressure": {
+              "factor_score": 74,
+              "weight": 0.09,
+              "weighted_points": 6.66
+            },
+            "behavior_trend": {
+              "factor_score": 98,
+              "weight": 0.07,
+              "weighted_points": 6.86
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 18,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "increase_income": {
+        "updated_trust_score": 706,
+        "score_delta": 37,
+        "changed_factors": [
+          "cash_flow_stability",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Adding $400 of monthly income improves cash-flow stability when at least part of it is preserved.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 706,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 71,
+            "cash_flow_stability": 100,
+            "emergency_runway": 16,
+            "spending_drift": 62,
+            "debt_pressure": 77,
+            "behavior_trend": 100,
+            "credit_age": 17,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 62,
+              "weight": 0.1,
+              "weighted_points": 6.2
+            },
+            "debt_pressure": {
+              "factor_score": 77,
+              "weight": 0.09,
+              "weighted_points": 6.93
+            },
+            "behavior_trend": {
+              "factor_score": 100,
+              "weight": 0.07,
+              "weighted_points": 7.0
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 11,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "add_emergency_savings": {
+        "updated_trust_score": 676,
+        "score_delta": 7,
+        "changed_factors": [
+          "emergency_runway"
+        ],
+        "explanation": "Adding $500 to emergency savings improves runway and reduces stress risk.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 676,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 71,
+            "cash_flow_stability": 64,
+            "emergency_runway": 27,
+            "spending_drift": 62,
+            "debt_pressure": 74,
+            "behavior_trend": 79,
+            "credit_age": 17,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 64,
+              "weight": 0.14,
+              "weighted_points": 8.96
+            },
+            "emergency_runway": {
+              "factor_score": 27,
+              "weight": 0.12,
+              "weighted_points": 3.24
+            },
+            "spending_drift": {
+              "factor_score": 62,
+              "weight": 0.1,
+              "weighted_points": 6.2
+            },
+            "debt_pressure": {
+              "factor_score": 74,
+              "weight": 0.09,
+              "weighted_points": 6.66
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 22,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "missed_payment": {
+        "updated_trust_score": 646,
+        "score_delta": -23,
+        "changed_factors": [
+          "payment_consistency"
+        ],
+        "explanation": "A missed payment materially weakens payment consistency, the highest-weighted LOLO demo factor.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 646,
+          "factor_scores": {
+            "payment_consistency": 79,
+            "utilization_control": 71,
+            "cash_flow_stability": 64,
+            "emergency_runway": 16,
+            "spending_drift": 62,
+            "debt_pressure": 74,
+            "behavior_trend": 79,
+            "credit_age": 17,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 79,
+              "weight": 0.2,
+              "weighted_points": 15.8
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 64,
+              "weight": 0.14,
+              "weighted_points": 8.96
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 62,
+              "weight": 0.1,
+              "weighted_points": 6.2
+            },
+            "debt_pressure": {
+              "factor_score": 74,
+              "weight": 0.09,
+              "weighted_points": 6.66
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Recent Inquiries",
+          "possible_upside_this_month": {
+            "points": 22,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "new_credit_inquiry": {
+        "updated_trust_score": 664,
+        "score_delta": -5,
+        "changed_factors": [
+          "recent_inquiries"
+        ],
+        "explanation": "A new credit inquiry lowers the recent-inquiries factor, especially for thin or newer credit files.",
+        "score_result": {
+          "user_id": "college-builder",
+          "trust_score": 664,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 71,
+            "cash_flow_stability": 64,
+            "emergency_runway": 16,
+            "spending_drift": 62,
+            "debt_pressure": 74,
+            "behavior_trend": 79,
+            "credit_age": 17,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 64,
+              "weight": 0.14,
+              "weighted_points": 8.96
+            },
+            "emergency_runway": {
+              "factor_score": 16,
+              "weight": 0.12,
+              "weighted_points": 1.92
+            },
+            "spending_drift": {
+              "factor_score": 62,
+              "weight": 0.1,
+              "weighted_points": 6.2
+            },
+            "debt_pressure": {
+              "factor_score": 74,
+              "weight": 0.09,
+              "weighted_points": 6.66
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 17,
+              "weight": 0.06,
+              "weighted_points": 1.02
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 22,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      }
+    },
+    "early-pro-high-util": {
+      "make_payment": {
+        "updated_trust_score": 706,
+        "score_delta": 10,
+        "changed_factors": [
+          "utilization_control",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Paying $320 toward card-savor reduces reported revolving balance and can improve utilization control.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 706,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 71,
+            "cash_flow_stability": 81,
+            "emergency_runway": 59,
+            "spending_drift": 66,
+            "debt_pressure": 53,
+            "behavior_trend": 84,
+            "credit_age": 38,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 71,
+              "weight": 0.18,
+              "weighted_points": 12.78
+            },
+            "cash_flow_stability": {
+              "factor_score": 81,
+              "weight": 0.14,
+              "weighted_points": 11.34
+            },
+            "emergency_runway": {
+              "factor_score": 59,
+              "weight": 0.12,
+              "weighted_points": 7.08
+            },
+            "spending_drift": {
+              "factor_score": 66,
+              "weight": 0.1,
+              "weighted_points": 6.6
+            },
+            "debt_pressure": {
+              "factor_score": 53,
+              "weight": 0.09,
+              "weighted_points": 4.77
+            },
+            "behavior_trend": {
+              "factor_score": 84,
+              "weight": 0.07,
+              "weighted_points": 5.88
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 11,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "reduce_category_spending": {
+        "updated_trust_score": 708,
+        "score_delta": 12,
+        "changed_factors": [
+          "cash_flow_stability",
+          "spending_drift",
+          "behavior_trend"
+        ],
+        "explanation": "Reducing dining by 18% redirects about $115 toward savings and improves cash-flow behavior.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 708,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 65,
+            "cash_flow_stability": 85,
+            "emergency_runway": 59,
+            "spending_drift": 75,
+            "debt_pressure": 48,
+            "behavior_trend": 90,
+            "credit_age": 38,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 65,
+              "weight": 0.18,
+              "weighted_points": 11.7
+            },
+            "cash_flow_stability": {
+              "factor_score": 85,
+              "weight": 0.14,
+              "weighted_points": 11.9
+            },
+            "emergency_runway": {
+              "factor_score": 59,
+              "weight": 0.12,
+              "weighted_points": 7.08
+            },
+            "spending_drift": {
+              "factor_score": 75,
+              "weight": 0.1,
+              "weighted_points": 7.5
+            },
+            "debt_pressure": {
+              "factor_score": 48,
+              "weight": 0.09,
+              "weighted_points": 4.32
+            },
+            "behavior_trend": {
+              "factor_score": 90,
+              "weight": 0.07,
+              "weighted_points": 6.3
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "increase_income": {
+        "updated_trust_score": 711,
+        "score_delta": 15,
+        "changed_factors": [
+          "cash_flow_stability",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Adding $400 of monthly income improves cash-flow stability when at least part of it is preserved.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 711,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 65,
+            "cash_flow_stability": 93,
+            "emergency_runway": 59,
+            "spending_drift": 66,
+            "debt_pressure": 51,
+            "behavior_trend": 91,
+            "credit_age": 38,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 65,
+              "weight": 0.18,
+              "weighted_points": 11.7
+            },
+            "cash_flow_stability": {
+              "factor_score": 93,
+              "weight": 0.14,
+              "weighted_points": 13.02
+            },
+            "emergency_runway": {
+              "factor_score": 59,
+              "weight": 0.12,
+              "weighted_points": 7.08
+            },
+            "spending_drift": {
+              "factor_score": 66,
+              "weight": 0.1,
+              "weighted_points": 6.6
+            },
+            "debt_pressure": {
+              "factor_score": 51,
+              "weight": 0.09,
+              "weighted_points": 4.59
+            },
+            "behavior_trend": {
+              "factor_score": 91,
+              "weight": 0.07,
+              "weighted_points": 6.37
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "add_emergency_savings": {
+        "updated_trust_score": 698,
+        "score_delta": 2,
+        "changed_factors": [
+          "emergency_runway"
+        ],
+        "explanation": "Adding $500 to emergency savings improves runway and reduces stress risk.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 698,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 65,
+            "cash_flow_stability": 81,
+            "emergency_runway": 62,
+            "spending_drift": 66,
+            "debt_pressure": 48,
+            "behavior_trend": 80,
+            "credit_age": 38,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 65,
+              "weight": 0.18,
+              "weighted_points": 11.7
+            },
+            "cash_flow_stability": {
+              "factor_score": 81,
+              "weight": 0.14,
+              "weighted_points": 11.34
+            },
+            "emergency_runway": {
+              "factor_score": 62,
+              "weight": 0.12,
+              "weighted_points": 7.44
+            },
+            "spending_drift": {
+              "factor_score": 66,
+              "weight": 0.1,
+              "weighted_points": 6.6
+            },
+            "debt_pressure": {
+              "factor_score": 48,
+              "weight": 0.09,
+              "weighted_points": 4.32
+            },
+            "behavior_trend": {
+              "factor_score": 80,
+              "weight": 0.07,
+              "weighted_points": 5.6
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "missed_payment": {
+        "updated_trust_score": 685,
+        "score_delta": -11,
+        "changed_factors": [
+          "payment_consistency"
+        ],
+        "explanation": "A missed payment materially weakens payment consistency, the highest-weighted LOLO demo factor.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 685,
+          "factor_scores": {
+            "payment_consistency": 90,
+            "utilization_control": 65,
+            "cash_flow_stability": 81,
+            "emergency_runway": 59,
+            "spending_drift": 66,
+            "debt_pressure": 48,
+            "behavior_trend": 80,
+            "credit_age": 38,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 90,
+              "weight": 0.2,
+              "weighted_points": 18.0
+            },
+            "utilization_control": {
+              "factor_score": 65,
+              "weight": 0.18,
+              "weighted_points": 11.7
+            },
+            "cash_flow_stability": {
+              "factor_score": 81,
+              "weight": 0.14,
+              "weighted_points": 11.34
+            },
+            "emergency_runway": {
+              "factor_score": 59,
+              "weight": 0.12,
+              "weighted_points": 7.08
+            },
+            "spending_drift": {
+              "factor_score": 66,
+              "weight": 0.1,
+              "weighted_points": 6.6
+            },
+            "debt_pressure": {
+              "factor_score": 48,
+              "weight": 0.09,
+              "weighted_points": 4.32
+            },
+            "behavior_trend": {
+              "factor_score": 80,
+              "weight": 0.07,
+              "weighted_points": 5.6
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "new_credit_inquiry": {
+        "updated_trust_score": 691,
+        "score_delta": -5,
+        "changed_factors": [
+          "recent_inquiries"
+        ],
+        "explanation": "A new credit inquiry lowers the recent-inquiries factor, especially for thin or newer credit files.",
+        "score_result": {
+          "user_id": "early-pro-high-util",
+          "trust_score": 691,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 65,
+            "cash_flow_stability": 81,
+            "emergency_runway": 59,
+            "spending_drift": 66,
+            "debt_pressure": 48,
+            "behavior_trend": 80,
+            "credit_age": 38,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 65,
+              "weight": 0.18,
+              "weighted_points": 11.7
+            },
+            "cash_flow_stability": {
+              "factor_score": 81,
+              "weight": 0.14,
+              "weighted_points": 11.34
+            },
+            "emergency_runway": {
+              "factor_score": 59,
+              "weight": 0.12,
+              "weighted_points": 7.08
+            },
+            "spending_drift": {
+              "factor_score": 66,
+              "weight": 0.1,
+              "weighted_points": 6.6
+            },
+            "debt_pressure": {
+              "factor_score": 48,
+              "weight": 0.09,
+              "weighted_points": 4.32
+            },
+            "behavior_trend": {
+              "factor_score": 80,
+              "weight": 0.07,
+              "weighted_points": 5.6
+            },
+            "credit_age": {
+              "factor_score": 38,
+              "weight": 0.06,
+              "weighted_points": 2.28
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Variable spending drifted upward this month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Credit Age",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      }
+    },
+    "high-earner-drift": {
+      "make_payment": {
+        "updated_trust_score": 720,
+        "score_delta": 3,
+        "changed_factors": [
+          "utilization_control",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Paying $320 toward card-premium reduces reported revolving balance and can improve utilization control.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 720,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 82,
+            "cash_flow_stability": 63,
+            "emergency_runway": 100,
+            "spending_drift": 51,
+            "debt_pressure": 47,
+            "behavior_trend": 45,
+            "credit_age": 100,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 82,
+              "weight": 0.18,
+              "weighted_points": 14.76
+            },
+            "cash_flow_stability": {
+              "factor_score": 63,
+              "weight": 0.14,
+              "weighted_points": 8.82
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 51,
+              "weight": 0.1,
+              "weighted_points": 5.1
+            },
+            "debt_pressure": {
+              "factor_score": 47,
+              "weight": 0.09,
+              "weighted_points": 4.23
+            },
+            "behavior_trend": {
+              "factor_score": 45,
+              "weight": 0.07,
+              "weighted_points": 3.15
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Behavior Trend",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 12,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "reduce_category_spending": {
+        "updated_trust_score": 730,
+        "score_delta": 13,
+        "changed_factors": [
+          "cash_flow_stability",
+          "spending_drift",
+          "behavior_trend"
+        ],
+        "explanation": "Reducing dining by 18% redirects about $297 toward savings and improves cash-flow behavior.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 730,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 81,
+            "cash_flow_stability": 69,
+            "emergency_runway": 100,
+            "spending_drift": 60,
+            "debt_pressure": 45,
+            "behavior_trend": 53,
+            "credit_age": 100,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 81,
+              "weight": 0.18,
+              "weighted_points": 14.58
+            },
+            "cash_flow_stability": {
+              "factor_score": 69,
+              "weight": 0.14,
+              "weighted_points": 9.66
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 60,
+              "weight": 0.1,
+              "weighted_points": 6.0
+            },
+            "debt_pressure": {
+              "factor_score": 45,
+              "weight": 0.09,
+              "weighted_points": 4.05
+            },
+            "behavior_trend": {
+              "factor_score": 53,
+              "weight": 0.07,
+              "weighted_points": 3.71
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Debt Pressure",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 8,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "increase_income": {
+        "updated_trust_score": 726,
+        "score_delta": 9,
+        "changed_factors": [
+          "cash_flow_stability",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Adding $400 of monthly income improves cash-flow stability when at least part of it is preserved.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 726,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 81,
+            "cash_flow_stability": 71,
+            "emergency_runway": 100,
+            "spending_drift": 51,
+            "debt_pressure": 47,
+            "behavior_trend": 48,
+            "credit_age": 100,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 81,
+              "weight": 0.18,
+              "weighted_points": 14.58
+            },
+            "cash_flow_stability": {
+              "factor_score": 71,
+              "weight": 0.14,
+              "weighted_points": 9.94
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 51,
+              "weight": 0.1,
+              "weighted_points": 5.1
+            },
+            "debt_pressure": {
+              "factor_score": 47,
+              "weight": 0.09,
+              "weighted_points": 4.23
+            },
+            "behavior_trend": {
+              "factor_score": 48,
+              "weight": 0.07,
+              "weighted_points": 3.36
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Debt Pressure",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 6,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "add_emergency_savings": {
+        "updated_trust_score": 717,
+        "score_delta": 0,
+        "changed_factors": [],
+        "explanation": "Adding $500 to emergency savings improves runway and reduces stress risk.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 717,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 81,
+            "cash_flow_stability": 63,
+            "emergency_runway": 100,
+            "spending_drift": 51,
+            "debt_pressure": 45,
+            "behavior_trend": 44,
+            "credit_age": 100,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 81,
+              "weight": 0.18,
+              "weighted_points": 14.58
+            },
+            "cash_flow_stability": {
+              "factor_score": 63,
+              "weight": 0.14,
+              "weighted_points": 8.82
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 51,
+              "weight": 0.1,
+              "weighted_points": 5.1
+            },
+            "debt_pressure": {
+              "factor_score": 45,
+              "weight": 0.09,
+              "weighted_points": 4.05
+            },
+            "behavior_trend": {
+              "factor_score": 44,
+              "weight": 0.07,
+              "weighted_points": 3.08
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Behavior Trend",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 13,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "missed_payment": {
+        "updated_trust_score": 713,
+        "score_delta": -4,
+        "changed_factors": [
+          "payment_consistency"
+        ],
+        "explanation": "A missed payment materially weakens payment consistency, the highest-weighted LOLO demo factor.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 713,
+          "factor_scores": {
+            "payment_consistency": 96,
+            "utilization_control": 81,
+            "cash_flow_stability": 63,
+            "emergency_runway": 100,
+            "spending_drift": 51,
+            "debt_pressure": 45,
+            "behavior_trend": 44,
+            "credit_age": 100,
+            "recent_inquiries": 56
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 96,
+              "weight": 0.2,
+              "weighted_points": 19.2
+            },
+            "utilization_control": {
+              "factor_score": 81,
+              "weight": 0.18,
+              "weighted_points": 14.58
+            },
+            "cash_flow_stability": {
+              "factor_score": 63,
+              "weight": 0.14,
+              "weighted_points": 8.82
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 51,
+              "weight": 0.1,
+              "weighted_points": 5.1
+            },
+            "debt_pressure": {
+              "factor_score": 45,
+              "weight": 0.09,
+              "weighted_points": 4.05
+            },
+            "behavior_trend": {
+              "factor_score": 44,
+              "weight": 0.07,
+              "weighted_points": 3.08
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 56,
+              "weight": 0.04,
+              "weighted_points": 2.24
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Behavior Trend",
+          "top_strength": "Emergency Runway",
+          "possible_upside_this_month": {
+            "points": 13,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "new_credit_inquiry": {
+        "updated_trust_score": 712,
+        "score_delta": -5,
+        "changed_factors": [
+          "recent_inquiries"
+        ],
+        "explanation": "A new credit inquiry lowers the recent-inquiries factor, especially for thin or newer credit files.",
+        "score_result": {
+          "user_id": "high-earner-drift",
+          "trust_score": 712,
+          "factor_scores": {
+            "payment_consistency": 100,
+            "utilization_control": 81,
+            "cash_flow_stability": 63,
+            "emergency_runway": 100,
+            "spending_drift": 51,
+            "debt_pressure": 45,
+            "behavior_trend": 44,
+            "credit_age": 100,
+            "recent_inquiries": 34
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 100,
+              "weight": 0.2,
+              "weighted_points": 20.0
+            },
+            "utilization_control": {
+              "factor_score": 81,
+              "weight": 0.18,
+              "weighted_points": 14.58
+            },
+            "cash_flow_stability": {
+              "factor_score": 63,
+              "weight": 0.14,
+              "weighted_points": 8.82
+            },
+            "emergency_runway": {
+              "factor_score": 100,
+              "weight": 0.12,
+              "weighted_points": 12.0
+            },
+            "spending_drift": {
+              "factor_score": 51,
+              "weight": 0.1,
+              "weighted_points": 5.1
+            },
+            "debt_pressure": {
+              "factor_score": 45,
+              "weight": 0.09,
+              "weighted_points": 4.05
+            },
+            "behavior_trend": {
+              "factor_score": 44,
+              "weight": 0.07,
+              "weighted_points": 3.08
+            },
+            "credit_age": {
+              "factor_score": 100,
+              "weight": 0.06,
+              "weighted_points": 6.0
+            },
+            "recent_inquiries": {
+              "factor_score": 34,
+              "weight": 0.04,
+              "weighted_points": 1.36
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization increased versus last month.",
+            "Variable spending drifted upward this month."
+          ],
+          "top_risk": "Recent Inquiries",
+          "top_strength": "Payment Consistency",
+          "possible_upside_this_month": {
+            "points": 13,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      }
+    },
+    "responsible-low-income": {
+      "make_payment": {
+        "updated_trust_score": 758,
+        "score_delta": 4,
+        "changed_factors": [
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Paying $320 toward card-local reduces reported revolving balance and can improve utilization control.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 758,
+          "factor_scores": {
+            "payment_consistency": 93,
+            "utilization_control": 96,
+            "cash_flow_stability": 97,
+            "emergency_runway": 36,
+            "spending_drift": 80,
+            "debt_pressure": 87,
+            "behavior_trend": 84,
+            "credit_age": 64,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 93,
+              "weight": 0.2,
+              "weighted_points": 18.6
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 97,
+              "weight": 0.14,
+              "weighted_points": 13.58
+            },
+            "emergency_runway": {
+              "factor_score": 36,
+              "weight": 0.12,
+              "weighted_points": 4.32
+            },
+            "spending_drift": {
+              "factor_score": 80,
+              "weight": 0.1,
+              "weighted_points": 8.0
+            },
+            "debt_pressure": {
+              "factor_score": 87,
+              "weight": 0.09,
+              "weighted_points": 7.83
+            },
+            "behavior_trend": {
+              "factor_score": 84,
+              "weight": 0.07,
+              "weighted_points": 5.88
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Utilization improved versus last month.",
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Recent Inquiries",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "reduce_category_spending": {
+        "updated_trust_score": 759,
+        "score_delta": 5,
+        "changed_factors": [
+          "cash_flow_stability",
+          "spending_drift",
+          "behavior_trend"
+        ],
+        "explanation": "Reducing dining by 18% redirects about $22 toward savings and improves cash-flow behavior.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 759,
+          "factor_scores": {
+            "payment_consistency": 93,
+            "utilization_control": 96,
+            "cash_flow_stability": 99,
+            "emergency_runway": 36,
+            "spending_drift": 82,
+            "debt_pressure": 83,
+            "behavior_trend": 84,
+            "credit_age": 64,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 93,
+              "weight": 0.2,
+              "weighted_points": 18.6
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 99,
+              "weight": 0.14,
+              "weighted_points": 13.86
+            },
+            "emergency_runway": {
+              "factor_score": 36,
+              "weight": 0.12,
+              "weighted_points": 4.32
+            },
+            "spending_drift": {
+              "factor_score": 82,
+              "weight": 0.1,
+              "weighted_points": 8.2
+            },
+            "debt_pressure": {
+              "factor_score": 83,
+              "weight": 0.09,
+              "weighted_points": 7.47
+            },
+            "behavior_trend": {
+              "factor_score": 84,
+              "weight": 0.07,
+              "weighted_points": 5.88
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Recent Inquiries",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "increase_income": {
+        "updated_trust_score": 765,
+        "score_delta": 11,
+        "changed_factors": [
+          "cash_flow_stability",
+          "debt_pressure",
+          "behavior_trend"
+        ],
+        "explanation": "Adding $400 of monthly income improves cash-flow stability when at least part of it is preserved.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 765,
+          "factor_scores": {
+            "payment_consistency": 93,
+            "utilization_control": 96,
+            "cash_flow_stability": 100,
+            "emergency_runway": 36,
+            "spending_drift": 80,
+            "debt_pressure": 84,
+            "behavior_trend": 100,
+            "credit_age": 64,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 93,
+              "weight": 0.2,
+              "weighted_points": 18.6
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 100,
+              "weight": 0.14,
+              "weighted_points": 14.0
+            },
+            "emergency_runway": {
+              "factor_score": 36,
+              "weight": 0.12,
+              "weighted_points": 4.32
+            },
+            "spending_drift": {
+              "factor_score": 80,
+              "weight": 0.1,
+              "weighted_points": 8.0
+            },
+            "debt_pressure": {
+              "factor_score": 84,
+              "weight": 0.09,
+              "weighted_points": 7.56
+            },
+            "behavior_trend": {
+              "factor_score": 100,
+              "weight": 0.07,
+              "weighted_points": 7.0
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Cash Flow Stability",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "add_emergency_savings": {
+        "updated_trust_score": 760,
+        "score_delta": 6,
+        "changed_factors": [
+          "emergency_runway"
+        ],
+        "explanation": "Adding $500 to emergency savings improves runway and reduces stress risk.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 760,
+          "factor_scores": {
+            "payment_consistency": 93,
+            "utilization_control": 96,
+            "cash_flow_stability": 97,
+            "emergency_runway": 44,
+            "spending_drift": 80,
+            "debt_pressure": 83,
+            "behavior_trend": 79,
+            "credit_age": 64,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 93,
+              "weight": 0.2,
+              "weighted_points": 18.6
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 97,
+              "weight": 0.14,
+              "weighted_points": 13.58
+            },
+            "emergency_runway": {
+              "factor_score": 44,
+              "weight": 0.12,
+              "weighted_points": 5.28
+            },
+            "spending_drift": {
+              "factor_score": 80,
+              "weight": 0.1,
+              "weighted_points": 8.0
+            },
+            "debt_pressure": {
+              "factor_score": 83,
+              "weight": 0.09,
+              "weighted_points": 7.47
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Recent Inquiries",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "missed_payment": {
+        "updated_trust_score": 748,
+        "score_delta": -6,
+        "changed_factors": [
+          "payment_consistency"
+        ],
+        "explanation": "A missed payment materially weakens payment consistency, the highest-weighted LOLO demo factor.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 748,
+          "factor_scores": {
+            "payment_consistency": 87,
+            "utilization_control": 96,
+            "cash_flow_stability": 97,
+            "emergency_runway": 36,
+            "spending_drift": 80,
+            "debt_pressure": 83,
+            "behavior_trend": 79,
+            "credit_age": 64,
+            "recent_inquiries": 100
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 87,
+              "weight": 0.2,
+              "weighted_points": 17.4
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 97,
+              "weight": 0.14,
+              "weighted_points": 13.58
+            },
+            "emergency_runway": {
+              "factor_score": 36,
+              "weight": 0.12,
+              "weighted_points": 4.32
+            },
+            "spending_drift": {
+              "factor_score": 80,
+              "weight": 0.1,
+              "weighted_points": 8.0
+            },
+            "debt_pressure": {
+              "factor_score": 83,
+              "weight": 0.09,
+              "weighted_points": 7.47
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 100,
+              "weight": 0.04,
+              "weighted_points": 4.0
+            }
+          },
+          "what_changed_this_month": [
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Recent Inquiries",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      },
+      "new_credit_inquiry": {
+        "updated_trust_score": 750,
+        "score_delta": -4,
+        "changed_factors": [
+          "recent_inquiries"
+        ],
+        "explanation": "A new credit inquiry lowers the recent-inquiries factor, especially for thin or newer credit files.",
+        "score_result": {
+          "user_id": "responsible-low-income",
+          "trust_score": 750,
+          "factor_scores": {
+            "payment_consistency": 93,
+            "utilization_control": 96,
+            "cash_flow_stability": 97,
+            "emergency_runway": 36,
+            "spending_drift": 80,
+            "debt_pressure": 83,
+            "behavior_trend": 79,
+            "credit_age": 64,
+            "recent_inquiries": 78
+          },
+          "weighted_breakdown": {
+            "payment_consistency": {
+              "factor_score": 93,
+              "weight": 0.2,
+              "weighted_points": 18.6
+            },
+            "utilization_control": {
+              "factor_score": 96,
+              "weight": 0.18,
+              "weighted_points": 17.28
+            },
+            "cash_flow_stability": {
+              "factor_score": 97,
+              "weight": 0.14,
+              "weighted_points": 13.58
+            },
+            "emergency_runway": {
+              "factor_score": 36,
+              "weight": 0.12,
+              "weighted_points": 4.32
+            },
+            "spending_drift": {
+              "factor_score": 80,
+              "weight": 0.1,
+              "weighted_points": 8.0
+            },
+            "debt_pressure": {
+              "factor_score": 83,
+              "weight": 0.09,
+              "weighted_points": 7.47
+            },
+            "behavior_trend": {
+              "factor_score": 79,
+              "weight": 0.07,
+              "weighted_points": 5.53
+            },
+            "credit_age": {
+              "factor_score": 64,
+              "weight": 0.06,
+              "weighted_points": 3.84
+            },
+            "recent_inquiries": {
+              "factor_score": 78,
+              "weight": 0.04,
+              "weighted_points": 3.12
+            }
+          },
+          "what_changed_this_month": [
+            "Savings contribution increased this month."
+          ],
+          "top_risk": "Emergency Runway",
+          "top_strength": "Cash Flow Stability",
+          "possible_upside_this_month": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          },
+          "disclaimer": "LOLO Trust Score is a demo educational score for product prototyping. It is not a real credit score, FICO score, VantageScore, underwriting model, or financial advice."
+        }
+      }
+    }
+  },
+  "dashboard_ready_data": [
+    {
+      "user_id": "immigrant-thin-file",
+      "display_name": "Mina A.",
+      "persona": "Recent immigrant with thin credit file",
+      "trust_score": 649,
+      "top_risk": "Credit Age",
+      "top_strength": "Payment Consistency",
+      "monthly_cash_flow": 1020,
+      "utilization_percent": 42.0,
+      "emergency_runway_months": 0.6,
+      "spending_drift_percent": 42.7,
+      "next_best_action": {
+        "title": "Pay $120 toward Secured Builder Visa",
+        "explanation": "This could bring Secured Builder Visa below 30% utilization before the next statement reports.",
+        "estimated_impact": "+8 to +22 LOLO Trust Score points in the demo model",
+        "difficulty": "Medium",
+        "urgency": "High",
+        "category": "Credit utilization"
+      },
+      "hero_cards": [
+        {
+          "label": "Trust Score",
+          "value": 649,
+          "detail": {
+            "points": 26,
+            "action": "Pay $120 toward Secured Builder Visa before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          }
+        },
+        {
+          "label": "Cash Flow",
+          "value": 1020,
+          "detail": "Income minus fixed, variable, and debt payments"
+        },
+        {
+          "label": "Utilization",
+          "value": 42.0,
+          "detail": "Highest card pressure: Secured Builder Visa"
+        },
+        {
+          "label": "Runway",
+          "value": 0.6,
+          "detail": "Estimated essential-expense months covered"
+        }
+      ]
+    },
+    {
+      "user_id": "college-builder",
+      "display_name": "Jordan P.",
+      "persona": "College student building credit",
+      "trust_score": 669,
+      "top_risk": "Emergency Runway",
+      "top_strength": "Payment Consistency",
+      "monthly_cash_flow": 75,
+      "utilization_percent": 28.9,
+      "emergency_runway_months": 0.6,
+      "spending_drift_percent": 15.3,
+      "next_best_action": {
+        "title": "Reduce dining spend by $40",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      "hero_cards": [
+        {
+          "label": "Trust Score",
+          "value": 669,
+          "detail": {
+            "points": 22,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          }
+        },
+        {
+          "label": "Cash Flow",
+          "value": 75,
+          "detail": "Income minus fixed, variable, and debt payments"
+        },
+        {
+          "label": "Utilization",
+          "value": 28.9,
+          "detail": "Highest card pressure: Student Rewards Card"
+        },
+        {
+          "label": "Runway",
+          "value": 0.6,
+          "detail": "Estimated essential-expense months covered"
+        }
+      ]
+    },
+    {
+      "user_id": "early-pro-high-util",
+      "display_name": "Ava R.",
+      "persona": "Early professional with stable income but high utilization",
+      "trust_score": 696,
+      "top_risk": "Credit Age",
+      "top_strength": "Payment Consistency",
+      "monthly_cash_flow": 676,
+      "utilization_percent": 33.8,
+      "emergency_runway_months": 2.3,
+      "spending_drift_percent": 12.1,
+      "next_best_action": {
+        "title": "Pay $320 toward SavorOne Starter Rewards",
+        "explanation": "This could bring SavorOne Starter Rewards below 30% utilization before the next statement reports.",
+        "estimated_impact": "+8 to +22 LOLO Trust Score points in the demo model",
+        "difficulty": "Medium",
+        "urgency": "High",
+        "category": "Credit utilization"
+      },
+      "hero_cards": [
+        {
+          "label": "Trust Score",
+          "value": 696,
+          "detail": {
+            "points": 17,
+            "action": "Pay $320 toward SavorOne Starter Rewards before statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          }
+        },
+        {
+          "label": "Cash Flow",
+          "value": 676,
+          "detail": "Income minus fixed, variable, and debt payments"
+        },
+        {
+          "label": "Utilization",
+          "value": 33.8,
+          "detail": "Highest card pressure: SavorOne Starter Rewards"
+        },
+        {
+          "label": "Runway",
+          "value": 2.3,
+          "detail": "Estimated essential-expense months covered"
+        }
+      ]
+    },
+    {
+      "user_id": "high-earner-drift",
+      "display_name": "Nia C.",
+      "persona": "High earner with spending drift",
+      "trust_score": 717,
+      "top_risk": "Behavior Trend",
+      "top_strength": "Payment Consistency",
+      "monthly_cash_flow": 420,
+      "utilization_percent": 15.7,
+      "emergency_runway_months": 4.5,
+      "spending_drift_percent": 23.8,
+      "next_best_action": {
+        "title": "Reduce dining spend by $297",
+        "explanation": "Dining is not bad. It is simply the clearest flexible category affecting runway this month.",
+        "estimated_impact": "+3 to +9 points through cash-flow stability",
+        "difficulty": "Low",
+        "urgency": "Medium",
+        "category": "Spending drift"
+      },
+      "hero_cards": [
+        {
+          "label": "Trust Score",
+          "value": 717,
+          "detail": {
+            "points": 13,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          }
+        },
+        {
+          "label": "Cash Flow",
+          "value": 420,
+          "detail": "Income minus fixed, variable, and debt payments"
+        },
+        {
+          "label": "Utilization",
+          "value": 15.7,
+          "detail": "Highest card pressure: Premium Travel Card"
+        },
+        {
+          "label": "Runway",
+          "value": 4.5,
+          "detail": "Estimated essential-expense months covered"
+        }
+      ]
+    },
+    {
+      "user_id": "responsible-low-income",
+      "display_name": "Sam T.",
+      "persona": "Responsible user with low income",
+      "trust_score": 754,
+      "top_risk": "Emergency Runway",
+      "top_strength": "Recent Inquiries",
+      "monthly_cash_flow": 495,
+      "utilization_percent": 6.7,
+      "emergency_runway_months": 1.5,
+      "spending_drift_percent": 1.9,
+      "next_best_action": {
+        "title": "Set autopay before the next due date",
+        "explanation": "Payment consistency is the highest-weighted factor in the LOLO demo score.",
+        "estimated_impact": "Protects up to 20% of weighted score",
+        "difficulty": "Low",
+        "urgency": "High",
+        "category": "Payment consistency"
+      },
+      "hero_cards": [
+        {
+          "label": "Trust Score",
+          "value": 754,
+          "detail": {
+            "points": 4,
+            "action": "Keep balances low through statement close",
+            "reason": "Upside is based on utilization and cash-flow factors in the demo model."
+          }
+        },
+        {
+          "label": "Cash Flow",
+          "value": 495,
+          "detail": "Income minus fixed, variable, and debt payments"
+        },
+        {
+          "label": "Utilization",
+          "value": 6.7,
+          "detail": "Highest card pressure: Local Credit Union Card"
+        },
+        {
+          "label": "Runway",
+          "value": 1.5,
+          "detail": "Estimated essential-expense months covered"
+        }
+      ]
+    }
+  ]
+}

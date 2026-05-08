@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
+import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { PressableScale } from '../components/PressableScale';
 import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
 import { journalPosts, journalThemes, monthlyReviews } from '../data/financeMvp';
+import { useProfile } from '../context/ProfileContext';
 import { colors, radii, spacing, typography } from '../theme';
 
 type JournalPost = (typeof journalPosts)[number];
 type MonthlyReview = (typeof monthlyReviews)[number];
 
 export const RoadmapScreen = () => {
+  const { selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
   const [selected, setSelected] = useState<JournalPost | null>(null);
   const [selectedReview, setSelectedReview] = useState<MonthlyReview | null>(null);
 
@@ -20,6 +23,7 @@ export const RoadmapScreen = () => {
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
         <BrandHeader title="Money Journal" subtitle="Milestones, monthly reviews, and honest financial reflections." />
+        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
 
         <Card glow>
           <SectionHeader
@@ -35,6 +39,19 @@ export const RoadmapScreen = () => {
         </Card>
 
         <SectionHeader title="Monthly reviews" subtitle="Private progress cards that turn financial growth into memory." />
+        <Card style={styles.engineReviewCard}>
+          <View style={styles.reviewTop}>
+            <View style={styles.reviewCopy}>
+              <Text style={styles.reviewMonth}>Engine review</Text>
+              <Text style={styles.reviewTitle}>{selectedDemoUser.label}: Trust Score {selectedDemoUser.trustScore}</Text>
+            </View>
+            <View style={styles.ratingBadge}>
+              <Text style={styles.rating}>+{selectedDemoUser.upside.points}</Text>
+            </View>
+          </View>
+          <Text style={styles.reviewBody}>{selectedDemoUser.whatChanged.join(' ')}</Text>
+          <Text style={styles.reviewAction}>What to do next: {selectedDemoUser.upside.action}</Text>
+        </Card>
         {monthlyReviews.map((review) => (
           <PressableScale key={review.month} onPress={() => setSelectedReview(review)} pressedStyle={styles.pressed} hoveredStyle={styles.hovered}>
             <Card style={styles.reviewCard}>
@@ -130,6 +147,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#151A1D',
   },
   reviewCard: {
+    backgroundColor: colors.surfaceLight,
+  },
+  engineReviewCard: {
     backgroundColor: colors.surfaceLight,
   },
   reviewTop: {

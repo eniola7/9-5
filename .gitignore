@@ -4,6 +4,8 @@ node_modules/
 .vscode/
 *.log
 *.lock
+__pycache__/
+*.pyc
 android/
 ios/
 web-build/

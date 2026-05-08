@@ -3,63 +3,72 @@ import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { DashboardCard } from '../components/DashboardCard';
+import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { LineChartMock, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressBar } from '../components/ProgressBar';
 import { ProgressPill } from '../components/ProgressPill';
 import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
-import { creditFactors, creditGrowthSeries, creditIntelligence, paymentHistory } from '../data/financeMvp';
+import { creditGrowthSeries } from '../data/financeMvp';
+import { loloEngineDisclaimer, simulationLabels, SimulationKey } from '../data/loloDemoData';
 import { useProfile } from '../context/ProfileContext';
 import { colors, radii, spacing, typography } from '../theme';
 
 export const ProfileBuilderScreen = () => {
-  const { profile, resetDemo } = useProfile();
-  const [simulatedPayment, setSimulatedPayment] = useState(320);
+  const { profile, resetDemo, selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
+  const [selectedSimulation, setSelectedSimulation] = useState<SimulationKey>('make_payment');
   const [modalVisible, setModalVisible] = useState(false);
 
   if (!profile) return null;
 
-  const simulatedUtilization = simulatedPayment >= 500 ? 18 : simulatedPayment >= 320 ? 24 : 31;
+  const simulation = selectedDemoUser.simulations[selectedSimulation];
+  const recommended = selectedDemoUser.recommendations[0];
+  const helping = selectedDemoUser.factorBreakdown.filter((factor) => factor.value >= 80).map((factor) => `${factor.label}: ${factor.next}`);
+  const hurting = selectedDemoUser.factorBreakdown.filter((factor) => factor.value < 75).map((factor) => `${factor.label}: ${factor.next}`);
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
         <BrandHeader title="Credit Profile" subtitle="What changed, why it matters, and what to do next." showReset onReset={resetDemo} />
+        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
 
         <Card glow style={styles.hero}>
           <View style={styles.heroTop}>
             <View>
               <Text style={typography.eyebrow}>Credit Health</Text>
-              <Text style={styles.heroScore}>82</Text>
+              <Text style={styles.heroScore}>{selectedDemoUser.score.factor_scores.utilization_control}</Text>
             </View>
-            <ProgressPill label="Strengthening" status="completed" />
+            <ProgressPill label={selectedDemoUser.topStrength} status="completed" />
           </View>
           <Text style={styles.heroBody}>
-            Your credit foundation is healthy. The next unlock is timing payments before statement close so your reported balance matches your actual habits.
+            {selectedDemoUser.rawUser.persona}: utilization is {selectedDemoUser.utilizationLabel}, credit age is {selectedDemoUser.rawUser.credit_age_months} months, and the top risk is {selectedDemoUser.topRisk}.
           </Text>
           <LineChartMock values={creditGrowthSeries} />
         </Card>
 
         <View style={styles.grid}>
           <Card>
-            <SectionHeader title="Utilization simulator" subtitle={`Payment scenario: $${simulatedPayment}`} />
-            <UtilizationRing value={simulatedUtilization} afterValue={creditIntelligence.afterPayment} />
+            <SectionHeader title="Simulation from engine output" subtitle={simulationLabels[selectedSimulation]} />
+            <UtilizationRing value={selectedDemoUser.utilization} afterValue={Math.max(1, selectedDemoUser.utilization - Math.max(0, simulation.score_delta))} />
+            <Text style={styles.simDelta}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} points · score becomes {simulation.updated_trust_score}</Text>
             <View style={styles.buttonRow}>
-              {[180, 320, 500].map((amount) => (
+              {(['make_payment', 'reduce_category_spending', 'add_emergency_savings'] as SimulationKey[]).map((key) => (
                 <PrimaryButton
-                  key={amount}
-                  label={`$${amount}`}
-                  variant={simulatedPayment === amount ? 'primary' : 'ghost'}
-                  onPress={() => setSimulatedPayment(amount)}
+                  key={key}
+                  label={simulationLabels[key]}
+                  variant={selectedSimulation === key ? 'primary' : 'ghost'}
+                  onPress={() => setSelectedSimulation(key)}
                   style={styles.amountButton}
                 />
               ))}
             </View>
+            <Text style={styles.copy}>{simulation.explanation}</Text>
           </Card>
 
-          <DashboardCard title="Recommended action" value="$320" accent="before May 18" icon="NA" important>
-            <Text style={styles.copy}>{creditIntelligence.insight}</Text>
+          <DashboardCard title="Recommended action" value={recommended?.urgency ?? 'Medium'} accent={recommended?.category ?? 'Credit'} icon="NA" important>
+            <Text style={styles.copy}>{recommended?.title}</Text>
+            <Text style={styles.copy}>{recommended?.explanation}</Text>
             <PrimaryButton label="Create reminder" onPress={() => setModalVisible(true)} style={styles.cardButton} />
           </DashboardCard>
         </View>
@@ -67,7 +76,7 @@ export const ProfileBuilderScreen = () => {
         <Card>
           <SectionHeader title="Payment history" subtitle="Consistency is the strongest reputation signal." />
           <View style={styles.historyRow}>
-            {paymentHistory.map((item) => (
+            {selectedDemoUser.paymentHistory.map((item) => (
               <View key={item.month} style={styles.historyItem}>
                 <View style={styles.historyDot} />
                 <Text style={styles.historyMonth}>{item.month}</Text>
@@ -78,21 +87,22 @@ export const ProfileBuilderScreen = () => {
         </Card>
 
         <View style={styles.factorGrid}>
-          <FactorCard title="Helping your profile" items={creditFactors.helping} good />
-          <FactorCard title="Holding it back" items={creditFactors.hurting} />
+          <FactorCard title="Helping your profile" items={helping.length ? helping : [`${selectedDemoUser.topStrength}: strongest current trust signal.`]} good />
+          <FactorCard title="Holding it back" items={hurting.length ? hurting : [`${selectedDemoUser.topRisk}: watch this factor next.`]} />
         </View>
 
         <DashboardCard title="Credit action plan" icon="AP">
-          <ActionRow title="This week" body="Schedule $320 before statement close." />
-          <ActionRow title="This month" body="Keep new purchases under $240 until the balance reports." />
-          <ActionRow title="Next month" body="Split spend across cash/debit and the card so one product does not carry the story." />
+          {selectedDemoUser.recommendations.slice(0, 3).map((item) => (
+            <ActionRow key={item.title} title={item.category} body={`${item.title}. ${item.estimated_impact}`} />
+          ))}
+          <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
         </DashboardCard>
 
         <Modal transparent visible={modalVisible} animationType="fade">
           <View style={styles.modalOverlay}>
             <Card glow>
               <Text style={styles.modalTitle}>Reminder mocked</Text>
-              <Text style={styles.copy}>Production LOLO would create a calendar reminder or connect to bill pay after user permission.</Text>
+              <Text style={styles.copy}>Production LOLO would create a calendar reminder or connect to bill pay after user permission. Demo source: lolo-engine/sample_output.json.</Text>
               <PrimaryButton label="Close" onPress={() => setModalVisible(false)} style={styles.cardButton} />
             </Card>
           </View>
@@ -165,6 +175,17 @@ const styles = StyleSheet.create({
   copy: {
     ...typography.body,
     marginTop: spacing.md,
+  },
+  simDelta: {
+    color: colors.accent,
+    fontWeight: '900',
+    marginTop: spacing.md,
+    textAlign: 'center',
+  },
+  disclaimer: {
+    ...typography.small,
+    color: colors.textMuted,
+    marginTop: spacing.lg,
   },
   cardButton: {
     marginTop: spacing.lg,

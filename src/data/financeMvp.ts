@@ -311,20 +311,28 @@ export const scoreMovers = [
 
 export const demoSteps = [
   {
-    title: 'See your Trust Score',
-    body: 'Start with one investor-clear number that summarizes credit health, cash rhythm, runway, and behavior.',
+    title: 'Meet a demo user',
+    body: 'Start with a real-feeling profile from the Python engine: income, rent, cards, savings, subscriptions, goals, and pressure points.',
   },
   {
-    title: 'Understand what changed',
-    body: 'Open the score breakdown to see which trust signals moved this month and why.',
+    title: 'See their LOLO Trust Score',
+    body: 'One educational trust signal summarizes payment consistency, utilization control, cash flow, runway, and spending behavior.',
   },
   {
-    title: 'Simulate a credit action',
-    body: 'Adjust the payment scenario and watch reported utilization, score upside, and next action update.',
+    title: 'Understand what changed this month',
+    body: 'LOLO explains the movement: what changed, why it matters, and which behavior signal deserves attention.',
   },
   {
-    title: 'Get a Next Best Action',
-    body: 'LOLO Coach translates the behavior into one specific, calm recommendation.',
+    title: 'Simulate one action',
+    body: 'Tap an engine-generated scenario like paying a card, reducing dining, or adding emergency savings.',
+  },
+  {
+    title: 'See the score improve',
+    body: 'The prepared simulation output shows the score delta, changed factors, and a plain-English explanation.',
+  },
+  {
+    title: 'Receive an AI next-best-action',
+    body: 'LOLO Coach turns behavior into a specific action. This is the trust layer traditional credit misses.',
   },
 ];
 

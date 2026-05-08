@@ -24,7 +24,7 @@ const demoAnswers: OnboardingAnswers = {
 };
 
 const AppInner = () => {
-  const { profile, isReady, completeOnboarding } = useProfile();
+  const { profile, isReady, completeOnboarding, startSixtySecondDemo } = useProfile();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   if (!isReady) {
@@ -38,6 +38,7 @@ const AppInner = () => {
 
   const startDemo = async () => {
     await completeOnboarding(demoAnswers);
+    startSixtySecondDemo();
   };
 
   if (!profile && !showOnboarding) {

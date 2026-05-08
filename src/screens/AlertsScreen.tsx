@@ -3,63 +3,73 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { DashboardCard } from '../components/DashboardCard';
+import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { InsightCard, MiniBars } from '../components/MetricWidgets';
 import { ProgressBar } from '../components/ProgressBar';
 import { ScreenFade } from '../components/ScreenFade';
 import { SectionHeader } from '../components/SectionHeader';
-import { aiRecommendations, spendingDriftSeries, spendingInsights, subscriptions } from '../data/financeMvp';
-import { colors, radii, spacing, typography } from '../theme';
+import { spendingDriftSeries } from '../data/financeMvp';
+import { loloEngineDisclaimer } from '../data/loloDemoData';
+import { useProfile } from '../context/ProfileContext';
+import { colors, spacing, typography } from '../theme';
 
-export const AlertsScreen = () => (
-  <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-    <ScreenFade>
-      <BrandHeader title="Financial Insights" subtitle="Spending behavior, cash pressure, and stress forecast." />
+export const AlertsScreen = () => {
+  const { selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
+  const drift = selectedDemoUser.spendingDriftPercent;
+
+  return (
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <ScreenFade>
+        <BrandHeader title="Financial Insights" subtitle="Spending behavior, cash pressure, and stress forecast." />
+        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
 
       <Card glow style={styles.hero}>
         <Text style={styles.heroKicker}>What changed</Text>
-        <Text style={styles.heroTitle}>Discretionary spend is up 18% while savings rate is down 9%.</Text>
-        <Text style={styles.heroBody}>Why it matters: this is the exact pattern that turns a stable month into a tight one before anything looks urgent.</Text>
+        <Text style={styles.heroTitle}>{selectedDemoUser.label}: spending drift is {drift >= 0 ? 'up' : 'down'} {Math.abs(drift)}%.</Text>
+        <Text style={styles.heroBody}>Why it matters: this signal comes from the Python engine and connects behavior changes to cash-flow stability and runway.</Text>
         <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
       </Card>
 
-      {spendingInsights.map((insight, index) => (
+      {selectedDemoUser.whatChanged.map((change, index) => (
         <DashboardCard
-          key={insight.title}
-          title={insight.title}
-          value={insight.tone}
-          subtitle={insight.body}
+          key={change}
+          title={index === 0 ? 'Engine signal' : `Behavior signal ${index + 1}`}
+          value={index === 0 ? selectedDemoUser.topRisk : 'Pattern'}
+          subtitle={change}
           icon={index === 0 ? 'LD' : index === 1 ? 'SF' : 'DT'}
-          important={index === 1}
+          important={index === 0}
         />
       ))}
 
-      <DashboardCard title="Stress forecast" value="2.7 mo" accent="runway" icon="SF">
-        <ProgressBar label="Coverage after July pressure" value={58} height={12} />
-        <Text style={styles.copy}>What to do next: set a $160 weekly flex cap and move $240 into buffer before June 1.</Text>
+      <DashboardCard title="Stress forecast" value={selectedDemoUser.runwayLabel} accent={selectedDemoUser.topRisk} icon="SF">
+        <ProgressBar label="Emergency runway coverage" value={Math.min(100, selectedDemoUser.runwayMonths * 25)} height={12} />
+        <Text style={styles.copy}>What to do next: {selectedDemoUser.upside.action}</Text>
       </DashboardCard>
 
       <Card>
         <SectionHeader title="Recurring subscriptions" subtitle="Small charges kept visible enough to act on." />
-        {subscriptions.map((subscription) => (
+        {selectedDemoUser.subscriptions.map((subscription) => (
           <View key={subscription.name} style={styles.subscriptionRow}>
             <View style={styles.subscriptionCopy}>
               <Text style={styles.subscriptionName}>{subscription.name}</Text>
-              <Text style={styles.subscriptionMeta}>{subscription.cadence} · {subscription.note}</Text>
+              <Text style={styles.subscriptionMeta}>Monthly recurring charge</Text>
             </View>
-            <Text style={styles.subscriptionAmount}>{subscription.amount}</Text>
+            <Text style={styles.subscriptionAmount}>${subscription.amount.toFixed(2)}</Text>
           </View>
         ))}
       </Card>
 
       <Card style={styles.recs}>
         <SectionHeader title="What to do next" subtitle="LOLO keeps recommendations specific and humane." />
-        {aiRecommendations.slice(1).map((recommendation) => (
-          <InsightCard key={recommendation.title} {...recommendation} />
+        {selectedDemoUser.recommendations.map((recommendation) => (
+          <InsightCard key={recommendation.title} title={recommendation.title} body={recommendation.explanation} action={`${recommendation.difficulty} difficulty · ${recommendation.estimated_impact}`} />
         ))}
+        <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
       </Card>
     </ScreenFade>
   </ScrollView>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -92,6 +102,11 @@ const styles = StyleSheet.create({
   copy: {
     ...typography.body,
     marginTop: spacing.md,
+  },
+  disclaimer: {
+    ...typography.small,
+    color: colors.textMuted,
+    marginTop: spacing.lg,
   },
   subscriptionRow: {
     alignItems: 'center',
