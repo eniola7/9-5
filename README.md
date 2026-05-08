@@ -45,6 +45,7 @@ Over time, LOLO could become infrastructure for consent-based trust signals betw
 - **Financial Insights:** spending drift, emergency runway, subscriptions, and recommended actions.
 - **AI Coach:** suggested prompts and responses based on selected demo-user data.
 - **Money Journal:** monthly reviews and reflection cards for financial milestones.
+- **Demo presentation page:** lightweight explainer page for users, advisors, and investor conversations.
 - **Python engine:** local prototype engine for demo users, scoring, recommendations, simulations, and JSON export.
 
 ## Demo Flow
@@ -161,6 +162,19 @@ npm run build
 
 `npm run build` exports the Expo web build through `npm run build:web`.
 
+## Demo Presentation Page
+
+The landing page includes **Read demo brief**, a lightweight in-app presentation page covering:
+
+- The problem
+- Why traditional credit is incomplete
+- What LOLO measures
+- How the Trust Score works
+- Why behavioral trust matters
+- Example user journeys
+- Founder story
+- CTA to launch the 60-second demo
+
 ## Deployment Notes
 
 Future deployment options:
@@ -171,6 +185,17 @@ Future deployment options:
 - **EAS Build:** create installable iOS/Android builds later when the mobile experience stabilizes.
 
 The current project is not configured with production environment variables or backend services.
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for build settings for Vercel, Netlify, Expo web, Expo Go, and future EAS builds.
+
+## What Is Next
+
+- Plaid integration
+- Real-time financial insights
+- Lender and rental partner conversations
+- Personalized financial coaching
+- Alternative trust underwriting research
+- Consent-based trust profile sharing
 
 ## Current Status
 

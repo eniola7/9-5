@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { BottomTabs } from './src/navigation/BottomTabs';
+import { DemoPresentationScreen } from './src/screens/DemoPresentationScreen';
 import { LandingScreen } from './src/screens/LandingScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { ProfileProvider, useProfile } from './src/context/ProfileContext';
@@ -26,6 +27,7 @@ const demoAnswers: OnboardingAnswers = {
 const AppInner = () => {
   const { profile, isReady, completeOnboarding, startSixtySecondDemo } = useProfile();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showPresentation, setShowPresentation] = useState(false);
 
   if (!isReady) {
     return (
@@ -41,8 +43,12 @@ const AppInner = () => {
     startSixtySecondDemo();
   };
 
+  if (!profile && showPresentation) {
+    return <DemoPresentationScreen onLaunchDemo={startDemo} onBack={() => setShowPresentation(false)} />;
+  }
+
   if (!profile && !showOnboarding) {
-    return <LandingScreen onStart={() => setShowOnboarding(true)} onDemo={startDemo} />;
+    return <LandingScreen onStart={() => setShowOnboarding(true)} onDemo={startDemo} onPresentation={() => setShowPresentation(true)} />;
   }
 
   if (!profile) {

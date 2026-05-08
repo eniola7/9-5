@@ -12,6 +12,7 @@ import { colors, radii, shadows, spacing, typography } from '../theme';
 interface LandingScreenProps {
   onStart: () => void;
   onDemo: () => void;
+  onPresentation: () => void;
 }
 
 const featureSections = [
@@ -30,7 +31,7 @@ const whyMatters = [
   ['Families building stability', 'Progress can be slow and responsible; the system should make that visible.'],
 ];
 
-export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
+export const LandingScreen = ({ onStart, onDemo, onPresentation }: LandingScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
     <View style={styles.nav}>
       <View>
@@ -53,6 +54,7 @@ export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
         <View style={styles.ctaRow}>
           <PrimaryButton label="Start building trust" onPress={onStart} style={styles.cta} />
           <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} />
+          <PrimaryButton label="Read demo brief" variant="ghost" onPress={onPresentation} />
         </View>
         <View style={styles.trustRow}>
           {['Read-only data', 'No score impact', 'Encrypted by default'].map((item) => (
@@ -162,6 +164,7 @@ export const LandingScreen = ({ onStart, onDemo }: LandingScreenProps) => (
       <Text style={styles.finalBody}>A premium fintech prototype for credit growth, financial trust, AI guidance, and reflective money habits.</Text>
       <PrimaryButton label="Start building trust" onPress={onStart} style={styles.finalButton} />
       <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} style={styles.demoButton} />
+      <PrimaryButton label="Open demo presentation" variant="ghost" onPress={onPresentation} style={styles.demoButton} />
     </Card>
 
     <View style={styles.footer}>
