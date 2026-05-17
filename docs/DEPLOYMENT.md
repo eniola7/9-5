@@ -56,7 +56,7 @@ Before using a custom domain:
 
 - Add final screenshots to `docs/assets/screenshots`
 - Confirm README and public copy are current
-- Confirm the Trust Score disclaimer is visible in the product
+- Confirm the Money Momentum disclaimer is visible in the product
 - Confirm no real user data or private keys are included
 - Run `npm run typecheck` and `npm run build`
 

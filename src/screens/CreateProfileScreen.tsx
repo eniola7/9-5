@@ -17,7 +17,7 @@ export const CreateProfileScreen = ({ userId, email, name, onComplete }: CreateP
   const [preferredName, setPreferredName] = useState(name.split(' ')[0] || 'Ava');
   const [city, setCity] = useState('Arlington, VA');
   const [incomeRhythm, setIncomeRhythm] = useState<IncomeRhythm>('biweekly');
-  const [topMoneyGoal, setTopMoneyGoal] = useState('Lower utilization and build trust');
+  const [topMoneyGoal, setTopMoneyGoal] = useState('Lower utilization and feel more stable');
   const [creditStage, setCreditStage] = useState<CreditStage>('building');
   const [financialStressLevel, setFinancialStressLevel] = useState<StressLevel>('medium');
   const [primaryReason, setPrimaryReason] = useState('I want my financial habits to be easier to understand.');
@@ -39,7 +39,7 @@ export const CreateProfileScreen = ({ userId, email, name, onComplete }: CreateP
       financialStressLevel,
       primaryReason,
       avatarInitials,
-      badges: ['Trust profile created', 'Demo user', 'Privacy-first setup'],
+      badges: ['Clarity profile created', 'Demo user', 'Privacy-first setup'],
       privacySettings: {
         demoMode: true,
         allowInsights: true,
@@ -55,7 +55,7 @@ export const CreateProfileScreen = ({ userId, email, name, onComplete }: CreateP
       <Card glow>
         <Logo />
         <Text style={styles.title}>Create your LOLO profile</Text>
-        <Text style={styles.copy}>This demo profile shapes the dashboard, AI Coach, journal, and trust narrative. No real financial data is connected.</Text>
+        <Text style={styles.copy}>This demo profile shapes the dashboard, AI Coach, journal, and clarity narrative. No real financial data is connected.</Text>
       </Card>
 
       <Card>

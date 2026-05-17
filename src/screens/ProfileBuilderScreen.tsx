@@ -51,7 +51,7 @@ export const ProfileBuilderScreen = () => {
           <Card>
             <SectionHeader title="Simulation from engine output" subtitle={simulationLabels[selectedSimulation]} />
             <UtilizationRing value={selectedDemoUser.utilization} afterValue={Math.max(1, selectedDemoUser.utilization - Math.max(0, simulation.score_delta))} />
-            <Text style={styles.simDelta}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} points · score becomes {simulation.updated_trust_score}</Text>
+            <Text style={styles.simDelta}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} Money Momentum points · new signal {simulation.updated_trust_score}</Text>
             <View style={styles.buttonRow}>
               {(['make_payment', 'reduce_category_spending', 'add_emergency_savings'] as SimulationKey[]).map((key) => (
                 <PrimaryButton
@@ -87,7 +87,7 @@ export const ProfileBuilderScreen = () => {
         </Card>
 
         <View style={styles.factorGrid}>
-          <FactorCard title="Helping your profile" items={helping.length ? helping : [`${selectedDemoUser.topStrength}: strongest current trust signal.`]} good />
+          <FactorCard title="Helping your profile" items={helping.length ? helping : [`${selectedDemoUser.topStrength}: strongest current stability signal.`]} good />
           <FactorCard title="Holding it back" items={hurting.length ? hurting : [`${selectedDemoUser.topRisk}: watch this factor next.`]} />
         </View>
 

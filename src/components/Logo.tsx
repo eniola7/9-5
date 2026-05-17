@@ -14,7 +14,7 @@ export const Logo = ({ compact }: LogoProps) => (
     {!compact ? (
       <View>
         <Text style={styles.wordmark}>LOLO</Text>
-        <Text style={styles.tagline}>Trust OS</Text>
+        <Text style={styles.tagline}>Clarity OS</Text>
       </View>
     ) : null}
   </View>

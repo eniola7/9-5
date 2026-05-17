@@ -18,7 +18,7 @@ export const UserProfileScreen = () => {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
-        <BrandHeader title="Profile" subtitle="Your LOLO trust profile and preferences." />
+        <BrandHeader title="Profile" subtitle="Your LOLO clarity profile and preferences." />
         <Card glow style={styles.hero}>
           <View style={styles.heroRow}>
             <View style={styles.avatar}>
@@ -30,7 +30,7 @@ export const UserProfileScreen = () => {
             </View>
           </View>
           <Text style={styles.summary}>
-            {profile?.primaryReason ?? 'This profile uses demo data to show how LOLO could summarize financial habits, trust signals, and next-best actions.'}
+            {profile?.primaryReason ?? 'This profile uses demo data to show how LOLO could summarize financial habits, stability signals, and next-best actions.'}
           </Text>
         </Card>
 
@@ -38,13 +38,13 @@ export const UserProfileScreen = () => {
           <DashboardCard title="Top money goal" value={profile?.topMoneyGoal ?? selectedDemoUser.goals[0]} icon="GO" />
           <DashboardCard title="Credit stage" value={profile?.creditStage ?? 'building'} icon="CR" />
           <DashboardCard title="Income rhythm" value={profile?.incomeRhythm ?? 'demo'} icon="IR" />
-          <DashboardCard title="Health summary" value={`${selectedDemoUser.trustScore}`} subtitle={`${selectedDemoUser.topStrength} is strongest. Watch ${selectedDemoUser.topRisk}.`} icon="HS" important />
+          <DashboardCard title="Money Momentum" value={`${selectedDemoUser.trustScore}`} subtitle={`${selectedDemoUser.topStrength} is strongest. Watch ${selectedDemoUser.topRisk}.`} icon="MM" important />
         </View>
 
         <Card>
           <SectionHeader title="Badges and milestones" subtitle="Private progress signals, not public flexing." />
           <View style={styles.badges}>
-            {(profile?.badges ?? ['Trust profile created', 'Engine demo connected', 'AI insight viewed']).map((badge) => (
+            {(profile?.badges ?? ['Clarity profile created', 'Engine demo connected', 'AI insight viewed']).map((badge) => (
               <Text key={badge} style={styles.badge}>{badge}</Text>
             ))}
           </View>
@@ -65,7 +65,7 @@ export const UserProfileScreen = () => {
         </Card>
 
         <Card style={styles.privacy}>
-          <SectionHeader title="Privacy settings" subtitle="Prototype defaults for a privacy-first financial trust product." />
+          <SectionHeader title="Privacy settings" subtitle="Prototype defaults for a privacy-first financial clarity product." />
           <Text style={styles.privacyLine}>Demo mode: on</Text>
           <Text style={styles.privacyLine}>Partner sharing: off by default</Text>
           <Text style={styles.privacyLine}>Financial integrations: user-consent required in future</Text>

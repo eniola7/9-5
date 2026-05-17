@@ -9,7 +9,7 @@ interface TrustScoreCardProps {
   label?: string;
 }
 
-export const TrustScoreCard = ({ score, delta = '+18 this month', label = 'Personal Trust Score' }: TrustScoreCardProps) => {
+export const TrustScoreCard = ({ score, delta = '+18 this month', label = 'Money Momentum' }: TrustScoreCardProps) => {
   const animated = useRef(new Animated.Value(score - 42)).current;
   const glow = useRef(new Animated.Value(0)).current;
   const [displayScore, setDisplayScore] = useState(score);
@@ -40,7 +40,7 @@ export const TrustScoreCard = ({ score, delta = '+18 this month', label = 'Perso
       <View style={styles.top}>
         <View>
           <Text style={typography.eyebrow}>{label}</Text>
-          <Text style={styles.caption}>Built from credit health, cash rhythm, runway, and consistency.</Text>
+          <Text style={styles.caption}>Built from credit health, cash rhythm, runway, spending behavior, and consistency.</Text>
         </View>
         <Text style={styles.delta}>{delta}</Text>
       </View>
@@ -51,7 +51,7 @@ export const TrustScoreCard = ({ score, delta = '+18 this month', label = 'Perso
           <Text style={styles.statusValue}>Strengthening</Text>
         </View>
       </View>
-      <ProgressBar label="Trust trajectory" value={86} height={12} />
+      <ProgressBar label="Stability trajectory" value={86} height={12} />
     </View>
   );
 };

@@ -9,9 +9,9 @@ export const operatingMetrics = [
   },
   {
     title: 'Spending trend',
-    value: '+8%',
-    accent: 'vs last month',
-    subtitle: 'Food, rideshare, and convenience purchases are carrying most of the increase.',
+    value: '+18%',
+    accent: '3-month drift',
+    subtitle: 'Dining, rideshare, and convenience spending rose after the move and longer commute.',
     icon: 'ST',
   },
   {
@@ -57,12 +57,12 @@ export const subscriptions = [
 export const spendingInsights = [
   {
     title: 'Lifestyle drift alert',
-    body: 'Your discretionary spending is up 18% over the last 3 months while savings rate is down 9%.',
+    body: 'Your dining and convenience spending rose 18% over 3 months while savings rate slipped 9%.',
     tone: 'Watch',
   },
   {
     title: 'Future stress prediction',
-    body: 'If the current pace holds, your buffer dips below 2 months in late July after travel and insurance renewals.',
+    body: 'At your current pace, your savings buffer may dip below 2 months in August after travel and insurance renewals.',
     tone: 'Forecast',
   },
   {
@@ -103,7 +103,15 @@ export const journalPosts = [
   },
 ];
 
-export const journalThemes = ['building credit', 'moving cities', 'debt payoff', 'first apartment', 'emergency fund'];
+export const journalThemes = [
+  'building credit',
+  'moving cities',
+  'debt payoff',
+  'first apartment',
+  'emergency fund',
+  'subscription creep',
+  'commuting costs',
+];
 
 export const productReviews = [
   {
@@ -161,10 +169,10 @@ export const roadmapItems = [
 
 export const trustPillars = [
   {
-    title: 'Trust Score',
+    title: 'Money Momentum',
     value: '742',
     change: '+18',
-    why: 'Your on-time rhythm, lower balance risk, and stronger cash buffer are moving the profile up.',
+    why: 'Your on-time rhythm, lower balance risk, and stronger cash buffer are moving the profile in the right direction.',
     next: 'Protect the next statement close window.',
   },
   {
@@ -230,8 +238,8 @@ export const aiRecommendations = [
     action: 'Schedule payment',
   },
   {
-    title: 'Keep June from feeling tight',
-    body: 'Dining and rideshare are not the problem alone. The pattern is convenience spending after long workdays.',
+    title: 'Keep August from feeling tight',
+    body: 'Dining and rideshare are not the problem alone. The pattern is convenience spending after long workdays and longer commuting.',
     action: 'Set flex cap',
   },
   {
@@ -297,11 +305,11 @@ export const scoreBreakdown = [
 export const scoreMovers = [
   {
     title: 'What changed',
-    body: 'Trust Score moved from 724 to 742 because bill timing improved, emergency runway held above two months, and payment history stayed clean.',
+    body: 'Money Momentum moved from 724 to 742 because bill timing improved, emergency runway held above two months, and payment history stayed clean.',
   },
   {
     title: 'Why it matters',
-    body: 'Traditional credit scoring sees balances and payments. LOLO adds behavioral context: consistency, cash rhythm, pressure timing, and follow-through.',
+    body: 'Traditional credit scoring sees balances and payments. LOLO adds context: consistency, cash rhythm, pressure timing, and follow-through.',
   },
   {
     title: 'Upside preview',
@@ -311,33 +319,49 @@ export const scoreMovers = [
 
 export const demoSteps = [
   {
-    title: 'Meet a demo user',
-    body: 'Start with a real-feeling profile from the Python engine: income, rent, cards, savings, subscriptions, goals, and pressure points.',
+    title: 'Create a profile',
+    body: 'Start with a real-feeling young professional: income, rent, credit cards, savings, subscriptions, goals, and the pressure points that shape daily decisions.',
   },
   {
-    title: 'See their LOLO Trust Score',
-    body: 'One educational trust signal summarizes payment consistency, utilization control, cash flow, runway, and spending behavior.',
+    title: 'See a financial snapshot',
+    body: 'LOLO turns cash flow, credit utilization, runway, subscriptions, and spending drift into one calm snapshot.',
   },
   {
-    title: 'Understand what changed this month',
-    body: 'LOLO explains the movement: what changed, why it matters, and which behavior signal deserves attention.',
+    title: 'Get one useful insight',
+    body: 'Instead of a pile of charts, LOLO explains what changed, why it matters, and the one behavior signal worth attention.',
   },
   {
-    title: 'Simulate one action',
-    body: 'Tap an engine-generated scenario like paying a card, reducing dining, or adding emergency savings.',
+    title: 'Understand credit and spending risk',
+    body: 'See how statement timing, utilization, subscription creep, and commuting costs can make a stable month feel tight.',
   },
   {
-    title: 'See the score improve',
-    body: 'The prepared simulation output shows the score delta, changed factors, and a plain-English explanation.',
+    title: 'Forecast future stress',
+    body: 'LOLO shows when the savings buffer could dip below a safer range, before the month becomes reactive.',
   },
   {
-    title: 'Receive an AI next-best-action',
-    body: 'LOLO Coach turns behavior into a specific action. This is the trust layer traditional credit misses.',
+    title: 'Reflect in the money journal',
+    body: 'Save the moment: paying off a first card, moving cities, catching subscription creep, or building a 3-month emergency fund.',
+  },
+  {
+    title: 'Take the next best action',
+    body: 'LOLO Coach turns the pattern into a specific, doable next step without shame, noise, or fake urgency.',
   },
 ];
 
 export const demoMetrics = [
   { value: '3.2 mo', label: 'faster to healthier utilization' },
   { value: '42%', label: 'clearer monthly decisions' },
-  { value: '5', label: 'trust signals tracked' },
+  { value: '5', label: 'behavior signals tracked' },
 ];
+
+export const trustSignals = [
+  'Read-only insights',
+  'No score impact',
+  'No money movement',
+  'Clear data controls',
+  'Prototype demo data',
+  'Not financial advice',
+];
+
+export const founderStory =
+  'LOLO was inspired by the quiet stress young professionals carry around credit, rent, spending, expensive cities, and trying to build stability without a clear map. The product starts with a simple idea: people deserve financial tools that explain their situation with care, context, and useful next steps.';

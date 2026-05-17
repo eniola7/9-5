@@ -8,7 +8,7 @@ LOLO is currently frontend-only and uses demo JSON. MongoDB support is scaffolde
 - `profiles`: onboarding responses, goals, credit stage, stress level, privacy preferences
 - `journal_entries`: user reflections, milestones, monthly reviews
 - `product_reviews`: credit card, bank, method, housing, city, and car decision reviews
-- `financial_snapshots`: educational Trust Score snapshots and derived financial summaries
+- `financial_snapshots`: educational Money Momentum snapshots and derived financial summaries
 - `user_preferences`: notification, privacy, community, and partner-sharing preferences
 
 ## Environment Variables

@@ -7,7 +7,7 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
 import { ProgressBar } from '../components/ProgressBar';
 import { SectionHeader } from '../components/SectionHeader';
-import { aiRecommendations, creditGrowthSeries, demoMetrics, roadmapItems, spendingDriftSeries, trustPillars } from '../data/financeMvp';
+import { aiRecommendations, creditGrowthSeries, demoMetrics, founderStory, roadmapItems, spendingDriftSeries, trustPillars, trustSignals } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
 interface LandingScreenProps {
@@ -18,18 +18,18 @@ interface LandingScreenProps {
 }
 
 const featureSections = [
-  ['Trust Score', 'A single calm read on credit habits, cash rhythm, runway, and financial consistency.'],
-  ['AI insights', 'Personal recommendations that explain what changed, why it matters, and what to do next.'],
-  ['Credit growth', 'Statement timing, utilization, payment history, and score movement in one readable profile.'],
-  ['Spending drift', 'Behavioral analytics that catch pressure before it turns into a stressful month.'],
-  ['Financial journal', 'Private reflections, monthly reviews, and tasteful social proof without net-worth flexing.'],
+  ['Financial snapshot', 'A calm read on cash flow, credit utilization, subscriptions, runway, and spending pressure.'],
+  ['Money Momentum', 'An educational signal that shows whether daily habits are making life feel steadier or tighter.'],
+  ['Credit clarity', 'Statement timing, utilization, payment history, and payment actions in one readable profile.'],
+  ['Spending drift', 'Behavioral analytics that catch subscription creep and convenience spending before they become stress.'],
+  ['Money journal', 'Private reflections, monthly reviews, and tasteful social proof without net-worth flexing.'],
 ];
 
 const whyMatters = [
   ['Immigrants with thin files', 'A stable job, rent payments, and careful habits can exist before a traditional credit file catches up.'],
   ['Students building credit', 'Early habits matter, but most tools explain credit only after mistakes become expensive.'],
   ['Early professionals with high utilization', 'A strong income can still look risky if statement timing tells the wrong story.'],
-  ['Renters proving reliability', 'LOLO turns payment consistency and runway into a clearer trust narrative for housing moments.'],
+  ['Renters proving reliability', 'LOLO turns payment consistency and runway into a clearer stability narrative for housing moments.'],
   ['Families building stability', 'Progress can be slow and responsible; the system should make that visible.'],
 ];
 
@@ -39,18 +39,18 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
 
     <View style={styles.hero}>
       <View style={styles.heroCopy}>
-        <Text style={typography.eyebrow}>Apple Wallet for credit growth. Linear for financial clarity.</Text>
-        <Text style={styles.headline}>The modern operating system for personal financial trust.</Text>
+        <Text style={typography.eyebrow}>A calm financial operating system for young professionals</Text>
+        <Text style={styles.headline}>Financial clarity for people building real lives.</Text>
         <Text style={styles.subheadline}>
-          LOLO helps young adults build financial trust before banks fully understand them, turning credit habits, cash rhythm, and financial behavior into clear next steps.
+          Money is stressful enough. LOLO helps you see where you stand, where you are heading, and what small action would make next month feel more stable.
         </Text>
         <View style={styles.ctaRow}>
-          <PrimaryButton label="Start building trust" onPress={onStart} style={styles.cta} />
+          <PrimaryButton label="Start with clarity" onPress={onStart} style={styles.cta} />
           <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} />
           <PrimaryButton label="Read demo brief" variant="ghost" onPress={onPresentation} />
         </View>
         <View style={styles.trustRow}>
-          {['Read-only data', 'No score impact', 'Encrypted by default'].map((item) => (
+          {trustSignals.slice(0, 4).map((item) => (
             <Text key={item} style={styles.trustChip}>{item}</Text>
           ))}
         </View>
@@ -59,12 +59,12 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       <Card glow style={styles.mockup}>
         <View style={styles.mockTop}>
           <View>
-            <Text style={styles.mockLabel}>Trust Score</Text>
+            <Text style={styles.mockLabel}>Money Momentum</Text>
             <Text style={styles.mockScore}>742</Text>
           </View>
           <Text style={styles.mockDelta}>+18 this month</Text>
         </View>
-        <ProgressBar label="Financial trust trajectory" value={86} height={12} />
+        <ProgressBar label="Stability trend" value={86} height={12} />
         <View style={styles.mockGrid}>
           <View style={styles.mockPanel}>
             <Text style={styles.mockPanelLabel}>Credit growth</Text>
@@ -80,15 +80,15 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
     </View>
 
     <Card style={styles.incomplete}>
-      <SectionHeader title="Credit scores are incomplete" subtitle="They are useful, but they miss the lived reality of people building trust from thin files, new jobs, new cities, and uneven income timing." />
+      <SectionHeader title="Money gets complicated in real life" subtitle="Rent, commuting, credit utilization, subscriptions, and moving costs all interact. LOLO makes those patterns easier to understand without shame or noise." />
       <View style={styles.storyGrid}>
-        <StoryPoint title="Banks see reports" body="LOLO adds behavior: payment timing, cash flow stability, recurring pressure, and follow-through." />
-        <StoryPoint title="AI explains the signal" body="Instead of generic tips, every insight becomes: what changed, why it matters, what to do next." />
-        <StoryPoint title="Trust grows over time" body="Renters, borrowers, immigrants, students, and early professionals need a layer that reflects progress before legacy systems catch up." />
+        <StoryPoint title="Credit is only one piece" body="LOLO helps you connect payment timing, cash flow stability, recurring pressure, and follow-through." />
+        <StoryPoint title="Insights should be usable" body="Every major card answers: what changed, why it matters, and what to do next." />
+        <StoryPoint title="Progress should feel visible" body="Moving cities, paying off a first card, or building a buffer should become part of a clear financial story." />
       </View>
     </Card>
 
-    <SectionHeader title="Why this matters" subtitle="LOLO helps credit-invisible and credit-misunderstood users build a behavioral trust profile before traditional banks fully understand them." />
+    <SectionHeader title="Why this matters" subtitle="LOLO helps people who are building stability in expensive, imperfect, real-world conditions." />
     <View style={styles.whyGrid}>
       {whyMatters.map(([title, body]) => (
         <Card key={title} style={styles.whyCard}>
@@ -99,7 +99,7 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
     </View>
 
     <Card glow style={styles.metrics}>
-      <Text style={styles.metricsKicker}>Built for the next generation of credit invisible and credit misunderstood consumers</Text>
+      <Text style={styles.metricsKicker}>Built for people whose financial lives are more nuanced than a single score.</Text>
       <Text style={styles.metricsNote}>Placeholder demo metrics for investor storytelling, not production claims.</Text>
       <View style={styles.metricsGrid}>
         {demoMetrics.map((metric) => (
@@ -111,7 +111,7 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       </View>
     </Card>
 
-    <SectionHeader title="The five pillars" subtitle="Every screen answers what changed, why it matters, and what to do next." />
+    <SectionHeader title="The five pillars" subtitle="A clearer way to understand money habits, credit behavior, and future pressure." />
     <View style={styles.pillarGrid}>
       {trustPillars.map((pillar) => (
         <Card key={pillar.title} style={styles.pillar}>
@@ -141,9 +141,9 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
 
     <Card style={styles.social}>
       <SectionHeader
-        title="Reflection becomes reputation"
-        subtitle="A Notion-like money journal and Letterboxd-style review layer for milestones, products, cities, apartments, and decisions."
-        eyebrow="Social trust layer"
+        title="A journal for the money moments people actually remember"
+        subtitle="Milestones, monthly reviews, product notes, cities, apartments, and life decisions, kept tasteful and practical."
+        eyebrow="Reflection layer"
       />
       <View style={styles.socialPreview}>
         <Text style={styles.socialTitle}>Built my first 3-month emergency fund</Text>
@@ -152,10 +152,15 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       </View>
     </Card>
 
+    <Card style={styles.incomplete}>
+      <SectionHeader title="Founder story" subtitle="A small, honest starting point." />
+      <Text style={styles.founderBody}>{founderStory}</Text>
+    </Card>
+
     <Card glow style={styles.finalCta}>
-      <Text style={styles.finalTitle}>Ready for demo day.</Text>
-      <Text style={styles.finalBody}>A premium fintech prototype for credit growth, financial trust, AI guidance, and reflective money habits.</Text>
-      <PrimaryButton label="Start building trust" onPress={onStart} style={styles.finalButton} />
+      <Text style={styles.finalTitle}>See where you stand. Know what to do next.</Text>
+      <Text style={styles.finalBody}>Understand your spending, improve credit habits, and build stability without shame or noise.</Text>
+      <PrimaryButton label="Start with clarity" onPress={onStart} style={styles.finalButton} />
       <PrimaryButton label="View 60-second demo" variant="ghost" onPress={onDemo} style={styles.demoButton} />
       <PrimaryButton label="Open demo presentation" variant="ghost" onPress={onPresentation} style={styles.demoButton} />
     </Card>
@@ -421,6 +426,9 @@ const styles = StyleSheet.create({
     color: colors.primaryDark,
     fontWeight: '900',
     marginTop: spacing.md,
+  },
+  founderBody: {
+    ...typography.body,
   },
   finalCta: {
     backgroundColor: colors.card,

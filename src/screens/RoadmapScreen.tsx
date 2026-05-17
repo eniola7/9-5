@@ -27,8 +27,8 @@ export const RoadmapScreen = () => {
 
         <Card glow>
           <SectionHeader
-            title="A Letterboxd-style layer for money"
-            subtitle="Log milestones, rate financial products or life decisions, and save reflections that are useful without becoming public net worth theater."
+            title="A tasteful reflection layer for money"
+            subtitle="Log milestones, rate products or life decisions, and save short reflections that are useful without becoming public net worth theater."
             eyebrow="Financial diary"
           />
           <View style={styles.themeRow}>
@@ -43,7 +43,7 @@ export const RoadmapScreen = () => {
           <View style={styles.reviewTop}>
             <View style={styles.reviewCopy}>
               <Text style={styles.reviewMonth}>Engine review</Text>
-              <Text style={styles.reviewTitle}>{selectedDemoUser.label}: Trust Score {selectedDemoUser.trustScore}</Text>
+              <Text style={styles.reviewTitle}>{selectedDemoUser.label}: Money Momentum {selectedDemoUser.trustScore}</Text>
             </View>
             <View style={styles.ratingBadge}>
               <Text style={styles.rating}>+{selectedDemoUser.upside.points}</Text>
@@ -70,7 +70,7 @@ export const RoadmapScreen = () => {
           </PressableScale>
         ))}
 
-        <SectionHeader title="Community proof" subtitle="Tasteful reflections and product notes, kept secondary to personal progress." />
+        <SectionHeader title="Anonymous community notes" subtitle="Tasteful reflections and product notes, kept secondary to personal progress." />
         {journalPosts.map((post) => (
           <PressableScale key={post.title} onPress={() => setSelected(post)} pressedStyle={styles.pressed} hoveredStyle={styles.hovered}>
             <Card style={styles.postCard}>

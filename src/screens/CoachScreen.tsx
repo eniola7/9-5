@@ -43,13 +43,13 @@ export const CoachScreen = () => {
       return `Why this matters: ${selectedDemoUser.topRisk} is the weakest signal in this demo profile, which means it has the clearest ability to change how stable the user looks.\n\nWhat to do next: ${selectedDemoUser.upside.action}.\n\n${loloEngineDisclaimer}`;
     }
     if (/card|score|payment|improve/i.test(text)) {
-      return `Why this matters: utilization is ${selectedDemoUser.utilizationLabel}, and the engine simulation shows ${selectedDemoUser.simulations.make_payment.score_delta >= 0 ? '+' : ''}${selectedDemoUser.simulations.make_payment.score_delta} points after a payment scenario.\n\nWhat to do next: ${selectedDemoUser.simulations.make_payment.explanation}`;
+      return `Why this matters: utilization is ${selectedDemoUser.utilizationLabel}, and the engine simulation shows ${selectedDemoUser.simulations.make_payment.score_delta >= 0 ? '+' : ''}${selectedDemoUser.simulations.make_payment.score_delta} Money Momentum points after a payment scenario.\n\nWhat to do next: ${selectedDemoUser.simulations.make_payment.explanation}`;
     }
     if (/changed|month/i.test(text)) {
-      return `What changed: ${changed}\n\nWhy this matters: LOLO turns behavior into a trust narrative before traditional credit systems fully understand the user.\n\nWhat to do next: ${selectedDemoUser.upside.action}.`;
+      return `What changed: ${changed}\n\nWhy this matters: LOLO turns behavior into a clear money narrative before stress becomes reactive.\n\nWhat to do next: ${selectedDemoUser.upside.action}.`;
     }
     if (/review|journal|reflection/i.test(text)) {
-      return `Monthly review draft: ${selectedDemoUser.rawUser.name} is building trust through ${selectedDemoUser.topStrength.toLowerCase()}, while ${selectedDemoUser.topRisk.toLowerCase()} needs attention. The next best action is ${rec?.title ?? selectedDemoUser.upside.action}.`;
+      return `Monthly review draft: ${selectedDemoUser.rawUser.name} is building steadier momentum through ${selectedDemoUser.topStrength.toLowerCase()}, while ${selectedDemoUser.topRisk.toLowerCase()} needs attention. The next best action is ${rec?.title ?? selectedDemoUser.upside.action}.`;
     }
     return `What to do next: ${rec?.title ?? selectedDemoUser.upside.action}.\n\nWhy this matters: ${rec?.explanation ?? selectedDemoUser.whatChanged.join(' ')}\n\nEstimated impact: ${rec?.estimated_impact ?? `+${selectedDemoUser.upside.points} possible points in the demo model`}.`;
   };
@@ -80,7 +80,7 @@ export const CoachScreen = () => {
           <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
           <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
           <Card glow>
-            <SectionHeader title="Ask what changed, why it matters, and what to do next." subtitle="A calm AI interface for credit growth, spending behavior, and financial trust." eyebrow="LOLO Coach" />
+            <SectionHeader title="Ask what changed, why it matters, and what to do next." subtitle="A calm AI interface for credit growth, spending behavior, and financial clarity." eyebrow="LOLO Coach" />
             {selectedDemoUser.recommendations[0] ? (
               <InsightCard
                 title={selectedDemoUser.recommendations[0].title}

@@ -68,19 +68,19 @@ export const HomeScreen = () => {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
-        <BrandHeader title="LOLO" subtitle={`Good to see you, ${profile.name}. Your trust operating view is live.`} showReset onReset={resetDemo} />
+        <BrandHeader title="Financial snapshot" subtitle={`Good to see you, ${profile.name}. Here is what changed, why it matters, and what to do next.`} showReset onReset={resetDemo} />
         <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
 
         <Card glow style={styles.demoCard}>
           <View style={styles.demoTop}>
             <View style={styles.demoStepBadge}>
-              <Text style={styles.demoStepText}>{demoStep + 1}/6</Text>
+              <Text style={styles.demoStepText}>{demoStep + 1}/{demoSteps.length}</Text>
             </View>
             <Text style={styles.demoKicker}>{sixtySecondDemoActive ? '60-second demo active' : 'Founder demo mode'}</Text>
           </View>
           <Text style={styles.demoTitle}>{activeStep.title}</Text>
           <Text style={styles.demoBody}>{activeStep.body}</Text>
-          <Text style={styles.demoBody}>Demo user: {selectedDemoUser.rawUser.name}, {selectedDemoUser.rawUser.persona}. Trust Score {selectedDemoUser.trustScore}.</Text>
+          <Text style={styles.demoBody}>Demo user: {selectedDemoUser.rawUser.name}, {selectedDemoUser.rawUser.persona}. Money Momentum {selectedDemoUser.trustScore}.</Text>
           <View style={styles.demoProgress}>
             {demoSteps.map((step, index) => (
               <View key={step.title} style={[styles.demoProgressDot, index <= demoStep && styles.demoProgressDotActive]} />
@@ -88,8 +88,8 @@ export const HomeScreen = () => {
           </View>
           {demoStep === demoSteps.length - 1 ? (
             <View style={styles.finalDemoPanel}>
-              <Text style={styles.finalDemoTitle}>This is the trust layer traditional credit misses.</Text>
-              <Text style={styles.finalDemoBody}>LOLO helps credit-invisible and credit-misunderstood users build a behavioral trust profile before traditional banks fully understand them.</Text>
+              <Text style={styles.finalDemoTitle}>This is the clarity layer traditional tools miss.</Text>
+              <Text style={styles.finalDemoBody}>LOLO helps people understand spending, credit habits, runway, and stability before small patterns turn into financial stress.</Text>
             </View>
           ) : null}
           <View style={styles.demoActions}>
@@ -98,10 +98,10 @@ export const HomeScreen = () => {
           </View>
         </Card>
 
-        <TrustScoreCard score={selectedDemoUser.trustScore} delta={`+${selectedDemoUser.upside.points} possible`} label={`${selectedDemoUser.label} Trust Score`} />
+        <TrustScoreCard score={selectedDemoUser.trustScore} delta={`+${selectedDemoUser.upside.points} possible`} label={`${selectedDemoUser.label} Money Momentum`} />
 
         <Card>
-          <SectionHeader title="Trust Score breakdown" subtitle="LOLO Trust Score is an educational trust signal based on payment consistency, utilization control, cash flow stability, emergency runway, and spending behavior. It is not a FICO score." />
+          <SectionHeader title="Money Momentum breakdown" subtitle="LOLO Money Momentum is an educational signal based on payment consistency, utilization control, cash flow stability, emergency runway, and spending behavior. It is not a FICO score." />
           {selectedDemoUser.factorBreakdown.map((item) => (
             <View key={item.label} style={styles.breakdownRow}>
               <View style={styles.breakdownHeader}>
@@ -117,7 +117,7 @@ export const HomeScreen = () => {
         </Card>
 
         <Card style={styles.moversCard}>
-          <SectionHeader title="Why the score moved this month" subtitle="LOLO separates the movement from the meaning." />
+          <SectionHeader title="What moved this month" subtitle="LOLO separates the movement from the meaning." />
           {selectedDemoUser.whatChanged.map((change, index) => (
             <View key={change} style={styles.moverRow}>
               <Text style={styles.moverTitle}>{index === 0 ? 'What changed' : `Signal ${index + 1}`}</Text>
@@ -126,11 +126,11 @@ export const HomeScreen = () => {
           ))}
           <View style={styles.moverRow}>
             <Text style={styles.moverTitle}>Upside preview</Text>
-            <Text style={styles.moverBody}>+{selectedDemoUser.upside.points} points possible: {selectedDemoUser.upside.action}.</Text>
+            <Text style={styles.moverBody}>+{selectedDemoUser.upside.points} Money Momentum points possible: {selectedDemoUser.upside.action}.</Text>
           </View>
         </Card>
 
-        <SectionHeader title="What changed" subtitle="The five pillars that explain your financial trust profile." />
+        <SectionHeader title="What changed" subtitle="The five pillars that explain your financial health picture." />
         <View style={styles.pillarGrid}>
           {trustPillars.map((pillar) => (
             <DashboardCard
@@ -159,7 +159,7 @@ export const HomeScreen = () => {
           <Card style={styles.analyticsCard}>
             <SectionHeader title="Engine simulation examples" subtitle="Prepared by lolo-engine/sample_output.json" />
             <UtilizationRing value={selectedDemoUser.utilization} afterValue={Math.max(1, selectedDemoUser.utilization - Math.max(0, simulation.score_delta))} />
-            <Text style={styles.simUpside}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} Trust Score points · {simulation.updated_trust_score} after simulation</Text>
+            <Text style={styles.simUpside}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} Money Momentum points · {simulation.updated_trust_score} after simulation</Text>
             <View style={styles.scenarioRow}>
               {(['make_payment', 'reduce_category_spending', 'add_emergency_savings'] as SimulationKey[]).map((key) => (
                 <PrimaryButton
@@ -175,19 +175,19 @@ export const HomeScreen = () => {
           </Card>
 
           <Card style={styles.analyticsCard}>
-            <SectionHeader title="Spending drift" subtitle="Convenience spend is the main signal." />
+            <SectionHeader title="Spending drift" subtitle="Dining, commuting, and convenience spend are the main signals." />
             <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
           </Card>
         </View>
 
         <DashboardCard title="Cash flow overview" value={selectedDemoUser.cashFlowLabel} accent={selectedDemoUser.spendingDriftPercent > 0 ? `${selectedDemoUser.spendingDriftPercent}% drift` : 'stable'} icon="CF" important>
           <LineChartMock values={cashFlowSeries} />
-          <Text style={styles.copy}>Income is stable. The strongest improvement came from fewer one-off transfers and cleaner bill timing.</Text>
+          <Text style={styles.copy}>Your emergency runway improved by 18 days this quarter. Income is stable, but rent-week timing still matters.</Text>
         </DashboardCard>
 
         <DashboardCard title="Emergency runway / stress forecast" value={selectedDemoUser.runwayLabel} accent={selectedDemoUser.topRisk} icon="SF">
           <ProgressBar label="Runway coverage" value={Math.min(100, selectedDemoUser.runwayMonths * 25)} height={12} />
-          <Text style={styles.copy}>Why it matters: runway shows how long essential expenses are covered if income gets disrupted. What to do next: {selectedDemoUser.upside.action}.</Text>
+          <Text style={styles.copy}>Why it matters: at your current pace, your savings buffer may dip below 2 months in August. What to do next: {selectedDemoUser.upside.action}.</Text>
         </DashboardCard>
 
         <Card>

@@ -7,7 +7,7 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
 import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
-import { aiRecommendations, creditGrowthSeries, spendingDriftSeries } from '../data/financeMvp';
+import { aiRecommendations, creditGrowthSeries, founderStory, spendingDriftSeries, trustSignals } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
 interface DemoPresentationScreenProps {
@@ -25,9 +25,19 @@ const measuredSignals = [
 ];
 
 const journeys = [
-  ['Recent immigrant', 'Builds a U.S. trust profile before credit age reflects reliability.'],
-  ['College student', 'Learns which habits matter before credit mistakes become expensive.'],
-  ['Early professional', 'Uses payment timing to make utilization tell a fairer story.'],
+  ['Moving to a new city', 'Rent looked manageable until transit, parking, setup costs, and late rideshares became a pattern.'],
+  ['Paying off a first card', 'A pre-statement payment lowers utilization and makes credit progress feel less mysterious.'],
+  ['Building a 3-month buffer', 'Small automatic transfers turn stability into something visible and repeatable.'],
+];
+
+const demoWalkthrough = [
+  'Create profile',
+  'See your financial snapshot',
+  'Get one useful insight',
+  'Understand credit and spending risk',
+  'Forecast future stress',
+  'Reflect in your money journal',
+  'Take the next best action',
 ];
 
 export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: DemoPresentationScreenProps) => (
@@ -35,17 +45,17 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
     {onNavigate ? <PublicHeader active="presentation" onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
     <View style={styles.badgeRow}>
       <ProgressPill label="Educational demo" status="completed" />
-      <ProgressPill label="Behavioral trust signals" />
+      <ProgressPill label="Behavioral money signals" />
       <ProgressPill label="Financial wellness insights" />
       <ProgressPill label="Privacy-first architecture" />
     </View>
 
     <View style={styles.hero}>
       <View style={styles.heroCopy}>
-        <Text style={typography.eyebrow}>Founder / advisor overview</Text>
-        <Text style={styles.headline}>A behavioral trust profile before traditional credit catches up.</Text>
+        <Text style={typography.eyebrow}>Guided product demo</Text>
+        <Text style={styles.headline}>A calmer way to understand money, credit, and what comes next.</Text>
         <Text style={styles.subheadline}>
-          LOLO helps credit-invisible and credit-misunderstood users understand, improve, and communicate financial reliability through educational trust signals.
+          LOLO helps young professionals understand spending, improve credit habits, forecast stress, and reflect on financial progress without shame or noise.
         </Text>
         <View style={styles.ctaRow}>
           <PrimaryButton label="Launch 60-second demo" onPress={onLaunchDemo} />
@@ -56,7 +66,7 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
       <Card glow style={styles.mockup}>
         <View style={styles.mockTop}>
           <View>
-            <Text style={styles.mockLabel}>Demo Trust Score</Text>
+            <Text style={styles.mockLabel}>Money Momentum</Text>
             <Text style={styles.mockScore}>742</Text>
           </View>
           <Text style={styles.mockDelta}>+18 possible</Text>
@@ -66,12 +76,22 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
       </Card>
     </View>
 
-    <SectionHeader title="The problem" subtitle="Official credit scores are important, but they can miss context for people whose financial reliability is still becoming visible." />
+    <SectionHeader title="The problem" subtitle="Most financial tools show numbers. LOLO explains the lived pattern behind them." />
     <View style={styles.grid}>
-      <ExplainerCard title="Thin files" body="New-to-credit consumers may have stable behavior before enough history exists in a bureau file." />
-      <ExplainerCard title="Misread signals" body="A stable income can still look risky when utilization reports at the wrong moment." />
-      <ExplainerCard title="No behavior layer" body="Traditional scores rarely explain cash rhythm, emergency runway, and habit momentum in user-friendly language." />
+      <ExplainerCard title="Expensive cities distort normal life" body="Rent, commuting, deposits, subscriptions, and social spending can make responsible people feel behind." />
+      <ExplainerCard title="Credit is hard to read" body="A stable income can still look risky when utilization reports at the wrong moment." />
+      <ExplainerCard title="Advice is often too loud" body="LOLO keeps guidance calm: one clear insight, one reason it matters, one next step." />
     </View>
+
+    <SectionHeader title="Demo walkthrough" subtitle="A story-driven flow that feels like a user journey, not a feature tour." />
+    <Card style={styles.lightCard}>
+      {demoWalkthrough.map((step, index) => (
+        <View key={step} style={styles.walkthroughRow}>
+          <Text style={styles.walkthroughStep}>{index + 1}</Text>
+          <Text style={styles.walkthroughText}>{step}</Text>
+        </View>
+      ))}
+    </Card>
 
     <Card style={styles.lightCard}>
       <Text style={styles.lightKicker}>What LOLO measures</Text>
@@ -81,11 +101,11 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
         ))}
       </View>
       <Text style={styles.lightBody}>
-        LOLO Trust Score is an educational signal based on these behaviors. It is not a FICO score, VantageScore, credit bureau score, or lending decision.
+        LOLO Money Momentum is an educational signal based on these behaviors. It is not a FICO score, VantageScore, credit bureau score, or lending decision.
       </Text>
     </Card>
 
-    <SectionHeader title="How the Trust Score works" subtitle="The Python prototype engine creates fictional users, scores transparent factors, generates recommendations, and exports JSON for the app." />
+    <SectionHeader title="How Money Momentum works" subtitle="The Python prototype engine creates fictional users, scores transparent factors, generates recommendations, and exports JSON for the app." />
     <View style={styles.twoUp}>
       <Card>
         <Text style={styles.cardTitle}>Behavior to score</Text>
@@ -99,10 +119,17 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
     </View>
 
     <Card style={styles.founder}>
-      <SectionHeader title="Founder story" subtitle="LOLO comes from a simple frustration: people can be financially reliable before traditional systems know how to see them." />
-      <Text style={styles.founderBody}>
-        The product explores behavioral finance and trust as a user-first layer: help people understand what builds reliability, show progress earlier, and eventually let users share that trust profile with consent.
-      </Text>
+      <SectionHeader title="Founder story" subtitle="A humble starting point." />
+      <Text style={styles.founderBody}>{founderStory}</Text>
+    </Card>
+
+    <Card>
+      <SectionHeader title="Trust and privacy" subtitle="The prototype is designed to be clear about what it does and does not do." />
+      <View style={styles.signalGrid}>
+        {trustSignals.map((signal) => (
+          <Text key={signal} style={styles.signalChip}>{signal}</Text>
+        ))}
+      </View>
     </Card>
 
     <SectionHeader title="Example user journeys" subtitle="The current demo includes five fictional profiles generated by the local Python engine." />
@@ -114,7 +141,7 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
 
     <Card glow style={styles.finalCta}>
       <Text style={styles.finalTitle}>Ready to view the product.</Text>
-      <Text style={styles.finalBody}>Launch the guided demo to see the selected user, Trust Score, score movement, simulation, and AI next-best-action.</Text>
+      <Text style={styles.finalBody}>Launch the guided demo to see the selected user, Money Momentum, score movement, simulation, journal layer, and AI next-best-action.</Text>
       <PrimaryButton label="Launch 60-second demo" onPress={onLaunchDemo} style={styles.finalButton} />
     </Card>
     {onNavigate ? <Footer onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
@@ -213,6 +240,28 @@ const styles = StyleSheet.create({
   },
   lightCard: {
     backgroundColor: colors.surfaceLight,
+  },
+  walkthroughRow: {
+    alignItems: 'center',
+    borderBottomColor: colors.borderSoft,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    paddingVertical: spacing.md,
+  },
+  walkthroughStep: {
+    backgroundColor: colors.cardSoft,
+    borderRadius: radii.pill,
+    color: colors.primaryDark,
+    fontWeight: '900',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  walkthroughText: {
+    color: colors.textPrimary,
+    flex: 1,
+    fontWeight: '900',
   },
   lightKicker: {
     color: colors.primaryDark,

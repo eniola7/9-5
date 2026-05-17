@@ -42,9 +42,9 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
       <ScrollView contentContainerStyle={styles.content}>
         <BrandHeader title="LOLO" subtitle="Build your financial profile in demo mode." />
         <Card glow>
-          <Text style={typography.eyebrow}>Trust Profile</Text>
-          <Text style={styles.heroTitle}>Build the financial story banks do not fully see yet.</Text>
-          <Text style={styles.copy}>LOLO uses mock benchmark data in this demo. In production, this would become a read-only behavioral trust layer around credit, cash flow, and follow-through.</Text>
+          <Text style={typography.eyebrow}>Clarity Profile</Text>
+          <Text style={styles.heroTitle}>Build a financial picture that actually feels like your life.</Text>
+          <Text style={styles.copy}>LOLO uses mock benchmark data in this demo. In production, this would become a read-only clarity layer around credit, cash flow, spending pressure, and follow-through.</Text>
         </Card>
 
         <Card>

@@ -16,10 +16,10 @@ interface StaticPageScreenProps {
 const pageContent: Record<string, { title: string; subtitle: string; sections: Array<{ title: string; body: string }> }> = {
   about: {
     title: 'About LOLO',
-    subtitle: 'Financial clarity, trust, and intentional money habits for people building stability.',
+    subtitle: 'Financial clarity and intentional money habits for people building real lives.',
     sections: [
-      { title: 'Mission', body: 'LOLO helps people understand and communicate financial reliability before traditional systems fully see them.' },
-      { title: 'Belief', body: 'Credit scores matter, but behavior, context, and progress matter too.' },
+      { title: 'Mission', body: 'LOLO helps young professionals understand spending, improve credit habits, and build stability without shame or noise.' },
+      { title: 'Belief', body: 'Credit scores matter, but context matters too: rent pressure, commuting costs, cash rhythm, and the small habits that make life feel steadier.' },
     ],
   },
   careers: {
@@ -33,8 +33,8 @@ const pageContent: Record<string, { title: string; subtitle: string; sections: A
     title: 'Product Demo',
     subtitle: 'Explore the dashboard, credit profile, AI Coach, financial insights, and journal/community layer.',
     sections: [
-      { title: 'Dashboard', body: 'Trust Score, cash flow, utilization, stress forecast, and next-best action.' },
-      { title: 'Credit Profile', body: 'Utilization simulator, payment history, score factors, and action plan.' },
+      { title: 'Dashboard', body: 'Money Momentum, cash flow, utilization, stress forecast, and next-best action.' },
+      { title: 'Credit Profile', body: 'Utilization simulator, payment history, behavior factors, and action plan.' },
       { title: 'AI Coach', body: 'Suggested prompts and responses based on selected demo-user data.' },
       { title: 'Journal', body: 'Private monthly reviews and reflection cards for financial milestones.' },
     ],
@@ -43,7 +43,7 @@ const pageContent: Record<string, { title: string; subtitle: string; sections: A
     title: 'Pricing',
     subtitle: 'Prototype pricing placeholders for future packaging.',
     sections: [
-      { title: 'Free', body: 'Trust profile, demo dashboard, journal, and basic educational insights.' },
+      { title: 'Free', body: 'Financial snapshot, demo dashboard, journal, and basic educational insights.' },
       { title: 'Pro', body: 'Future advanced simulations, coaching, deeper alerts, and personalized action plans.' },
       { title: 'Employer / community plan', body: 'Future offering for schools, community organizations, employers, or financial wellness partners.' },
     ],
@@ -75,7 +75,7 @@ const pageContent: Record<string, { title: string; subtitle: string; sections: A
     title: 'Disclaimers',
     subtitle: 'Clear boundaries for the demo experience.',
     sections: [
-      { title: 'Trust Score', body: 'LOLO Trust Score is educational and is not a FICO score, VantageScore, credit bureau score, underwriting model, or lending decision.' },
+      { title: 'Money Momentum', body: 'LOLO Money Momentum is educational and is not a FICO score, VantageScore, credit bureau score, underwriting model, or lending decision.' },
       { title: 'Mock data', body: 'All data is fictional unless a future user explicitly connects accounts through secure integrations.' },
     ],
   },

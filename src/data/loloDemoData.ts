@@ -3,7 +3,10 @@ import engineOutput from '../../lolo-engine/sample_output.json';
 export type DemoUserId = keyof typeof engineOutput.trust_score_results;
 export type SimulationKey = keyof (typeof engineOutput.simulation_examples)[DemoUserId];
 
-export const loloEngineDisclaimer = engineOutput.metadata.disclaimer;
+export const loloEngineDisclaimer = engineOutput.metadata.disclaimer.replace(
+  'LOLO Trust Score',
+  'LOLO Money Momentum'
+);
 
 export const demoUserLabels: Record<DemoUserId, string> = {
   'immigrant-thin-file': 'Recent immigrant',
