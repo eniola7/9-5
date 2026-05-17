@@ -15,7 +15,7 @@ npm run build
 The production web export is written to:
 
 ```text
-web-build/
+dist/
 ```
 
 ## Environment Placeholders
@@ -29,7 +29,7 @@ The current demo does not require environment variables. Future deployments may 
 Recommended setup:
 
 - Build command: `npm run build`
-- Output directory: `web-build`
+- Output directory: `dist`
 - Install command: `npm install`
 - Framework preset: Other
 
@@ -40,7 +40,7 @@ Vercel is a good option for a quick public web demo with custom domain support.
 Recommended setup:
 
 - Build command: `npm run build`
-- Publish directory: `web-build`
+- Publish directory: `dist`
 
 Netlify is also suitable for static demo hosting and preview URLs.
 

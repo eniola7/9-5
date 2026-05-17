@@ -82,7 +82,7 @@ Add product screenshots here when preparing a deck, website, or advisor update:
 
 ## Tech Stack
 
-- Expo 49
+- Expo SDK 54
 - React Native
 - React Native Web
 - TypeScript
@@ -248,7 +248,7 @@ Planned API contract is documented in [src/lib/apiPlaceholders.ts](src/lib/apiPl
 
 ## Run Locally
 
-Use Node 20 LTS for Expo 49. This repo includes `.nvmrc`.
+Use Node 20 LTS for Expo SDK 54. This repo includes `.nvmrc`.
 
 ```bash
 nvm use
