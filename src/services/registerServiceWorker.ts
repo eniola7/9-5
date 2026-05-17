@@ -26,6 +26,11 @@ export const registerServiceWorker = () => {
   const browser = globalThis as BrowserGlobal;
 
   if (!browser.navigator?.serviceWorker) return;
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocalDev = host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0';
+    if (isLocalDev) return;
+  }
 
   browser.navigator.serviceWorker.register('/service-worker.js').catch((error) => {
     console.warn('LOLO service worker registration failed', error);
