@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
   },
   ghostPressed: {
     borderColor: colors.primary,
-    backgroundColor: 'rgba(66, 242, 139, 0.14)',
+    backgroundColor: colors.cardSoft,
   },
   text: {
-    color: '#07100A',
+    color: colors.surfaceLight,
     fontWeight: '900',
     fontSize: 14,
   },

@@ -1,27 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#080D0B',
-  backgroundElevated: '#0E1412',
-  card: '#161D1A',
-  cardSoft: '#202923',
-  surfaceLight: '#F4F6F2',
-  surfaceMuted: '#DDE4DB',
-  border: '#27322D',
-  borderSoft: 'rgba(244, 246, 242, 0.1)',
-  primary: '#42F28B',
+  background: '#F7FAF6',
+  backgroundElevated: '#EEF6EF',
+  card: '#FFFFFF',
+  cardSoft: '#F1F6F2',
+  surfaceLight: '#FFFFFF',
+  surfaceMuted: '#E4ECE5',
+  border: '#D8E4DB',
+  borderSoft: 'rgba(15, 23, 18, 0.1)',
+  primary: '#16A34A',
   primaryDark: '#16A34A',
-  accent: '#42F28B',
+  accent: '#15803D',
   secondaryGreen: '#1DB954',
-  purple: '#A7A6FB',
-  textPrimary: '#F4F6F2',
-  textSecondary: '#B8C2B8',
-  textMuted: '#738077',
-  slate: '#9AA7A0',
+  purple: '#6D5BD0',
+  textPrimary: '#101914',
+  textSecondary: '#44524A',
+  textMuted: '#748078',
+  slate: '#5E6B63',
   danger: '#EF4444',
   warning: '#EAB75C',
-  success: '#42F28B',
-  overlay: 'rgba(3, 7, 5, 0.78)',
+  success: '#16A34A',
+  overlay: 'rgba(10, 20, 14, 0.42)',
 };
 
 export const spacing = {
@@ -76,20 +76,20 @@ export const typography = StyleSheet.create({
 export const shadows = StyleSheet.create({
   card: {
     shadowColor: '#000000',
-    shadowOpacity: 0.38,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 14 },
+    shadowOpacity: 0.08,
+    shadowRadius: 22,
+    shadowOffset: { width: 0, height: 10 },
     elevation: 8,
   },
   glow: {
     shadowColor: colors.primary,
-    shadowOpacity: 0.2,
-    shadowRadius: 22,
+    shadowOpacity: 0.16,
+    shadowRadius: 18,
     shadowOffset: { width: 0, height: 0 },
     elevation: 10,
   },
 });
 
 export const gradients = {
-  hero: ['#080D0B', '#0E2118', '#080D0B'],
+  hero: ['#F7FAF6', '#E9F8EC', '#FFFFFF'],
 };

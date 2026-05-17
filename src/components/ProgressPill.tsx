@@ -23,9 +23,9 @@ const getTone = (status?: RoadmapStatus, risk?: RiskLevel) => {
   if (risk === 'High') return { background: 'rgba(239, 68, 68, 0.14)', border: colors.danger, text: colors.danger };
   if (risk === 'Medium') return { background: 'rgba(245, 158, 11, 0.14)', border: colors.warning, text: colors.warning };
   if (status === 'completed' || risk === 'Low') {
-    return { background: 'rgba(66, 242, 139, 0.14)', border: colors.primary, text: colors.accent };
+    return { background: colors.cardSoft, border: colors.primary, text: colors.accent };
   }
-  if (status === 'in-progress') return { background: 'rgba(66, 242, 139, 0.12)', border: colors.primaryDark, text: colors.primary };
+  if (status === 'in-progress') return { background: colors.cardSoft, border: colors.primaryDark, text: colors.primary };
   return { background: colors.cardSoft, border: colors.borderSoft, text: colors.textSecondary };
 };
 

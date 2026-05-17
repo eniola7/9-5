@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   postCard: {
-    backgroundColor: '#151A1D',
+    backgroundColor: colors.card,
   },
   reviewCard: {
     backgroundColor: colors.surfaceLight,
@@ -210,13 +210,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   reviewTitle: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 21,
     fontWeight: '900',
     lineHeight: 26,
   },
   reviewBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     fontSize: 14,
     lineHeight: 21,
     marginTop: spacing.md,

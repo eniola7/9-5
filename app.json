@@ -7,7 +7,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "resizeMode": "contain",
-      "backgroundColor": "#080D0B"
+      "backgroundColor": "#F7FAF6"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -16,8 +16,8 @@
     "web": {
       "name": "LOLO — Credit Intelligence Platform",
       "shortName": "LOLO",
-      "themeColor": "#080D0B",
-      "backgroundColor": "#080D0B",
+      "themeColor": "#16A34A",
+      "backgroundColor": "#F7FAF6",
       "description": "A behavioral trust layer for credit-invisible and credit-misunderstood consumers."
     }
   }

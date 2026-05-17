@@ -11,6 +11,7 @@ import {
 } from '../services/mockBackend';
 import { defaultDemoUserId, DemoUserId, getLoloDemoUser, LoloDemoUser } from '../data/loloDemoData';
 import { OnboardingAnswers, RoadmapItem, Signal, SubscriptionPlan, UserProfile } from '../types';
+import { UserProfileModel } from '../types/models';
 
 interface ProfileContextValue {
   profile: UserProfile | null;
@@ -20,10 +21,12 @@ interface ProfileContextValue {
   selectedDemoUserId: DemoUserId;
   selectedDemoUser: LoloDemoUser;
   sixtySecondDemoActive: boolean;
+  appUserProfile: UserProfileModel | null;
   isReady: boolean;
   setSelectedDemoUserId: (id: DemoUserId) => void;
   startSixtySecondDemo: () => void;
   endSixtySecondDemo: () => void;
+  saveAppUserProfile: (profile: UserProfileModel) => void;
   completeOnboarding: (answers: OnboardingAnswers) => Promise<void>;
   toggleRoadmapItem: (id: string, completed: boolean) => Promise<void>;
   upgradePlan: (plan: SubscriptionPlan) => Promise<void>;
@@ -40,6 +43,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   const [plan, setPlan] = useState<SubscriptionPlan>('Free');
   const [selectedDemoUserId, setSelectedDemoUserId] = useState<DemoUserId>(defaultDemoUserId);
   const [sixtySecondDemoActive, setSixtySecondDemoActive] = useState(false);
+  const [appUserProfile, setAppUserProfile] = useState<UserProfileModel | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -89,6 +93,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
     setSignals([]);
     setPlan('Free');
     setSixtySecondDemoActive(false);
+    setAppUserProfile(null);
   };
 
   const refreshSignals = async () => {
@@ -105,17 +110,19 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
       selectedDemoUserId,
       selectedDemoUser: getLoloDemoUser(selectedDemoUserId),
       sixtySecondDemoActive,
+      appUserProfile,
       isReady,
       setSelectedDemoUserId,
       startSixtySecondDemo: () => setSixtySecondDemoActive(true),
       endSixtySecondDemo: () => setSixtySecondDemoActive(false),
+      saveAppUserProfile: setAppUserProfile,
       completeOnboarding,
       toggleRoadmapItem,
       upgradePlan,
       resetDemo,
       refreshSignals,
     }),
-    [profile, roadmap, signals, plan, selectedDemoUserId, sixtySecondDemoActive, isReady],
+    [profile, roadmap, signals, plan, selectedDemoUserId, sixtySecondDemoActive, appUserProfile, isReady],
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;

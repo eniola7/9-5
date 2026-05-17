@@ -58,7 +58,7 @@ export const TrustScoreCard = ({ score, delta = '+18 this month', label = 'Perso
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
     borderColor: colors.primary,
     borderRadius: radii.xl,
     borderWidth: 1,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     ...shadows.glow,
   },
   orbit: {
-    backgroundColor: 'rgba(66, 242, 139, 0.16)',
+    backgroundColor: 'rgba(22, 163, 74, 0.08)',
     borderRadius: 140,
     height: 280,
     position: 'absolute',
@@ -89,9 +89,9 @@ const styles = StyleSheet.create({
     maxWidth: 520,
   },
   delta: {
-    backgroundColor: 'rgba(244, 246, 242, 0.92)',
+    backgroundColor: colors.cardSoft,
     borderRadius: radii.pill,
-    color: colors.background,
+    color: colors.primaryDark,
     fontSize: 12,
     fontWeight: '900',
     overflow: 'hidden',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     lineHeight: 92,
   },
   status: {
-    backgroundColor: 'rgba(8, 13, 11, 0.6)',
+    backgroundColor: colors.cardSoft,
     borderColor: colors.borderSoft,
     borderRadius: radii.lg,
     borderWidth: 1,

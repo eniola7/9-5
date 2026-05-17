@@ -36,7 +36,7 @@ export const RoadmapItem = ({ item, onPress, onToggle }: RoadmapItemProps) => (
 const styles = StyleSheet.create({
   completed: {
     borderColor: colors.primary,
-    backgroundColor: '#142019',
+    backgroundColor: colors.cardSoft,
   },
   header: {
     flexDirection: 'row',

@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   chipTextActive: {
-    color: colors.background,
+    color: colors.textPrimary,
   },
 });

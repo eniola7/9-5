@@ -8,6 +8,7 @@ import { ProScreen } from '../screens/ProScreen';
 import { CoachScreen } from '../screens/CoachScreen';
 import { AlertsScreen } from '../screens/AlertsScreen';
 import { ProfileBuilderScreen } from '../screens/ProfileBuilderScreen';
+import { UserProfileScreen } from '../screens/UserProfileScreen';
 import { colors, shadows } from '../theme';
 
 const Tab = createBottomTabNavigator();
@@ -51,13 +52,14 @@ export const BottomTabs = () => (
       <Tab.Screen name="Coach" component={CoachScreen} options={{ tabBarLabel: tabLabel('Coach'), tabBarIcon: tabIcon('C') }} />
       <Tab.Screen name="Credit" component={ProfileBuilderScreen} options={{ tabBarLabel: tabLabel('Credit'), tabBarIcon: tabIcon('CR') }} />
       <Tab.Screen name="Reviews" component={ProScreen} options={{ tabBarLabel: tabLabel('Reviews'), tabBarIcon: tabIcon('RV') }} />
+      <Tab.Screen name="Account" component={UserProfileScreen} options={{ tabBarLabel: tabLabel('Me'), tabBarIcon: tabIcon('ME') }} />
     </Tab.Navigator>
   </NavigationContainer>
 );
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: '#0B110F',
+    backgroundColor: colors.surfaceLight,
     borderTopColor: colors.borderSoft,
     borderTopWidth: 1,
     height: 82,
@@ -80,14 +82,14 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: 'rgba(244, 246, 242, 0.06)',
+    backgroundColor: colors.cardSoft,
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: colors.borderSoft,
     borderWidth: 1,
   },
   iconActive: {
-    backgroundColor: colors.surfaceLight,
+    backgroundColor: colors.primary,
     borderColor: colors.primary,
     ...shadows.glow,
   },
@@ -97,6 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   iconTextActive: {
-    color: colors.background,
+    color: colors.surfaceLight,
   },
 });

@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   userText: {
-    color: '#F0FFF4',
+    color: colors.surfaceLight,
   },
 });

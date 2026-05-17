@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 90,
-    backgroundColor: 'rgba(244, 246, 242, 0.035)',
+    backgroundColor: 'rgba(22, 163, 74, 0.035)',
   },
   highlightGlow: {
-    backgroundColor: 'rgba(66, 242, 139, 0.1)',
+    backgroundColor: 'rgba(22, 163, 74, 0.08)',
   },
   content: {
     position: 'relative',

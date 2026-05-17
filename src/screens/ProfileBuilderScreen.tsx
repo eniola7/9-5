@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl * 2,
   },
   hero: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
   },
   heroTop: {
     alignItems: 'flex-start',
@@ -223,10 +223,10 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   goodCard: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
   },
   watchCard: {
-    backgroundColor: '#1C1914',
+    backgroundColor: colors.cardSoft,
   },
   factorTitle: {
     color: colors.textPrimary,

@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   demoCard: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
   },
   demoTop: {
     alignItems: 'center',
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     width: 42,
   },
   demoStepText: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontWeight: '900',
   },
   demoKicker: {
@@ -305,12 +305,12 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   finalDemoTitle: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 22,
     fontWeight: '900',
   },
   finalDemoBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     lineHeight: 21,
     marginTop: spacing.sm,
   },
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   moversCard: {
-    backgroundColor: '#111714',
+    backgroundColor: colors.card,
   },
   moverRow: {
     backgroundColor: colors.backgroundElevated,
@@ -390,14 +390,14 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   nextTitle: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 28,
     fontWeight: '900',
     lineHeight: 34,
     marginTop: spacing.md,
   },
   nextBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     fontSize: 15,
     lineHeight: 23,
     marginTop: spacing.md,

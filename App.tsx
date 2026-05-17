@@ -4,13 +4,19 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { BottomTabs } from './src/navigation/BottomTabs';
+import { PublicPageKey } from './src/components/PublicHeader';
+import { AuthScreen } from './src/screens/AuthScreen';
+import { CreateProfileScreen } from './src/screens/CreateProfileScreen';
 import { DemoPresentationScreen } from './src/screens/DemoPresentationScreen';
 import { LandingScreen } from './src/screens/LandingScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
+import { StaticPageScreen } from './src/screens/StaticPageScreen';
 import { ProfileProvider, useProfile } from './src/context/ProfileContext';
 import { hidePwaSplash, registerServiceWorker } from './src/services/registerServiceWorker';
 import { colors } from './src/theme';
 import { OnboardingAnswers } from './src/types';
+import { UserProfileModel } from './src/types/models';
+import { createPlaceholderAuth0User } from './src/services/auth0Service';
 
 const demoAnswers: OnboardingAnswers = {
   name: 'Ava',
@@ -25,9 +31,10 @@ const demoAnswers: OnboardingAnswers = {
 };
 
 const AppInner = () => {
-  const { profile, isReady, completeOnboarding, startSixtySecondDemo } = useProfile();
+  const { profile, isReady, completeOnboarding, startSixtySecondDemo, saveAppUserProfile } = useProfile();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showPresentation, setShowPresentation] = useState(false);
+  const [publicPage, setPublicPage] = useState<PublicPageKey>('landing');
+  const [pendingUser, setPendingUser] = useState<{ id: string; name: string; email: string } | null>(null);
 
   if (!isReady) {
     return (
@@ -43,12 +50,41 @@ const AppInner = () => {
     startSixtySecondDemo();
   };
 
-  if (!profile && showPresentation) {
-    return <DemoPresentationScreen onLaunchDemo={startDemo} onBack={() => setShowPresentation(false)} />;
+  const handleSignup = (name: string, email: string) => {
+    const auth0User = createPlaceholderAuth0User(name, email);
+    setPendingUser({ id: auth0User.sub, name: auth0User.name ?? name, email: auth0User.email ?? email });
+    setPublicPage('signup');
+  };
+
+  const handleLogin = () => {
+    const auth0User = createPlaceholderAuth0User();
+    setPendingUser({ id: auth0User.sub, name: auth0User.name ?? 'Ava Reynolds', email: auth0User.email ?? 'ava@example.com' });
+  };
+
+  const finishProfile = async (appProfile: UserProfileModel) => {
+    saveAppUserProfile(appProfile);
+    await completeOnboarding({
+      ...demoAnswers,
+      name: appProfile.preferredName,
+      mainGoal: appProfile.topMoneyGoal === 'Reduce stress' ? 'Reduce stress' : 'Build credit',
+    });
+  };
+
+  if (!profile && pendingUser) {
+    return <CreateProfileScreen userId={pendingUser.id} email={pendingUser.email} name={pendingUser.name} onComplete={finishProfile} />;
   }
 
   if (!profile && !showOnboarding) {
-    return <LandingScreen onStart={() => setShowOnboarding(true)} onDemo={startDemo} onPresentation={() => setShowPresentation(true)} />;
+    if (publicPage === 'presentation') {
+      return <DemoPresentationScreen onLaunchDemo={startDemo} onBack={() => setPublicPage('landing')} onNavigate={setPublicPage} />;
+    }
+    if (publicPage === 'login' || publicPage === 'signup' || publicPage === 'forgot') {
+      return <AuthScreen mode={publicPage} onNavigate={setPublicPage} onDemo={startDemo} onLogin={handleLogin} onSignup={handleSignup} />;
+    }
+    if (publicPage === 'privacy' || publicPage === 'terms' || publicPage === 'disclaimers' || publicPage === 'about' || publicPage === 'careers' || publicPage === 'demo' || publicPage === 'pricing' || publicPage === 'contact') {
+      return <StaticPageScreen page={publicPage} onNavigate={setPublicPage} onDemo={startDemo} />;
+    }
+    return <LandingScreen onStart={() => setShowOnboarding(true)} onDemo={startDemo} onPresentation={() => setPublicPage('presentation')} onNavigate={setPublicPage} />;
   }
 
   if (!profile) {

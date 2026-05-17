@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     width: 156,
   },
   ringArc: {
-    backgroundColor: 'rgba(66, 242, 139, 0.22)',
+    backgroundColor: 'rgba(22, 163, 74, 0.18)',
     height: 156,
     left: 78,
     position: 'absolute',
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     width: 10,
   },
   lineConnector: {
-    backgroundColor: 'rgba(66, 242, 139, 0.38)',
+    backgroundColor: 'rgba(22, 163, 74, 0.32)',
     height: 2,
     left: -30,
     position: 'absolute',
@@ -175,12 +175,12 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   insightTitle: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 18,
     fontWeight: '900',
   },
   insightBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     fontSize: 13,
     lineHeight: 19,
     marginTop: spacing.sm,

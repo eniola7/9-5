@@ -1,10 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card } from '../components/Card';
+import { Footer } from '../components/Footer';
 import { InsightCard, LineChartMock, MiniBars, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
 import { ProgressBar } from '../components/ProgressBar';
-import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
 import { aiRecommendations, creditGrowthSeries, demoMetrics, roadmapItems, spendingDriftSeries, trustPillars } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
@@ -13,6 +14,7 @@ interface LandingScreenProps {
   onStart: () => void;
   onDemo: () => void;
   onPresentation: () => void;
+  onNavigate: (page: PublicPageKey) => void;
 }
 
 const featureSections = [
@@ -31,18 +33,9 @@ const whyMatters = [
   ['Families building stability', 'Progress can be slow and responsible; the system should make that visible.'],
 ];
 
-export const LandingScreen = ({ onStart, onDemo, onPresentation }: LandingScreenProps) => (
+export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: LandingScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-    <View style={styles.nav}>
-      <View>
-        <Text style={styles.logo}>LOLO</Text>
-        <Text style={styles.navSubtitle}>Personal financial trust OS</Text>
-      </View>
-      <View style={styles.navChips}>
-        <ProgressPill label="Bank-grade privacy" status="completed" />
-        <ProgressPill label="YC Demo Mode" />
-      </View>
-    </View>
+    <PublicHeader active="landing" onNavigate={onNavigate} onDemo={onDemo} />
 
     <View style={styles.hero}>
       <View style={styles.heroCopy}>
@@ -175,6 +168,7 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation }: LandingScreen
         ))}
       </View>
     </View>
+    <Footer onNavigate={onNavigate} onDemo={onDemo} />
   </ScrollView>
 );
 
@@ -193,25 +187,6 @@ const styles = StyleSheet.create({
   content: {
     padding: spacing.xl,
     paddingBottom: spacing.xxl * 2,
-  },
-  nav: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: spacing.md,
-    justifyContent: 'space-between',
-    marginBottom: spacing.xxl,
-  },
-  logo: {
-    color: colors.textPrimary,
-    fontSize: 34,
-    fontWeight: '900',
-  },
-  navSubtitle: {
-    ...typography.small,
-  },
-  navChips: {
-    alignItems: 'flex-end',
-    gap: spacing.sm,
   },
   hero: {
     gap: spacing.xl,
@@ -249,7 +224,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xl,
   },
   trustChip: {
-    backgroundColor: 'rgba(244, 246, 242, 0.08)',
+    backgroundColor: colors.cardSoft,
     borderColor: colors.borderSoft,
     borderRadius: radii.pill,
     borderWidth: 1,
@@ -261,7 +236,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   mockup: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
     ...shadows.glow,
   },
   mockTop: {
@@ -304,7 +279,7 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   incomplete: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
     marginBottom: spacing.xl,
   },
   storyGrid: {
@@ -328,13 +303,13 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   metrics: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
   },
   whyGrid: {
     gap: spacing.lg,
   },
   whyCard: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
   },
   whyTitle: {
     color: colors.textPrimary,
@@ -362,7 +337,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.lg,
   },
   metricTile: {
-    backgroundColor: 'rgba(244, 246, 242, 0.08)',
+    backgroundColor: colors.cardSoft,
     borderColor: colors.borderSoft,
     borderRadius: radii.lg,
     borderWidth: 1,
@@ -378,7 +353,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   pillar: {
-    backgroundColor: '#121A16',
+    backgroundColor: colors.card,
   },
   pillarTitle: {
     color: colors.textSecondary,
@@ -424,7 +399,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   social: {
-    backgroundColor: '#111714',
+    backgroundColor: colors.card,
   },
   socialPreview: {
     backgroundColor: colors.surfaceLight,
@@ -433,12 +408,12 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   socialTitle: {
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 20,
     fontWeight: '900',
   },
   socialBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     lineHeight: 21,
     marginTop: spacing.sm,
   },
@@ -448,7 +423,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   finalCta: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
     marginTop: spacing.lg,
   },
   finalTitle: {

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl * 2,
   },
   hero: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
   },
   heroKicker: {
     color: colors.accent,
@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   recs: {
-    backgroundColor: '#111714',
+    backgroundColor: colors.card,
   },
 });

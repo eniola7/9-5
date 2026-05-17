@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 88,
-    backgroundColor: 'rgba(244, 246, 242, 0.035)',
+    backgroundColor: 'rgba(22, 163, 74, 0.035)',
   },
   highlightImportant: {
-    backgroundColor: 'rgba(66, 242, 139, 0.11)',
+    backgroundColor: 'rgba(22, 163, 74, 0.08)',
   },
   important: {
     borderColor: colors.primary,
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
     ...shadows.glow,
   },
   pressed: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(66, 242, 139, 0.12)',
+    backgroundColor: 'rgba(22, 163, 74, 0.1)',
     borderColor: colors.primary,
     borderWidth: 1,
   },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   iconBadgeImportant: {
-    backgroundColor: 'rgba(244, 246, 242, 0.92)',
+    backgroundColor: colors.cardSoft,
   },
   accent: {
     color: colors.accent,

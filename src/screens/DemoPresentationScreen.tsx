@@ -1,8 +1,10 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card } from '../components/Card';
+import { Footer } from '../components/Footer';
 import { InsightCard, LineChartMock, MiniBars, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
 import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
 import { aiRecommendations, creditGrowthSeries, spendingDriftSeries } from '../data/financeMvp';
@@ -11,6 +13,7 @@ import { colors, radii, shadows, spacing, typography } from '../theme';
 interface DemoPresentationScreenProps {
   onLaunchDemo: () => void;
   onBack: () => void;
+  onNavigate?: (page: PublicPageKey) => void;
 }
 
 const measuredSignals = [
@@ -27,17 +30,14 @@ const journeys = [
   ['Early professional', 'Uses payment timing to make utilization tell a fairer story.'],
 ];
 
-export const DemoPresentationScreen = ({ onLaunchDemo, onBack }: DemoPresentationScreenProps) => (
+export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: DemoPresentationScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-    <View style={styles.nav}>
-      <View>
-        <Text style={styles.logo}>LOLO</Text>
-        <Text style={styles.navCopy}>Demo presentation</Text>
-      </View>
-      <View style={styles.navActions}>
-        <ProgressPill label="Educational demo" status="completed" />
-        <ProgressPill label="Privacy-first architecture" />
-      </View>
+    {onNavigate ? <PublicHeader active="presentation" onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
+    <View style={styles.badgeRow}>
+      <ProgressPill label="Educational demo" status="completed" />
+      <ProgressPill label="Behavioral trust signals" />
+      <ProgressPill label="Financial wellness insights" />
+      <ProgressPill label="Privacy-first architecture" />
     </View>
 
     <View style={styles.hero}>
@@ -117,6 +117,7 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack }: DemoPresentatio
       <Text style={styles.finalBody}>Launch the guided demo to see the selected user, Trust Score, score movement, simulation, and AI next-best-action.</Text>
       <PrimaryButton label="Launch 60-second demo" onPress={onLaunchDemo} style={styles.finalButton} />
     </Card>
+    {onNavigate ? <Footer onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
   </ScrollView>
 );
 
@@ -136,24 +137,11 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     paddingBottom: spacing.xxl * 2,
   },
-  nav: {
-    alignItems: 'center',
+  badgeRow: {
     flexDirection: 'row',
-    gap: spacing.md,
-    justifyContent: 'space-between',
-    marginBottom: spacing.xxl,
-  },
-  logo: {
-    color: colors.textPrimary,
-    fontSize: 34,
-    fontWeight: '900',
-  },
-  navCopy: {
-    ...typography.small,
-  },
-  navActions: {
-    alignItems: 'flex-end',
+    flexWrap: 'wrap',
     gap: spacing.sm,
+    marginBottom: spacing.xl,
   },
   hero: {
     gap: spacing.xl,
@@ -180,7 +168,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xl,
   },
   mockup: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
     ...shadows.glow,
   },
   mockTop: {
@@ -211,7 +199,7 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   explainer: {
-    backgroundColor: '#101814',
+    backgroundColor: colors.card,
   },
   cardTitle: {
     color: colors.textPrimary,
@@ -240,7 +228,7 @@ const styles = StyleSheet.create({
   signalChip: {
     backgroundColor: 'rgba(8, 13, 11, 0.08)',
     borderRadius: radii.pill,
-    color: colors.background,
+    color: colors.textPrimary,
     fontSize: 12,
     fontWeight: '900',
     overflow: 'hidden',
@@ -248,20 +236,20 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   lightBody: {
-    color: '#405047',
+    color: colors.textSecondary,
     fontSize: 14,
     lineHeight: 21,
     marginTop: spacing.lg,
   },
   founder: {
-    backgroundColor: '#111714',
+    backgroundColor: colors.card,
   },
   founderBody: {
     ...typography.body,
     marginTop: spacing.md,
   },
   finalCta: {
-    backgroundColor: '#102018',
+    backgroundColor: colors.card,
     marginTop: spacing.xl,
   },
   finalTitle: {

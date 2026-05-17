@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
   },
   choiceActive: {
-    backgroundColor: 'rgba(66, 242, 139, 0.14)',
+    backgroundColor: colors.cardSoft,
     borderColor: colors.primary,
   },
   choiceText: {

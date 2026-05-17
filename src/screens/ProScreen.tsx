@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   reviewCard: {
-    backgroundColor: '#151A1D',
+    backgroundColor: colors.card,
   },
   reviewTop: {
     alignItems: 'flex-start',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   roadmap: {
-    backgroundColor: '#111A14',
+    backgroundColor: colors.card,
   },
   roadmapTop: {
     alignItems: 'flex-start',

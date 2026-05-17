@@ -46,6 +46,8 @@ Over time, LOLO could become infrastructure for consent-based trust signals betw
 - **AI Coach:** suggested prompts and responses based on selected demo-user data.
 - **Money Journal:** monthly reviews and reflection cards for financial milestones.
 - **Demo presentation page:** lightweight explainer page for users, advisors, and investor conversations.
+- **Auth entry points:** polished login, signup, forgot password, and profile creation placeholder flows.
+- **User profile page:** profile summary, badges, privacy settings, journal entries, and saved reviews.
 - **Python engine:** local prototype engine for demo users, scoring, recommendations, simulations, and JSON export.
 
 ## Demo Flow
@@ -87,8 +89,58 @@ Add product screenshots here when preparing a deck, website, or advisor update:
 - React Navigation
 - Local JSON demo data
 - Python standard library prototype engine
+- Auth0-ready authentication abstraction for Expo / React Native
+- MongoDB-ready helper structure for future server runtime
 
 The frontend intentionally stays lightweight. No production backend, Plaid integration, bureau integration, or AI API is connected yet.
+
+## Available Pages / Routes
+
+This is an Expo app with state-based navigation, not a Next.js route tree. Current public and product surfaces include:
+
+- Landing
+- Demo presentation
+- Login
+- Signup
+- Forgot password
+- Create profile
+- About
+- Careers
+- Demo
+- Pricing
+- Contact
+- Privacy Policy
+- Terms of Service
+- Disclaimers
+- Dashboard
+- Journal
+- Insights
+- Coach
+- Credit Profile
+- Reviews
+- Account / User Profile
+
+Public pages:
+
+- Landing
+- About
+- Careers
+- Pricing
+- Demo
+- Contact
+- Privacy Policy
+- Terms of Service
+- Disclaimers
+
+Protected app surfaces in the current state-based app:
+
+- Dashboard
+- Account / Profile
+- Journal
+- Insights
+- Coach
+- Credit Profile
+- Reviews
 
 ## Python Engine
 
@@ -136,6 +188,63 @@ Future product:
 - Users should understand what data is connected and why
 - Educational trust signals must remain clearly distinct from official credit scores
 - Any partner or lender layer would require compliance, privacy, and security review
+
+## MongoDB Setup
+
+MongoDB support is scaffolded for a future server/API runtime in [src/lib/mongodb.ts](src/lib/mongodb.ts). The current Expo client does not connect directly to MongoDB.
+
+Copy `.env.example` and provide server-side values when a backend is added:
+
+```bash
+MONGODB_URI=
+MONGODB_DB_NAME=lolo
+```
+
+The intended collections are:
+
+- `users`
+- `profiles`
+- `journal_entries`
+- `product_reviews`
+- `financial_snapshots`
+- `user_preferences`
+
+See [docs/DATA_PERSISTENCE.md](docs/DATA_PERSISTENCE.md) for the persistence strategy and data that should not be stored.
+
+## Auth Status
+
+LOLO is structured for Auth0 as the authentication provider. In this Expo prototype, auth screens use Auth0-ready placeholder flows so the app remains portable without native Auth0 configuration.
+
+Required Auth0 environment placeholders:
+
+```bash
+AUTH0_SECRET=
+AUTH0_BASE_URL=http://localhost:3000
+AUTH0_ISSUER_BASE_URL=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+EXPO_PUBLIC_AUTH0_DOMAIN=
+EXPO_PUBLIC_AUTH0_CLIENT_ID=
+```
+
+Auth0 owns authentication. MongoDB should store only LOLO app data such as profile fields, preferences, journal entries, reviews, and financial snapshots. Do not store Auth0 passwords in MongoDB.
+
+For production Expo / React Native:
+
+- Configure Auth0 Universal Login or Auth0 React Native with Expo-compatible callbacks.
+- Keep `AUTH0_CLIENT_SECRET` server-side only.
+- Use Auth0 user `sub` as `auth0UserId` on LOLO profiles.
+- After login, fetch or create the LOLO profile in MongoDB.
+- Route users without profiles to profile onboarding.
+
+Production next steps:
+
+- Add a server runtime for protected API routes
+- Implement Auth0 session validation on API requests
+- Never store plaintext passwords or Auth0 secrets in the frontend
+- Add protected API routes for users, profiles, journal entries, reviews, and financial snapshots
+
+Planned API contract is documented in [src/lib/apiPlaceholders.ts](src/lib/apiPlaceholders.ts).
 
 ## Run Locally
 
@@ -194,6 +303,9 @@ See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for build settings for Vercel, Netl
 - Real-time financial insights
 - Lender and rental partner conversations
 - Personalized financial coaching
+- Alternative trust underwriting research
+- Auth0 production setup with protected server routes
+- MongoDB profile persistence wired to authenticated sessions
 - Alternative trust underwriting research
 - Consent-based trust profile sharing
 
