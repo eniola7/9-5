@@ -16,6 +16,7 @@
       "supportsTablet": true
     },
     "web": {
+      "bundler": "metro",
       "name": "LOLO — Credit Intelligence Platform",
       "shortName": "LOLO",
       "themeColor": "#16A34A",
