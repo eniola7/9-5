@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { BottomTabs } from './src/navigation/BottomTabs';
 import { PublicPageKey } from './src/components/PublicHeader';
 import { AuthScreen } from './src/screens/AuthScreen';
@@ -30,7 +30,7 @@ const demoAnswers: OnboardingAnswers = {
 };
 
 const AppInner = () => {
-  const { profile, isReady, completeOnboarding, saveAppUserProfile } = useProfile();
+  const { profile, isReady, completeOnboarding, resetDemo, saveAppUserProfile } = useProfile();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [publicPage, setPublicPage] = useState<PublicPageKey>('landing');
   const [pendingUser, setPendingUser] = useState<{ id: string; name: string; email: string } | null>(null);
@@ -68,6 +68,13 @@ const AppInner = () => {
     });
   };
 
+  const returnToLanding = async () => {
+    await resetDemo();
+    setPendingUser(null);
+    setShowOnboarding(false);
+    setPublicPage('landing');
+  };
+
   if (!profile && pendingUser) {
     return <CreateProfileScreen userId={pendingUser.id} email={pendingUser.email} name={pendingUser.name} onComplete={finishProfile} />;
   }
@@ -89,7 +96,14 @@ const AppInner = () => {
     return <OnboardingScreen onComplete={completeOnboarding} />;
   }
 
-  return <BottomTabs />;
+  return (
+    <View style={styles.appShell}>
+      <BottomTabs />
+      <Pressable style={styles.exitDemo} onPress={returnToLanding}>
+        <Text style={styles.exitDemoText}>Back to landing</Text>
+      </Pressable>
+    </View>
+  );
 };
 
 export default function App() {
@@ -125,5 +139,29 @@ const styles = StyleSheet.create({
   loadingText: {
     color: colors.textSecondary,
     fontWeight: '700',
+  },
+  appShell: {
+    flex: 1,
+  },
+  exitDemo: {
+    position: 'absolute',
+    right: 18,
+    top: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+    borderColor: colors.borderSoft,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
+    zIndex: 20,
+  },
+  exitDemoText: {
+    color: colors.primaryDark,
+    fontSize: 12,
+    fontWeight: '800',
   },
 });
