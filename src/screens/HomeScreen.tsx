@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { ProgressBar } from '../components/ProgressBar';
+import { SectionHeader } from '../components/SectionHeader';
 import { StorySection } from '../components/StorySection';
+import { Sparkline, MiniBars } from '../components/lolo/Charts';
+import { MetricGrid } from '../components/lolo/MetricGrid';
+import { MomentumDial } from '../components/lolo/Momentum';
+import { SubscriptionsList } from '../components/lolo/SubscriptionsList';
+import { TrustPillars } from '../components/lolo/TrustPillars';
+import { cashFlowSeries, spendingDriftSeries } from '../data/financeMvp';
 import { loloEngineDisclaimer } from '../data/loloDemoData';
 import { useProfile } from '../context/ProfileContext';
-import { colors, radii, shadows, spacing, typography } from '../theme';
-
-const statusItems = [
-  { label: 'Cash Flow', value: 'Stable', tone: 'success' },
-  { label: 'Credit', value: 'Action ready', tone: 'info' },
-  { label: 'Stress', value: 'Watch August', tone: 'warning' },
-] as const;
+import { colors, radii, spacing, typography } from '../theme';
 
 export const HomeScreen = () => {
   const { profile, selectedDemoUser } = useProfile();
@@ -26,32 +25,24 @@ export const HomeScreen = () => {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <StorySection>
-        <View style={styles.header}>
-          <Text style={styles.kicker}>Today</Text>
-          <Text style={styles.title}>You’re stable, with one watch area.</Text>
-          <Text style={styles.subtitle}>LOLO turns this month’s credit, spending, and runway signals into one clear next step.</Text>
-        </View>
+      <StorySection style={styles.hero}>
+        <Text style={typography.eyebrow}>Today · What changed</Text>
+        <Text style={styles.title}>The five signals that make a month make sense.</Text>
+        <Text style={styles.subtitle}>
+          LOLO opens with the shape of the month before asking you to read a transaction feed.
+        </Text>
       </StorySection>
 
       <StorySection delay={80}>
-        <Card glow style={styles.momentumCard}>
-          <View style={styles.momentumTop}>
-            <View>
-              <Text style={styles.momentumLabel}>Money Momentum</Text>
-              <Text style={styles.momentumCaption}>Direction, not judgment.</Text>
-            </View>
-            <Text style={styles.delta}>+{selectedDemoUser.upside.points} possible</Text>
-          </View>
-          <AnimatedNumber value={selectedDemoUser.trustScore} style={styles.score} />
-          <ProgressBar label="Stability trajectory" value={86} height={10} />
-          <Text style={styles.explanation}>{primaryChange}</Text>
+        <Card style={styles.momentumCard}>
+          <MomentumDial score={selectedDemoUser.trustScore} delta={selectedDemoUser.upside.points} />
+          <Text style={styles.change}>{primaryChange}</Text>
         </Card>
       </StorySection>
 
       <StorySection delay={150}>
         <Card style={styles.actionCard}>
-          <Text style={styles.actionKicker}>What to do next</Text>
+          <Text style={styles.kicker}>One next best action</Text>
           <Text style={styles.actionTitle}>{recommendation?.title ?? selectedDemoUser.upside.action}</Text>
           <Text style={styles.actionBody}>
             {recommendation?.explanation ?? 'This is the highest leverage action LOLO found in the demo profile.'}
@@ -64,31 +55,48 @@ export const HomeScreen = () => {
       </StorySection>
 
       <StorySection delay={220}>
-        <View style={styles.statusGrid}>
-          {statusItems.map((item) => (
-            <View key={item.label} style={styles.statusCard}>
-              <View style={[styles.statusDot, styles[`${item.tone}Dot`]]} />
-              <Text style={styles.statusLabel}>{item.label}</Text>
-              <Text style={styles.statusValue}>{item.value}</Text>
-            </View>
-          ))}
-        </View>
+        <MetricGrid />
       </StorySection>
 
       <StorySection delay={290}>
-        <Card style={styles.contextCard}>
-          <Text style={styles.contextTitle}>Why it matters</Text>
-          <Text style={styles.contextBody}>
+        <View style={styles.chartGrid}>
+          <Card>
+            <Text style={styles.chartKicker}>Cash flow · 6 months</Text>
+            <Text style={styles.chartValue}>{selectedDemoUser.cashFlowLabel}/mo</Text>
+            <Sparkline values={cashFlowSeries} />
+          </Card>
+          <Card>
+            <Text style={styles.chartKicker}>Spending drift · 6 months</Text>
+            <Text style={styles.chartValue}>{selectedDemoUser.spendingDriftPercent}%</Text>
+            <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
+          </Card>
+        </View>
+      </StorySection>
+
+      <StorySection delay={360}>
+        <Card style={styles.dark}>
+          <Text style={[typography.eyebrow, styles.gold]}>Why it matters</Text>
+          <Text style={styles.darkTitle}>Patterns, not shame.</Text>
+          <Text style={styles.darkBody}>
             Your emergency runway improved by 18 days this quarter, but dining, commuting, and convenience spending rose 18% over 3 months. At the current pace, your savings buffer may dip below 2 months in August.
           </Text>
         </Card>
       </StorySection>
 
+      <StorySection delay={430}>
+        <SectionHeader title="Calm spine" subtitle="The operating signals underneath this month." />
+        <TrustPillars />
+      </StorySection>
+
+      <StorySection delay={500}>
+        <SubscriptionsList />
+      </StorySection>
+
       <Modal transparent visible={expanded} animationType="fade">
         <View style={styles.modalOverlay}>
-          <Card glow style={styles.modalCard}>
+          <Card style={styles.modalCard}>
             <Text style={styles.modalTitle}>The useful move is small.</Text>
-            <Text style={styles.contextBody}>
+            <Text style={styles.modalBody}>
               Paying before statement close could lower reported utilization and make next month’s credit picture calmer without changing your entire budget.
             </Text>
             <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
@@ -109,85 +117,53 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     paddingBottom: spacing.xxl * 3,
   },
-  header: {
+  hero: {
     paddingTop: spacing.md,
   },
-  kicker: {
-    ...typography.eyebrow,
-  },
   title: {
-    color: colors.textPrimary,
-    fontSize: 38,
-    fontWeight: '700',
-    lineHeight: 42,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 42,
+    lineHeight: 47,
     marginTop: spacing.md,
   },
   subtitle: {
-    ...typography.body,
+    color: colors.inkSoft,
+    fontSize: 16,
+    lineHeight: 25,
     marginTop: spacing.md,
   },
   momentumCard: {
-    backgroundColor: colors.surfaceDeep,
-    borderColor: 'rgba(221, 247, 232, 0.18)',
+    backgroundColor: colors.card,
   },
-  momentumTop: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    gap: spacing.md,
-    justifyContent: 'space-between',
-  },
-  momentumLabel: {
-    color: colors.mint,
-    fontSize: 15,
-    fontWeight: '800',
-  },
-  momentumCaption: {
-    color: 'rgba(221, 247, 232, 0.68)',
-    fontSize: 12,
-    marginTop: spacing.xs,
-  },
-  delta: {
-    backgroundColor: 'rgba(221, 247, 232, 0.1)',
-    borderRadius: radii.pill,
-    color: colors.mint,
-    fontSize: 12,
-    fontWeight: '800',
-    overflow: 'hidden',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  score: {
-    color: colors.surfaceLight,
-    fontSize: 86,
-    fontWeight: '700',
-    letterSpacing: 0,
-    lineHeight: 92,
-    marginVertical: spacing.lg,
-  },
-  explanation: {
-    color: 'rgba(255, 255, 255, 0.76)',
+  change: {
+    color: colors.inkSoft,
     fontSize: 14,
     lineHeight: 22,
-    marginTop: spacing.lg,
+    marginTop: spacing.xl,
   },
   actionCard: {
-    backgroundColor: colors.surfaceLight,
+    backgroundColor: colors.paper,
   },
-  actionKicker: {
-    color: colors.primaryDark,
-    fontSize: 12,
+  kicker: {
+    color: colors.primaryDeep,
+    fontFamily: 'Courier',
+    fontSize: 11,
     fontWeight: '800',
+    letterSpacing: 0.8,
     textTransform: 'uppercase',
   },
   actionTitle: {
-    color: colors.textPrimary,
-    fontSize: 27,
-    fontWeight: '700',
-    lineHeight: 32,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 32,
+    lineHeight: 38,
     marginTop: spacing.md,
   },
   actionBody: {
-    ...typography.body,
+    color: colors.inkSoft,
+    fontSize: 15,
+    lineHeight: 24,
     marginTop: spacing.md,
   },
   actionButtons: {
@@ -198,55 +174,40 @@ const styles = StyleSheet.create({
   actionButton: {
     flex: 1,
   },
-  statusGrid: {
-    flexDirection: 'row',
-    gap: spacing.sm,
+  chartGrid: {
+    gap: spacing.md,
   },
-  statusCard: {
-    backgroundColor: colors.surfaceLight,
-    borderColor: colors.borderSoft,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    flex: 1,
-    padding: spacing.md,
-    ...shadows.card,
-  },
-  statusDot: {
-    borderRadius: 5,
-    height: 10,
-    marginBottom: spacing.md,
-    width: 10,
-  },
-  successDot: {
-    backgroundColor: colors.success,
-  },
-  warningDot: {
-    backgroundColor: colors.warning,
-  },
-  infoDot: {
-    backgroundColor: colors.info,
-  },
-  statusLabel: {
-    color: colors.textMuted,
+  chartKicker: {
+    color: colors.primaryDeep,
+    fontFamily: 'Courier',
     fontSize: 11,
-    fontWeight: '700',
-  },
-  statusValue: {
-    color: colors.textPrimary,
-    fontSize: 15,
     fontWeight: '800',
-    marginTop: spacing.xs,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
-  contextCard: {
-    backgroundColor: colors.cardSoft,
+  chartValue: {
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 34,
+    marginTop: spacing.sm,
   },
-  contextTitle: {
-    color: colors.textPrimary,
-    fontSize: 21,
-    fontWeight: '700',
+  dark: {
+    backgroundColor: colors.ink,
   },
-  contextBody: {
-    ...typography.body,
+  gold: {
+    color: colors.gold,
+  },
+  darkTitle: {
+    color: colors.background,
+    fontFamily: 'Georgia',
+    fontSize: 34,
+    lineHeight: 40,
+    marginTop: spacing.md,
+  },
+  darkBody: {
+    color: 'rgba(250, 251, 246, 0.72)',
+    fontSize: 15,
+    lineHeight: 24,
     marginTop: spacing.md,
   },
   modalOverlay: {
@@ -259,17 +220,24 @@ const styles = StyleSheet.create({
     borderRadius: radii.xl,
   },
   modalTitle: {
-    color: colors.textPrimary,
-    fontSize: 28,
-    fontWeight: '700',
-    lineHeight: 34,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 30,
+    lineHeight: 36,
+  },
+  modalBody: {
+    color: colors.inkSoft,
+    fontSize: 15,
+    lineHeight: 24,
+    marginTop: spacing.md,
   },
   disclaimer: {
-    ...typography.small,
     color: colors.textMuted,
+    fontSize: 12,
+    lineHeight: 18,
     marginTop: spacing.lg,
   },
   closeButton: {
-    marginTop: spacing.xl,
+    marginTop: spacing.lg,
   },
 });

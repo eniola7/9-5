@@ -28,6 +28,7 @@
   ],
   "exclude": [
     "node_modules",
+    "lovable-export",
     "babel.config.js"
   ],
   "extends": "expo/tsconfig.base"

@@ -1,16 +1,17 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';
-import { InsightCard, LineChartMock, MiniBars } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
-import { ProgressBar } from '../components/ProgressBar';
+import { PublicPageKey } from '../components/PublicHeader';
 import { SectionHeader } from '../components/SectionHeader';
 import { StorySection } from '../components/StorySection';
-import { aiRecommendations, creditGrowthSeries, founderStory, journalPosts, spendingDriftSeries, stockScenes, trustSignals } from '../data/financeMvp';
-import { colors, radii, shadows, spacing, typography } from '../theme';
+import { DemoCard } from '../components/lolo/DemoCard';
+import { JournalList } from '../components/lolo/JournalList';
+import { SiteNav } from '../components/lolo/SiteNav';
+import { Sparkline } from '../components/lolo/Charts';
+import { founderStory, stockScenes, trustSignals } from '../data/financeMvp';
+import { colors, radii, spacing, typography } from '../theme';
 
 interface LandingScreenProps {
   onStart: () => void;
@@ -19,146 +20,157 @@ interface LandingScreenProps {
   onNavigate: (page: PublicPageKey) => void;
 }
 
-const howItWorks = [
-  {
-    title: 'Connect the story',
-    body: 'Start with a profile or demo financial snapshot: income, rent, credit habits, savings, subscriptions, and real-life pressure points.',
-  },
-  {
-    title: 'Open your monthly review',
-    body: 'LOLO explains what changed financially, why it matters, and what action would make next month steadier.',
-  },
-  {
-    title: 'Reflect without shame',
-    body: 'Save short notes about moving cities, paying down a first card, subscription creep, or building a real emergency buffer.',
-  },
+const surfaces = [
+  { title: 'Today', body: 'A calm one-screen read on what changed, why it matters, and what one next best action looks like.', note: 'what changed' },
+  { title: 'Review', body: 'Your flagship monthly story: key metrics, the change worth knowing, a stress forecast, and a reflection prompt.', note: 'the monthly story' },
+  { title: 'Reflect', body: 'Journal a life event, log a money moment, or work through a goal without it feeling like a generic chatbot.', note: 'your reflections' },
+  { title: 'Me', body: 'Profile context, milestones, financial biography, connected-account placeholder, and privacy controls.', note: 'your context' },
+];
+
+const principles = [
+  { n: '01', t: 'Direction, not judgment', b: 'Money Momentum is a signal of where things are heading, never a grade on who you are.' },
+  { n: '02', t: 'Context over transactions', b: 'LOLO tells you what a month meant. Anyone can tell you what you spent.' },
+  { n: '03', t: 'Designed for messy lives', b: 'Moves, late starts, immigration, school, debt payoffs, raises, and the real shape of building stability.' },
 ];
 
 const audiences = [
   'Young professionals in expensive cities',
-  'Immigrants and people with thin credit files',
+  'Recent immigrants with thin U.S. credit files',
   'Students building early credit habits',
   'Renters trying to prove reliability',
   'Families building stability month by month',
 ];
 
-const faqs = [
-  {
-    q: 'Is LOLO a budgeting app?',
-    a: 'No. LOLO is a financial reflection platform. It helps you understand the story behind your month, not micromanage every dollar.',
-  },
-  {
-    q: 'Is Money Momentum a credit score?',
-    a: 'No. It is an educational demo signal based on behavior patterns. It is not a FICO score or credit bureau score.',
-  },
-  {
-    q: 'Does LOLO move money?',
-    a: 'No. The prototype is read-only and uses mock data unless a user connects data in the future with clear consent.',
-  },
-];
-
 export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: LandingScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-    <PublicHeader active="landing" onNavigate={onNavigate} onDemo={onDemo} />
+    <SiteNav active="landing" onNavigate={onNavigate} onDemo={onDemo} onWaitlist={onStart} />
 
-    <StorySection>
-      <View style={styles.hero}>
-        <View style={styles.heroCopy}>
-          <Text style={typography.eyebrow}>Financial growth should feel like a journal, not a spreadsheet.</Text>
-          <Text style={styles.headline}>Your financial story, one month at a time.</Text>
-          <Text style={styles.subheadline}>
-            LOLO turns financial data into calm monthly stories so you can understand what changed, why it matters, and what to do next.
-          </Text>
-          <View style={styles.ctaRow}>
-            <PrimaryButton label="Join the waitlist" onPress={onStart} style={styles.cta} />
-            <PrimaryButton label="View product demo" variant="ghost" onPress={onDemo} />
-          </View>
-          <Text style={styles.audienceText}>
-            Built for young professionals, immigrants, renters, students, and people building stability in real life.
-          </Text>
+    <StorySection style={styles.hero}>
+      <View style={styles.heroCopy}>
+        <Text style={typography.eyebrow}>A monthly financial journal · not a budgeting app</Text>
+        <Text style={styles.headline}>
+          Your financial story,{'\n'}
+          <Text style={styles.italic}>one month</Text> at a time.
+        </Text>
+        <Text style={styles.subheadline}>
+          LOLO turns financial data into calm monthly stories so you understand what changed, why it matters, and what one next best action would make next month steadier.
+        </Text>
+        <View style={styles.ctaRow}>
+          <PrimaryButton label="View product demo ->" onPress={onDemo} style={styles.primaryCta} />
+          <PrimaryButton label="Join the waitlist" variant="ghost" onPress={onStart} />
         </View>
-
-        <Card glow style={styles.preview}>
-          <View style={styles.previewTop}>
-            <View>
-              <Text style={styles.previewKicker}>May Review</Text>
-              <Text style={styles.previewTitle}>Stable, with one watch area</Text>
-            </View>
-            <View style={styles.monthBadge}>
-              <Text style={styles.monthBadgeText}>Demo</Text>
-            </View>
-          </View>
-          <View style={styles.momentumRow}>
-            <View>
-              <Text style={styles.momentumLabel}>Money Momentum</Text>
-              <AnimatedNumber value={742} style={styles.momentumScore} />
-            </View>
-            <Text style={styles.delta}>+18 this month</Text>
-          </View>
-          <ProgressBar label="Month opened" value={82} height={12} />
-          <View style={styles.previewPanels}>
-            <View style={styles.panel}>
-              <Text style={styles.panelLabel}>Credit rhythm</Text>
-              <LineChartMock values={creditGrowthSeries} />
-            </View>
-            <View style={styles.panel}>
-              <Text style={styles.panelLabel}>Spending drift</Text>
-              <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
-            </View>
-          </View>
-          <InsightCard {...aiRecommendations[2]} />
-        </Card>
+        <Text style={styles.audienceNote}>
+          Built for young professionals, immigrants, renters, students, and families building stability inside systems that were not designed for their journeys.
+        </Text>
+        <View style={styles.signalRow}>
+          <SignalDot label="Read-only prototype" color={colors.success} />
+          <SignalDot label="Demo data only" color={colors.accent} />
+          <SignalDot label="No bank connection" color={colors.inkSoft} />
+        </View>
       </View>
+      <DemoCard />
     </StorySection>
 
     <StorySection delay={100}>
-      <Card style={styles.statement}>
-        <Text style={styles.statementTitle}>Money is stressful enough.</Text>
-        <Text style={styles.statementBody}>
-          LOLO is for the month after you move apartments, the week rent and a card payment land together, the quiet win of paying off a first balance,
-          and the moment you realize subscription creep is not a personality flaw. It is context.
+      <View style={styles.thesis}>
+        <Text style={typography.eyebrow}>The thesis</Text>
+        <Text style={styles.thesisText}>
+          Money is stressful enough.{'\n'}
+          <Text style={styles.thesisMuted}>Financial growth should feel like a </Text>
+          <Text style={styles.italic}>journal</Text>
+          <Text style={styles.thesisMuted}>, not a spreadsheet.</Text>
         </Text>
-      </Card>
+        <Text style={styles.thesisBody}>
+          LOLO is for the month after you move apartments, the week rent and a card payment land together, the quiet win of paying off a first balance, and the moment you realize subscription creep is context, not a personality flaw.
+        </Text>
+      </View>
     </StorySection>
 
-    <StorySection delay={160}>
-      <SectionHeader title="How LOLO works" subtitle="Three calm loops: see the month, understand the pattern, save the lesson." />
-      <View style={styles.workGrid}>
-        {howItWorks.map((item, index) => (
-          <Card key={item.title} style={styles.workCard}>
-            <Text style={styles.index}>0{index + 1}</Text>
-            <Text style={styles.workTitle}>{item.title}</Text>
-            <Text style={styles.workBody}>{item.body}</Text>
+    <StorySection delay={160} style={styles.splitSection}>
+      <View style={styles.stickyCopy}>
+        <Text style={typography.eyebrow}>Four surfaces</Text>
+        <Text style={styles.sectionHero}>A small app with a calm spine.</Text>
+        <Text style={styles.sectionBody}>
+          Every screen exists to answer one question, so you always know where to go and never feel buried by data.
+        </Text>
+      </View>
+      <View style={styles.surfaceGrid}>
+        {surfaces.map((surface, index) => (
+          <Card key={surface.title} style={styles.surfaceCard}>
+            <View style={styles.surfaceTop}>
+              <Text style={styles.surfaceTitle}>{surface.title}</Text>
+              <Text style={styles.surfaceIndex}>0{index + 1}</Text>
+            </View>
+            <Text style={styles.surfaceBody}>{surface.body}</Text>
+            <View style={styles.rule} />
+            <Text style={styles.surfaceNote}>{surface.note}</Text>
           </Card>
         ))}
       </View>
     </StorySection>
 
     <StorySection delay={220}>
-      <Card glow style={styles.reviewFeature}>
-        <Text style={styles.featureKicker}>The flagship experience</Text>
-        <Text style={styles.featureTitle}>A monthly review that unfolds like a financial story.</Text>
-        <View style={styles.chapterList}>
-          {['Month cover', 'AI-style summary', 'Key metrics', 'What changed', 'Stress forecast', 'Reflection prompt', 'Looking ahead'].map((chapter) => (
-            <View key={chapter} style={styles.chapter}>
-              <View style={styles.chapterDot} />
-              <Text style={styles.chapterText}>{chapter}</Text>
+      <View style={styles.darkStory}>
+        <View style={styles.darkCopy}>
+          <Text style={[typography.eyebrow, styles.goldText]}>May in Mina's story</Text>
+          <Text style={styles.darkTitle}>
+            “I didn’t realize I was actually <Text style={styles.goldText}>building</Text> something.”
+          </Text>
+          <Text style={styles.darkBody}>
+            Mina arrived in the U.S. ten months ago. Her credit file is seven months old. Rent is $1,450 on a $4,200 income. Here is how LOLO told the story of her May.
+          </Text>
+        </View>
+        <View style={styles.darkPanel}>
+          <Text style={styles.darkKicker}>Credit trajectory · 7 months</Text>
+          <Sparkline values={[612, 624, 640, 661, 689, 712, 742]} color={colors.gold} />
+          {[
+            ['May 03', 'Secured Visa payment', '$170 · 6 days early'],
+            ['May 12', 'Rent paid', '$1,450 · on time'],
+            ['May 18', 'Reflection saved', '"Cut rideshare in half this week."'],
+            ['May 28', 'Savings transfer', '+$240 to emergency buffer'],
+          ].map(([date, title, note]) => (
+            <View key={title} style={styles.eventRow}>
+              <Text style={styles.eventDate}>{date}</Text>
+              <View style={styles.eventCopy}>
+                <Text style={styles.eventTitle}>{title}</Text>
+                <Text style={styles.eventNote}>{note}</Text>
+              </View>
             </View>
           ))}
+          <View style={styles.lookingAhead}>
+            <Text style={styles.lookingKicker}>Looking ahead · June</Text>
+            <Text style={styles.lookingBody}>Two cards report in the same week. Pre-paying the Builder Visa by June 5 keeps utilization under 25% for the second month in a row.</Text>
+          </View>
         </View>
-      </Card>
+      </View>
     </StorySection>
 
     <StorySection delay={280}>
-      <SectionHeader title="Real life, not perfect spreadsheets" subtitle="LOLO is designed for the places where money decisions are emotional, practical, and connected." />
-      <View style={styles.audienceGrid}>
-        {audiences.map((audience) => (
-          <Text key={audience} style={styles.audiencePill}>{audience}</Text>
+      <SectionHeader title="What we refuse to be." subtitle="LOLO avoids shame, hustle culture, and generic transaction feeds." eyebrow="Principles" />
+      <View style={styles.principleGrid}>
+        {principles.map((principle) => (
+          <Card key={principle.n} style={styles.principleCard}>
+            <Text style={styles.surfaceIndex}>{principle.n}</Text>
+            <Text style={styles.principleTitle}>{principle.t}</Text>
+            <Text style={styles.surfaceBody}>{principle.b}</Text>
+          </Card>
         ))}
       </View>
     </StorySection>
 
-    <StorySection delay={310}>
+    <StorySection delay={340}>
+      <View style={styles.audienceSection}>
+        <Text style={typography.eyebrow}>Who it's for</Text>
+        <Text style={styles.sectionHero}>People building stability while life is expensive, imperfect, and in motion.</Text>
+        <View style={styles.audienceGrid}>
+          {audiences.map((audience) => (
+            <Text key={audience} style={styles.audiencePill}>{audience}</Text>
+          ))}
+        </View>
+      </View>
+    </StorySection>
+
+    <StorySection delay={400}>
       <View style={styles.sceneGrid}>
         {stockScenes.map((scene) => (
           <Card key={scene.title} style={styles.sceneCard}>
@@ -173,21 +185,22 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       </View>
     </StorySection>
 
-    <StorySection delay={340}>
-      <Card style={styles.journalCard}>
-        <SectionHeader title="A reflection layer for money moments" subtitle="Tasteful, private by default, and grounded in real decisions rather than flexing." />
-        {journalPosts.slice(0, 3).map((post) => (
-          <View key={post.title} style={styles.journalItem}>
-            <Text style={styles.journalTitle}>{post.title}</Text>
-            <Text style={styles.journalBody}>{post.reflection}</Text>
-            <Text style={styles.journalMeta}>{post.rating} rating · {post.tags.join(' · ')} · {post.helpful} helpful</Text>
-          </View>
+    <StorySection delay={460}>
+      <SectionHeader title="A reflection layer for money moments" subtitle="Tasteful, private by default, and grounded in real decisions rather than flexing." eyebrow="Journal" />
+      <JournalList limit={4} />
+    </StorySection>
+
+    <StorySection delay={520}>
+      <Card style={styles.founderCard}>
+        <SectionHeader title="Founder story" subtitle="The human reason LOLO exists." />
+        {founderStory.map((paragraph) => (
+          <Text key={paragraph} style={styles.founderBody}>{paragraph}</Text>
         ))}
       </Card>
     </StorySection>
 
-    <StorySection delay={400}>
-      <Card>
+    <StorySection delay={580}>
+      <Card style={styles.trustCard}>
         <SectionHeader title="Trust and privacy" subtitle="Financial clarity only works if the user feels safe." />
         <View style={styles.trustGrid}>
           {trustSignals.map((item) => (
@@ -198,29 +211,8 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       </Card>
     </StorySection>
 
-    <StorySection delay={460}>
-      <Card style={styles.founderCard}>
-        <SectionHeader title="Founder story" subtitle="A simple reason to exist." />
-        {founderStory.map((paragraph) => (
-          <Text key={paragraph} style={styles.founderBody}>{paragraph}</Text>
-        ))}
-      </Card>
-    </StorySection>
-
-    <StorySection delay={520}>
-      <SectionHeader title="Questions people ask first" />
-      <View style={styles.faqGrid}>
-        {faqs.map((faq) => (
-          <Card key={faq.q} style={styles.faqCard}>
-            <Text style={styles.faqQuestion}>{faq.q}</Text>
-            <Text style={styles.faqAnswer}>{faq.a}</Text>
-          </Card>
-        ))}
-      </View>
-    </StorySection>
-
-    <StorySection delay={580}>
-      <Card glow style={styles.finalCta}>
+    <StorySection delay={640}>
+      <Card style={styles.waitlist}>
         <Text style={styles.finalTitle}>Open the month. Understand the story.</Text>
         <Text style={styles.finalBody}>A calmer way to see spending, credit habits, stress, and progress without shame or noise.</Text>
         <PrimaryButton label="Join the waitlist" onPress={onStart} style={styles.finalButton} />
@@ -232,212 +224,288 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
   </ScrollView>
 );
 
+const SignalDot = ({ label, color }: { label: string; color: string }) => (
+  <View style={styles.signal}>
+    <View style={[styles.dot, { backgroundColor: color }]} />
+    <Text style={styles.signalText}>{label}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
     backgroundColor: colors.background,
+    flex: 1,
   },
   content: {
     padding: spacing.xl,
     paddingBottom: spacing.xxl * 2,
   },
   hero: {
-    gap: spacing.xl,
-    marginBottom: spacing.xl,
+    gap: spacing.xxl,
+    paddingBottom: spacing.xxl * 2,
+    paddingTop: spacing.xxl,
   },
   heroCopy: {
-    paddingTop: spacing.lg,
+    gap: spacing.lg,
   },
   headline: {
-    color: colors.textPrimary,
-    fontSize: 54,
-    fontWeight: '800',
-    letterSpacing: -0.2,
-    lineHeight: 58,
-    marginTop: spacing.md,
-    maxWidth: 900,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 56,
+    lineHeight: 60,
+  },
+  italic: {
+    color: colors.primaryDeep,
+    fontFamily: 'Georgia',
+    fontStyle: 'italic',
   },
   subheadline: {
-    color: colors.textSecondary,
-    fontSize: 19,
-    lineHeight: 30,
-    marginTop: spacing.lg,
-    maxWidth: 760,
+    color: colors.inkSoft,
+    fontSize: 18,
+    lineHeight: 29,
+    maxWidth: 680,
   },
   ctaRow: {
     gap: spacing.md,
-    marginTop: spacing.xl,
   },
-  cta: {
-    ...shadows.soft,
+  primaryCta: {
+    alignSelf: 'flex-start',
   },
-  audienceText: {
+  audienceNote: {
     color: colors.textMuted,
-    fontSize: 13,
-    fontWeight: '700',
-    lineHeight: 20,
-    marginTop: spacing.lg,
-    maxWidth: 680,
+    fontSize: 14,
+    lineHeight: 21,
+    maxWidth: 560,
   },
-  preview: {
-    backgroundColor: colors.surfaceDeep,
-  },
-  previewTop: {
-    alignItems: 'flex-start',
+  signalRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: spacing.lg,
-  },
-  previewKicker: {
-    color: colors.secondaryGreen,
-    fontSize: 12,
-    fontWeight: '800',
-    textTransform: 'uppercase',
-  },
-  previewTitle: {
-    color: colors.white,
-    fontSize: 26,
-    fontWeight: '800',
-    lineHeight: 32,
-    marginTop: spacing.xs,
-    maxWidth: 260,
-  },
-  monthBadge: {
-    backgroundColor: colors.mint,
-    borderRadius: radii.pill,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-  },
-  monthBadgeText: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '900',
-  },
-  momentumRow: {
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: spacing.lg,
-  },
-  momentumLabel: {
-    color: colors.secondaryGreen,
-    fontSize: 12,
-    fontWeight: '800',
-    textTransform: 'uppercase',
-  },
-  momentumScore: {
-    color: colors.white,
-    fontSize: 72,
-    fontWeight: '800',
-    lineHeight: 78,
-  },
-  delta: {
-    color: colors.mint,
-    fontSize: 13,
-    fontWeight: '800',
-    paddingBottom: spacing.sm,
-  },
-  previewPanels: {
-    gap: spacing.md,
-    marginTop: spacing.lg,
-  },
-  panel: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderColor: 'rgba(255,255,255,0.12)',
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    padding: spacing.lg,
-  },
-  panelLabel: {
-    color: colors.white,
-    fontSize: 13,
-    fontWeight: '800',
-    marginBottom: spacing.sm,
-  },
-  statement: {
-    backgroundColor: colors.card,
-  },
-  statementTitle: {
-    color: colors.textPrimary,
-    fontSize: 30,
-    fontWeight: '800',
-  },
-  statementBody: {
-    color: colors.textSecondary,
-    fontSize: 17,
-    lineHeight: 27,
-    marginTop: spacing.md,
-  },
-  workGrid: {
+    flexWrap: 'wrap',
     gap: spacing.lg,
   },
-  workCard: {
-    backgroundColor: colors.card,
-  },
-  index: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '900',
-  },
-  workTitle: {
-    color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '800',
-    marginTop: spacing.md,
-  },
-  workBody: {
-    ...typography.body,
-    marginTop: spacing.sm,
-  },
-  reviewFeature: {
-    backgroundColor: colors.card,
-  },
-  featureKicker: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '900',
-    textTransform: 'uppercase',
-  },
-  featureTitle: {
-    color: colors.textPrimary,
-    fontSize: 34,
-    fontWeight: '800',
-    letterSpacing: -0.2,
-    lineHeight: 40,
-    marginTop: spacing.md,
-  },
-  chapterList: {
-    gap: spacing.md,
-    marginTop: spacing.xl,
-  },
-  chapter: {
+  signal: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  dot: {
+    borderRadius: radii.pill,
+    height: 7,
+    width: 7,
+  },
+  signalText: {
+    color: colors.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  thesis: {
+    alignItems: 'center',
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    marginHorizontal: -spacing.xl,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.xxl * 2,
+  },
+  thesisText: {
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 38,
+    lineHeight: 46,
+    marginTop: spacing.lg,
+    textAlign: 'center',
+  },
+  thesisMuted: {
+    color: colors.inkSoft,
+  },
+  thesisBody: {
+    color: colors.inkSoft,
+    fontSize: 16,
+    lineHeight: 25,
+    marginTop: spacing.xl,
+    maxWidth: 720,
+    textAlign: 'center',
+  },
+  splitSection: {
+    gap: spacing.xxl,
+    paddingVertical: spacing.xxl * 2,
+  },
+  stickyCopy: {
     gap: spacing.md,
   },
-  chapterDot: {
-    backgroundColor: colors.primary,
-    borderRadius: radii.pill,
-    height: 10,
-    width: 10,
+  sectionHero: {
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 40,
+    lineHeight: 46,
   },
-  chapterText: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '800',
+  sectionBody: {
+    color: colors.inkSoft,
+    fontSize: 15,
+    lineHeight: 24,
+  },
+  surfaceGrid: {
+    gap: spacing.md,
+  },
+  surfaceCard: {
+    backgroundColor: colors.card,
+  },
+  surfaceTop: {
+    alignItems: 'baseline',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  surfaceTitle: {
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 26,
+  },
+  surfaceIndex: {
+    color: colors.textMuted,
+    fontFamily: 'Courier',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  surfaceBody: {
+    color: colors.inkSoft,
+    fontSize: 14,
+    lineHeight: 22,
+    marginTop: spacing.md,
+  },
+  rule: {
+    backgroundColor: colors.border,
+    height: 1,
+    marginTop: spacing.xl,
+  },
+  surfaceNote: {
+    color: colors.primaryDeep,
+    fontFamily: 'Courier',
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    marginTop: spacing.md,
+    textTransform: 'uppercase',
+  },
+  darkStory: {
+    backgroundColor: colors.ink,
+    borderRadius: radii.xl,
+    gap: spacing.xxl,
+    marginHorizontal: -spacing.xl,
+    padding: spacing.xl,
+  },
+  darkCopy: {
+    gap: spacing.lg,
+  },
+  goldText: {
+    color: colors.gold,
+  },
+  darkTitle: {
+    color: colors.background,
+    fontFamily: 'Georgia',
+    fontSize: 38,
+    lineHeight: 45,
+  },
+  darkBody: {
+    color: 'rgba(250, 251, 246, 0.72)',
+    fontSize: 15,
+    lineHeight: 24,
+  },
+  darkPanel: {
+    backgroundColor: 'rgba(250, 251, 246, 0.06)',
+    borderColor: 'rgba(250, 251, 246, 0.12)',
+    borderRadius: radii.xl,
+    borderWidth: 1,
+    padding: spacing.xl,
+  },
+  darkKicker: {
+    color: 'rgba(250, 251, 246, 0.62)',
+    fontFamily: 'Courier',
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+  },
+  eventRow: {
+    borderBottomColor: 'rgba(250, 251, 246, 0.12)',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  eventDate: {
+    color: 'rgba(250, 251, 246, 0.52)',
+    fontFamily: 'Courier',
+    fontSize: 12,
+    width: 66,
+  },
+  eventCopy: {
+    flex: 1,
+  },
+  eventTitle: {
+    color: colors.background,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  eventNote: {
+    color: 'rgba(250, 251, 246, 0.62)',
+    fontSize: 12,
+    marginTop: spacing.xs,
+  },
+  lookingAhead: {
+    backgroundColor: 'rgba(201, 163, 91, 0.14)',
+    borderColor: 'rgba(201, 163, 91, 0.3)',
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    marginTop: spacing.lg,
+    padding: spacing.lg,
+  },
+  lookingKicker: {
+    color: colors.gold,
+    fontFamily: 'Courier',
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+  },
+  lookingBody: {
+    color: 'rgba(250, 251, 246, 0.88)',
+    fontSize: 13,
+    lineHeight: 20,
+    marginTop: spacing.sm,
+  },
+  principleGrid: {
+    gap: spacing.md,
+  },
+  principleCard: {
+    padding: spacing.xl,
+  },
+  principleTitle: {
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 26,
+    marginTop: spacing.lg,
+  },
+  audienceSection: {
+    backgroundColor: colors.paper,
+    borderColor: colors.border,
+    borderRadius: radii.xl,
+    borderWidth: 1,
+    padding: spacing.xl,
   },
   audienceGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
+    marginTop: spacing.xl,
   },
   audiencePill: {
     backgroundColor: colors.card,
-    borderColor: colors.borderSoft,
+    borderColor: colors.border,
     borderRadius: radii.pill,
     borderWidth: 1,
-    color: colors.textSecondary,
-    fontWeight: '800',
+    color: colors.inkSoft,
+    fontSize: 13,
+    fontWeight: '700',
     overflow: 'hidden',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
@@ -450,21 +518,23 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   sceneImage: {
-    backgroundColor: colors.backgroundElevated,
-    height: 210,
+    backgroundColor: colors.paper,
+    height: 220,
     width: '100%',
   },
   sceneCopy: {
     padding: spacing.xl,
   },
   sceneTitle: {
-    color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '800',
-    lineHeight: 28,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 25,
+    lineHeight: 31,
   },
   sceneBody: {
-    ...typography.body,
+    color: colors.inkSoft,
+    fontSize: 14,
+    lineHeight: 22,
     marginTop: spacing.sm,
   },
   sceneCredit: {
@@ -473,31 +543,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: spacing.md,
   },
-  journalCard: {
+  founderCard: {
+    backgroundColor: colors.paper,
+  },
+  founderBody: {
+    color: colors.inkSoft,
+    fontSize: 15,
+    lineHeight: 24,
+    marginTop: spacing.md,
+  },
+  trustCard: {
     backgroundColor: colors.card,
-  },
-  journalItem: {
-    backgroundColor: colors.backgroundElevated,
-    borderColor: colors.borderSoft,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    marginTop: spacing.md,
-    padding: spacing.lg,
-  },
-  journalTitle: {
-    color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '800',
-  },
-  journalBody: {
-    ...typography.body,
-    marginTop: spacing.sm,
-  },
-  journalMeta: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '800',
-    marginTop: spacing.md,
   },
   trustGrid: {
     flexDirection: 'row',
@@ -508,7 +564,7 @@ const styles = StyleSheet.create({
   trustChip: {
     backgroundColor: colors.mint,
     borderRadius: radii.pill,
-    color: colors.primaryDark,
+    color: colors.primaryDeep,
     fontSize: 12,
     fontWeight: '800',
     overflow: 'hidden',
@@ -521,40 +577,17 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     marginTop: spacing.lg,
   },
-  founderCard: {
-    backgroundColor: colors.backgroundElevated,
-  },
-  founderBody: {
-    ...typography.body,
-  },
-  faqGrid: {
-    gap: spacing.lg,
-  },
-  faqCard: {
-    backgroundColor: colors.card,
-  },
-  faqQuestion: {
-    color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '800',
-  },
-  faqAnswer: {
-    ...typography.body,
-    marginTop: spacing.sm,
-  },
-  finalCta: {
-    backgroundColor: colors.surfaceDeep,
-    marginTop: spacing.lg,
+  waitlist: {
+    backgroundColor: colors.ink,
   },
   finalTitle: {
-    color: colors.white,
-    fontSize: 34,
-    fontWeight: '800',
-    letterSpacing: -0.2,
-    lineHeight: 40,
+    color: colors.background,
+    fontFamily: 'Georgia',
+    fontSize: 38,
+    lineHeight: 44,
   },
   finalBody: {
-    color: 'rgba(255,255,255,0.78)',
+    color: 'rgba(250, 251, 246, 0.72)',
     fontSize: 16,
     lineHeight: 24,
     marginTop: spacing.md,

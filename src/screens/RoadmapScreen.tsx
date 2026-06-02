@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
-import { LineChartMock, MiniBars } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { StorySection } from '../components/StorySection';
-import { creditGrowthSeries, journalPosts, monthlyReviews, spendingDriftSeries } from '../data/financeMvp';
+import { JournalList } from '../components/lolo/JournalList';
+import { Sparkline, MiniBars } from '../components/lolo/Charts';
+import { creditGrowthSeries, monthlyReviews, spendingDriftSeries } from '../data/financeMvp';
 import { useProfile } from '../context/ProfileContext';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
@@ -63,12 +64,9 @@ export const RoadmapScreen = () => {
       <StorySection delay={290}>
         <Card>
           <Text style={styles.sectionTitle}>What I did</Text>
-          {journalPosts.slice(0, 3).map((post) => (
-            <View key={post.title} style={styles.journalRow}>
-              <Text style={styles.journalTitle}>{post.title}</Text>
-              <Text style={styles.journalMeta}>{post.rating} rating · {post.helpful} helpful · {post.tags.join(', ')}</Text>
-            </View>
-          ))}
+          <View style={styles.journalWrap}>
+            <JournalList limit={3} />
+          </View>
         </Card>
       </StorySection>
 
@@ -109,7 +107,7 @@ const ReviewStoryModal = ({ visible, onClose, score }: { visible: boolean; onClo
           <Card style={styles.storyPanel}>
             <Text style={styles.storyPanelKicker}>Money Momentum</Text>
             <AnimatedNumber value={score} style={styles.storyScore} />
-            <LineChartMock values={creditGrowthSeries} />
+            <Sparkline values={creditGrowthSeries} />
           </Card>
         </StorySection>
 
@@ -158,10 +156,10 @@ const styles = StyleSheet.create({
     ...typography.eyebrow,
   },
   title: {
-    color: colors.textPrimary,
-    fontSize: 38,
-    fontWeight: '700',
-    lineHeight: 42,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 42,
+    lineHeight: 47,
     marginTop: spacing.md,
   },
   subtitle: {
@@ -173,15 +171,15 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(221, 247, 232, 0.18)',
   },
   coverKicker: {
-    color: colors.mint,
+    color: colors.gold,
     fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
   },
   coverTitle: {
-    color: colors.surfaceLight,
+    color: colors.background,
+    fontFamily: 'Georgia',
     fontSize: 34,
-    fontWeight: '700',
     lineHeight: 39,
     marginTop: spacing.md,
   },
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
   coverMetaText: {
     backgroundColor: 'rgba(221, 247, 232, 0.1)',
     borderRadius: radii.pill,
-    color: colors.mint,
+    color: colors.gold,
     fontSize: 12,
     fontWeight: '800',
     overflow: 'hidden',
@@ -211,10 +209,10 @@ const styles = StyleSheet.create({
     marginTop: spacing.xl,
   },
   sectionTitle: {
-    color: colors.textPrimary,
-    fontSize: 23,
-    fontWeight: '700',
-    lineHeight: 28,
+    color: colors.ink,
+    fontFamily: 'Georgia',
+    fontSize: 28,
+    lineHeight: 34,
   },
   metricGrid: {
     gap: spacing.md,
@@ -233,9 +231,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   metricValue: {
-    color: colors.textPrimary,
+    color: colors.ink,
+    fontFamily: 'Georgia',
     fontSize: 30,
-    fontWeight: '700',
     marginTop: spacing.xs,
   },
   metricDetail: {
@@ -254,13 +252,13 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   storyIndex: {
-    color: colors.accent,
+    color: colors.primaryDeep,
     fontSize: 12,
     fontWeight: '800',
     width: 28,
   },
   storyText: {
-    color: colors.textPrimary,
+    color: colors.ink,
     flex: 1,
     fontSize: 15,
     fontWeight: '600',
@@ -280,13 +278,16 @@ const styles = StyleSheet.create({
     ...typography.small,
     marginTop: spacing.xs,
   },
+  journalWrap: {
+    marginTop: spacing.lg,
+  },
   promptCard: {
     backgroundColor: colors.mint,
   },
   promptTitle: {
-    color: colors.textPrimary,
+    color: colors.ink,
+    fontFamily: 'Georgia',
     fontSize: 25,
-    fontWeight: '700',
     lineHeight: 31,
   },
   promptBody: {
@@ -313,15 +314,15 @@ const styles = StyleSheet.create({
     ...shadows.glow,
   },
   storyCoverKicker: {
-    color: colors.mint,
+    color: colors.gold,
     fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
   },
   storyCoverTitle: {
-    color: colors.surfaceLight,
+    color: colors.background,
+    fontFamily: 'Georgia',
     fontSize: 42,
-    fontWeight: '700',
     lineHeight: 45,
     marginTop: spacing.md,
   },
@@ -335,15 +336,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceLight,
   },
   storyPanelKicker: {
-    color: colors.primaryDark,
+    color: colors.primaryDeep,
     fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
   },
   storyScore: {
-    color: colors.textPrimary,
+    color: colors.ink,
+    fontFamily: 'Georgia',
     fontSize: 76,
-    fontWeight: '700',
     lineHeight: 82,
     marginVertical: spacing.lg,
   },

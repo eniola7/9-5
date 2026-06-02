@@ -2,12 +2,15 @@ import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';
-import { InsightCard, LineChartMock, MiniBars, UtilizationRing } from '../components/MetricWidgets';
+import { UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
+import { PublicPageKey } from '../components/PublicHeader';
 import { ProgressPill } from '../components/ProgressPill';
 import { SectionHeader } from '../components/SectionHeader';
-import { aiRecommendations, creditGrowthSeries, founderStory, spendingDriftSeries, stockScenes, trustSignals } from '../data/financeMvp';
+import { DemoCard } from '../components/lolo/DemoCard';
+import { SiteNav } from '../components/lolo/SiteNav';
+import { MiniBars } from '../components/lolo/Charts';
+import { founderStory, spendingDriftSeries, stockScenes, trustSignals } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
 interface DemoPresentationScreenProps {
@@ -42,7 +45,7 @@ const demoWalkthrough = [
 
 export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: DemoPresentationScreenProps) => (
   <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-    {onNavigate ? <PublicHeader active="presentation" onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
+    {onNavigate ? <SiteNav active="presentation" onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
     <View style={styles.badgeRow}>
       <ProgressPill label="Educational demo" status="completed" />
       <ProgressPill label="Behavioral money signals" />
@@ -63,17 +66,7 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
         </View>
       </View>
 
-      <Card glow style={styles.mockup}>
-        <View style={styles.mockTop}>
-          <View>
-            <Text style={styles.mockLabel}>Money Momentum</Text>
-            <Text style={styles.mockScore}>742</Text>
-          </View>
-          <Text style={styles.mockDelta}>+18 possible</Text>
-        </View>
-        <LineChartMock values={creditGrowthSeries} />
-        <InsightCard {...aiRecommendations[0]} />
-      </Card>
+      <DemoCard />
     </View>
 
     <SectionHeader title="The problem" subtitle="Most financial tools show numbers. LOLO explains the lived pattern behind them." />

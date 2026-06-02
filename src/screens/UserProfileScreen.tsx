@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressBar } from '../components/ProgressBar';
 import { SectionHeader } from '../components/SectionHeader';
 import { StorySection } from '../components/StorySection';
+import { MomentumDial } from '../components/lolo/Momentum';
 import { journalPosts, productReviews } from '../data/financeMvp';
 import { useProfile } from '../context/ProfileContext';
 import { colors, radii, spacing, typography } from '../theme';
@@ -58,11 +58,7 @@ export const UserProfileScreen = () => {
             {profile?.primaryReason ?? 'Building a calmer relationship with credit, spending, and monthly stability.'}
           </Text>
           <View style={styles.scoreRow}>
-            <View>
-              <Text style={styles.scoreLabel}>Money Momentum</Text>
-              <AnimatedNumber value={selectedDemoUser.trustScore} style={styles.score} />
-            </View>
-            <Text style={styles.scoreDelta}>+{selectedDemoUser.upside.points} possible</Text>
+            <MomentumDial score={selectedDemoUser.trustScore} delta={selectedDemoUser.upside.points} title="Private context, clearer month" />
           </View>
         </Card>
       </StorySection>
@@ -187,7 +183,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl * 2,
   },
   profileHero: {
-    backgroundColor: colors.surfaceDeep,
+    backgroundColor: colors.card,
     marginTop: spacing.md,
   },
   heroRow: {
@@ -212,27 +208,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    color: colors.white,
+    color: colors.ink,
+    fontFamily: 'Georgia',
     fontSize: 34,
-    fontWeight: '800',
     letterSpacing: -0.2,
   },
   meta: {
-    color: colors.secondaryGreen,
+    color: colors.inkSoft,
     fontSize: 13,
     fontWeight: '700',
     marginTop: spacing.xs,
   },
   bio: {
-    color: 'rgba(255,255,255,0.78)',
+    color: colors.inkSoft,
     fontSize: 16,
     lineHeight: 24,
     marginTop: spacing.lg,
   },
   scoreRow: {
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: spacing.xl,
   },
   scoreLabel: {

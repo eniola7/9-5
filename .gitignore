@@ -9,4 +9,5 @@ __pycache__/
 android/
 ios/
 web-build/
+lovable-export/
 .DS_Store
