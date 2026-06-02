@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
 import { Footer } from '../components/Footer';
@@ -9,7 +9,7 @@ import { PublicHeader, PublicPageKey } from '../components/PublicHeader';
 import { ProgressBar } from '../components/ProgressBar';
 import { SectionHeader } from '../components/SectionHeader';
 import { StorySection } from '../components/StorySection';
-import { aiRecommendations, creditGrowthSeries, founderStory, journalPosts, spendingDriftSeries, trustSignals } from '../data/financeMvp';
+import { aiRecommendations, creditGrowthSeries, founderStory, journalPosts, spendingDriftSeries, stockScenes, trustSignals } from '../data/financeMvp';
 import { colors, radii, shadows, spacing, typography } from '../theme';
 
 interface LandingScreenProps {
@@ -158,6 +158,21 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
       </View>
     </StorySection>
 
+    <StorySection delay={310}>
+      <View style={styles.sceneGrid}>
+        {stockScenes.map((scene) => (
+          <Card key={scene.title} style={styles.sceneCard}>
+            <Image source={{ uri: scene.imageUrl }} style={styles.sceneImage} />
+            <View style={styles.sceneCopy}>
+              <Text style={styles.sceneTitle}>{scene.title}</Text>
+              <Text style={styles.sceneBody}>{scene.body}</Text>
+              <Text style={styles.sceneCredit}>{scene.credit}</Text>
+            </View>
+          </Card>
+        ))}
+      </View>
+    </StorySection>
+
     <StorySection delay={340}>
       <Card style={styles.journalCard}>
         <SectionHeader title="A reflection layer for money moments" subtitle="Tasteful, private by default, and grounded in real decisions rather than flexing." />
@@ -186,7 +201,9 @@ export const LandingScreen = ({ onStart, onDemo, onPresentation, onNavigate }: L
     <StorySection delay={460}>
       <Card style={styles.founderCard}>
         <SectionHeader title="Founder story" subtitle="A simple reason to exist." />
-        <Text style={styles.founderBody}>{founderStory}</Text>
+        {founderStory.map((paragraph) => (
+          <Text key={paragraph} style={styles.founderBody}>{paragraph}</Text>
+        ))}
       </Card>
     </StorySection>
 
@@ -424,6 +441,37 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
+  },
+  sceneGrid: {
+    gap: spacing.lg,
+  },
+  sceneCard: {
+    overflow: 'hidden',
+    padding: 0,
+  },
+  sceneImage: {
+    backgroundColor: colors.backgroundElevated,
+    height: 210,
+    width: '100%',
+  },
+  sceneCopy: {
+    padding: spacing.xl,
+  },
+  sceneTitle: {
+    color: colors.textPrimary,
+    fontSize: 22,
+    fontWeight: '800',
+    lineHeight: 28,
+  },
+  sceneBody: {
+    ...typography.body,
+    marginTop: spacing.sm,
+  },
+  sceneCredit: {
+    color: colors.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+    marginTop: spacing.md,
   },
   journalCard: {
     backgroundColor: colors.card,

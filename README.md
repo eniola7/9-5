@@ -11,6 +11,26 @@ LOLO is an early-stage Expo / React Native prototype for a financial reflection 
 
 The product thesis is simple: **financial growth should feel like a journal, not a spreadsheet.**
 
+## Founder Story
+
+LOLO was founded by **Mubarak (Eni) Adebayo**, an engineer who experienced firsthand how difficult it can be to build financial stability when your story does not fit neatly into traditional systems.
+
+After moving to the United States for college and later beginning his career as an engineer, Eni found himself navigating many of the same challenges faced by millions of young professionals, immigrants, students, and first-generation wealth builders: establishing credit, managing cash flow, making major life decisions, and trying to understand whether he was actually making progress financially.
+
+What frustrated him most was that every financial tool seemed to focus on numbers, transactions, and optimization. Apps could tell him what he spent, but they could not tell him what it meant. They could show him a credit score, but not the story behind it. They could track a budget, but not the decisions, setbacks, and milestones that shaped his financial journey.
+
+Eni realized that financial growth is deeply personal. Behind every payment, move, promotion, debt payoff, or savings milestone is a human story. Yet no product existed to help people understand their financial lives in that way.
+
+That insight became LOLO.
+
+LOLO was built on a simple belief:
+
+**Financial growth should feel like a journal, not a spreadsheet.**
+
+Instead of focusing solely on transactions and budgets, LOLO helps people understand what changed financially, why it matters, and what to do next. Through monthly reviews, financial reflections, and personalized insights, LOLO transforms financial data into a living story that grows alongside the user.
+
+Today, LOLO is building a future where financial wellness is not measured only by numbers, but by understanding, confidence, and progress over time, especially for the millions of people building stability in systems that were never designed with their journeys in mind.
+
 ## Who It Is For
 
 LOLO is designed for people building stability while life is expensive, imperfect, and in motion:
