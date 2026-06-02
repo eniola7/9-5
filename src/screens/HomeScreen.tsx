@@ -1,480 +1,275 @@
 import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { BrandHeader } from '../components/BrandHeader';
+import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
-import { DashboardCard } from '../components/DashboardCard';
-import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
-import { InsightCard, LineChartMock, MiniBars, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressBar } from '../components/ProgressBar';
-import { ScreenFade } from '../components/ScreenFade';
-import { SectionHeader } from '../components/SectionHeader';
-import { TrustScoreCard } from '../components/TrustScoreCard';
-import {
-  aiRecommendations,
-  cashFlowSeries,
-  creditGrowthSeries,
-  creditIntelligence,
-  demoSteps,
-  spendingDriftSeries,
-  upcomingBills,
-} from '../data/financeMvp';
-import { loloEngineDisclaimer, simulationLabels, SimulationKey } from '../data/loloDemoData';
+import { StorySection } from '../components/StorySection';
+import { loloEngineDisclaimer } from '../data/loloDemoData';
 import { useProfile } from '../context/ProfileContext';
-import { colors, radii, spacing, typography } from '../theme';
+import { colors, radii, shadows, spacing, typography } from '../theme';
+
+const statusItems = [
+  { label: 'Cash Flow', value: 'Stable', tone: 'success' },
+  { label: 'Credit', value: 'Action ready', tone: 'info' },
+  { label: 'Stress', value: 'Watch August', tone: 'warning' },
+] as const;
 
 export const HomeScreen = () => {
-  const { profile, resetDemo, selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId, sixtySecondDemoActive, startSixtySecondDemo, endSixtySecondDemo } = useProfile();
-  const [detail, setDetail] = useState<{ title: string; body: string } | null>(null);
-  const [demoStep, setDemoStep] = useState(0);
-  const [selectedSimulation, setSelectedSimulation] = useState<SimulationKey>('make_payment');
+  const { profile, selectedDemoUser } = useProfile();
+  const [expanded, setExpanded] = useState(false);
 
   if (!profile) return null;
 
-  const activeStep = demoSteps[demoStep];
-  const simulation = selectedDemoUser.simulations[selectedSimulation];
-  const primaryRecommendation = selectedDemoUser.recommendations[0];
-  const trustPillars = [
-    {
-      title: 'Credit Health',
-      value: String(selectedDemoUser.score.factor_scores.utilization_control),
-      change: `${selectedDemoUser.priorUtilization}% to ${selectedDemoUser.utilization}%`,
-      why: `Utilization is ${selectedDemoUser.utilization}% across ${selectedDemoUser.cards.length} card${selectedDemoUser.cards.length === 1 ? '' : 's'}.`,
-      next: primaryRecommendation?.title ?? 'Keep balances low through statement close.',
-    },
-    {
-      title: 'Cash Flow',
-      value: selectedDemoUser.cashFlowLabel,
-      change: selectedDemoUser.incomeLabel,
-      why: `Monthly income ${selectedDemoUser.incomeLabel}, rent ${selectedDemoUser.rentLabel}, and current expense rhythm produce this demo cash-flow view.`,
-      next: selectedDemoUser.cashFlow > 0 ? 'Protect this surplus before adding new fixed costs.' : 'Create one small spending adjustment this week.',
-    },
-    {
-      title: 'Stress Forecast',
-      value: selectedDemoUser.runwayLabel,
-      change: selectedDemoUser.topRisk,
-      why: `Emergency savings currently covers about ${selectedDemoUser.runwayLabel} of essential expenses.`,
-      next: selectedDemoUser.upside.action,
-    },
-    {
-      title: 'Next Best Action',
-      value: primaryRecommendation?.urgency ?? 'Medium',
-      change: primaryRecommendation?.category ?? 'Action',
-      why: primaryRecommendation?.explanation ?? 'LOLO could not find a recommendation for this profile.',
-      next: primaryRecommendation?.title ?? 'Review your profile.',
-    },
-  ];
+  const recommendation = selectedDemoUser.recommendations[0];
+  const primaryChange = selectedDemoUser.whatChanged[0] ?? 'Your financial picture stayed mostly steady this month.';
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <ScreenFade>
-        <BrandHeader title="Financial snapshot" subtitle={`Good to see you, ${profile.name}. Here is what changed, why it matters, and what to do next.`} showReset onReset={resetDemo} />
-        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
-
-        <Card glow style={styles.demoCard}>
-          <View style={styles.demoTop}>
-            <View style={styles.demoStepBadge}>
-              <Text style={styles.demoStepText}>{demoStep + 1}/{demoSteps.length}</Text>
-            </View>
-            <Text style={styles.demoKicker}>{sixtySecondDemoActive ? '60-second demo active' : 'Founder demo mode'}</Text>
-          </View>
-          <Text style={styles.demoTitle}>{activeStep.title}</Text>
-          <Text style={styles.demoBody}>{activeStep.body}</Text>
-          <Text style={styles.demoBody}>Demo user: {selectedDemoUser.rawUser.name}, {selectedDemoUser.rawUser.persona}. Money Momentum {selectedDemoUser.trustScore}.</Text>
-          <View style={styles.demoProgress}>
-            {demoSteps.map((step, index) => (
-              <View key={step.title} style={[styles.demoProgressDot, index <= demoStep && styles.demoProgressDotActive]} />
-            ))}
-          </View>
-          {demoStep === demoSteps.length - 1 ? (
-            <View style={styles.finalDemoPanel}>
-              <Text style={styles.finalDemoTitle}>This is the clarity layer traditional tools miss.</Text>
-              <Text style={styles.finalDemoBody}>LOLO helps people understand spending, credit habits, runway, and stability before small patterns turn into financial stress.</Text>
-            </View>
-          ) : null}
-          <View style={styles.demoActions}>
-            <PrimaryButton label={demoStep === demoSteps.length - 1 ? 'Restart demo' : 'Next step'} onPress={() => setDemoStep((current) => current === demoSteps.length - 1 ? 0 : current + 1)} style={styles.demoButton} />
-            <PrimaryButton label={sixtySecondDemoActive ? 'Exit demo' : 'Start 60-sec demo'} variant="ghost" onPress={sixtySecondDemoActive ? endSixtySecondDemo : startSixtySecondDemo} style={styles.demoButton} />
-          </View>
-        </Card>
-
-        <TrustScoreCard score={selectedDemoUser.trustScore} delta={`+${selectedDemoUser.upside.points} possible`} label={`${selectedDemoUser.label} Money Momentum`} />
-
-        <Card>
-          <SectionHeader title="Money Momentum breakdown" subtitle="LOLO Money Momentum is an educational signal based on payment consistency, utilization control, cash flow stability, emergency runway, and spending behavior. It is not a FICO score." />
-          {selectedDemoUser.factorBreakdown.map((item) => (
-            <View key={item.label} style={styles.breakdownRow}>
-              <View style={styles.breakdownHeader}>
-                <Text style={styles.breakdownLabel}>{item.label}</Text>
-                <Text style={styles.breakdownChange}>{item.change} pts</Text>
-              </View>
-              <ProgressBar label={`${item.value}/100`} value={item.value} height={10} />
-              <Text style={styles.breakdownWhy}>{item.why}</Text>
-              <Text style={styles.breakdownNext}>What to do next: {item.next}</Text>
-            </View>
-          ))}
-          <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
-        </Card>
-
-        <Card style={styles.moversCard}>
-          <SectionHeader title="What moved this month" subtitle="LOLO separates the movement from the meaning." />
-          {selectedDemoUser.whatChanged.map((change, index) => (
-            <View key={change} style={styles.moverRow}>
-              <Text style={styles.moverTitle}>{index === 0 ? 'What changed' : `Signal ${index + 1}`}</Text>
-              <Text style={styles.moverBody}>{change}</Text>
-            </View>
-          ))}
-          <View style={styles.moverRow}>
-            <Text style={styles.moverTitle}>Upside preview</Text>
-            <Text style={styles.moverBody}>+{selectedDemoUser.upside.points} Money Momentum points possible: {selectedDemoUser.upside.action}.</Text>
-          </View>
-        </Card>
-
-        <SectionHeader title="What changed" subtitle="The five pillars that explain your financial health picture." />
-        <View style={styles.pillarGrid}>
-          {trustPillars.map((pillar) => (
-            <DashboardCard
-              key={pillar.title}
-              title={pillar.title}
-              value={pillar.value}
-              accent={pillar.change}
-              subtitle={pillar.why}
-              icon={pillar.title.slice(0, 2).toUpperCase()}
-              onPress={() => setDetail({ title: pillar.title, body: `${pillar.why}\n\nNext: ${pillar.next}` })}
-            />
-          ))}
+      <StorySection>
+        <View style={styles.header}>
+          <Text style={styles.kicker}>Today</Text>
+          <Text style={styles.title}>You’re stable, with one watch area.</Text>
+          <Text style={styles.subtitle}>LOLO turns this month’s credit, spending, and runway signals into one clear next step.</Text>
         </View>
+      </StorySection>
 
-        <Card glow style={styles.nextAction}>
-          <Text style={styles.demoBadge}>Demo data</Text>
-          <Text style={styles.nextKicker}>Next Best Action</Text>
-          <Text style={styles.nextTitle}>{primaryRecommendation?.title ?? 'Review your next best action.'}</Text>
-          <Text style={styles.nextBody}>
-            Why it matters: {primaryRecommendation?.explanation ?? 'LOLO turns financial behavior into one clear next step.'}
+      <StorySection delay={80}>
+        <Card glow style={styles.momentumCard}>
+          <View style={styles.momentumTop}>
+            <View>
+              <Text style={styles.momentumLabel}>Money Momentum</Text>
+              <Text style={styles.momentumCaption}>Direction, not judgment.</Text>
+            </View>
+            <Text style={styles.delta}>+{selectedDemoUser.upside.points} possible</Text>
+          </View>
+          <AnimatedNumber value={selectedDemoUser.trustScore} style={styles.score} />
+          <ProgressBar label="Stability trajectory" value={86} height={10} />
+          <Text style={styles.explanation}>{primaryChange}</Text>
+        </Card>
+      </StorySection>
+
+      <StorySection delay={150}>
+        <Card style={styles.actionCard}>
+          <Text style={styles.actionKicker}>What to do next</Text>
+          <Text style={styles.actionTitle}>{recommendation?.title ?? selectedDemoUser.upside.action}</Text>
+          <Text style={styles.actionBody}>
+            {recommendation?.explanation ?? 'This is the highest leverage action LOLO found in the demo profile.'}
           </Text>
-          <PrimaryButton label="Mark as scheduled" onPress={() => setDetail({ title: 'Scheduled', body: 'In the production app, this would connect to bank bill pay or create a calendar reminder.' })} style={styles.nextButton} />
+          <View style={styles.actionButtons}>
+            <PrimaryButton label="See why" onPress={() => setExpanded(true)} style={styles.actionButton} />
+            <PrimaryButton label="Mark planned" variant="ghost" onPress={() => setExpanded(true)} style={styles.actionButton} />
+          </View>
         </Card>
+      </StorySection>
 
-        <View style={styles.analyticsGrid}>
-          <Card style={styles.analyticsCard}>
-            <SectionHeader title="Engine simulation examples" subtitle="Prepared by lolo-engine/sample_output.json" />
-            <UtilizationRing value={selectedDemoUser.utilization} afterValue={Math.max(1, selectedDemoUser.utilization - Math.max(0, simulation.score_delta))} />
-            <Text style={styles.simUpside}>{simulation.score_delta >= 0 ? '+' : ''}{simulation.score_delta} Money Momentum points · {simulation.updated_trust_score} after simulation</Text>
-            <View style={styles.scenarioRow}>
-              {(['make_payment', 'reduce_category_spending', 'add_emergency_savings'] as SimulationKey[]).map((key) => (
-                <PrimaryButton
-                  key={key}
-                  label={simulationLabels[key]}
-                  variant={selectedSimulation === key ? 'primary' : 'ghost'}
-                  onPress={() => setSelectedSimulation(key)}
-                  style={styles.scenarioButton}
-                />
-              ))}
+      <StorySection delay={220}>
+        <View style={styles.statusGrid}>
+          {statusItems.map((item) => (
+            <View key={item.label} style={styles.statusCard}>
+              <View style={[styles.statusDot, styles[`${item.tone}Dot`]]} />
+              <Text style={styles.statusLabel}>{item.label}</Text>
+              <Text style={styles.statusValue}>{item.value}</Text>
             </View>
-            <Text style={styles.copy}>{simulation.explanation}</Text>
-          </Card>
+          ))}
+        </View>
+      </StorySection>
 
-          <Card style={styles.analyticsCard}>
-            <SectionHeader title="Spending drift" subtitle="Dining, commuting, and convenience spend are the main signals." />
-            <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
+      <StorySection delay={290}>
+        <Card style={styles.contextCard}>
+          <Text style={styles.contextTitle}>Why it matters</Text>
+          <Text style={styles.contextBody}>
+            Your emergency runway improved by 18 days this quarter, but dining, commuting, and convenience spending rose 18% over 3 months. At the current pace, your savings buffer may dip below 2 months in August.
+          </Text>
+        </Card>
+      </StorySection>
+
+      <Modal transparent visible={expanded} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <Card glow style={styles.modalCard}>
+            <Text style={styles.modalTitle}>The useful move is small.</Text>
+            <Text style={styles.contextBody}>
+              Paying before statement close could lower reported utilization and make next month’s credit picture calmer without changing your entire budget.
+            </Text>
+            <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
+            <PrimaryButton label="Close" onPress={() => setExpanded(false)} style={styles.closeButton} />
           </Card>
         </View>
-
-        <DashboardCard title="Cash flow overview" value={selectedDemoUser.cashFlowLabel} accent={selectedDemoUser.spendingDriftPercent > 0 ? `${selectedDemoUser.spendingDriftPercent}% drift` : 'stable'} icon="CF" important>
-          <LineChartMock values={cashFlowSeries} />
-          <Text style={styles.copy}>Your emergency runway improved by 18 days this quarter. Income is stable, but rent-week timing still matters.</Text>
-        </DashboardCard>
-
-        <DashboardCard title="Emergency runway / stress forecast" value={selectedDemoUser.runwayLabel} accent={selectedDemoUser.topRisk} icon="SF">
-          <ProgressBar label="Runway coverage" value={Math.min(100, selectedDemoUser.runwayMonths * 25)} height={12} />
-          <Text style={styles.copy}>Why it matters: at your current pace, your savings buffer may dip below 2 months in August. What to do next: {selectedDemoUser.upside.action}.</Text>
-        </DashboardCard>
-
-        <Card>
-          <SectionHeader title="AI recommendations" subtitle="Calm guidance with a clear next move." />
-          {selectedDemoUser.recommendations.map((recommendation) => (
-            <InsightCard key={recommendation.title} title={recommendation.title} body={recommendation.explanation} action={`${recommendation.urgency} urgency · ${recommendation.estimated_impact}`} />
-          ))}
-        </Card>
-
-        <DashboardCard title="Upcoming money events" icon="ME">
-          {upcomingBills.map((bill) => (
-            <BillRow key={bill.name} label={bill.name} value={bill.amount} meta={`${bill.due} · ${bill.status}`} />
-          ))}
-        </DashboardCard>
-
-        <DetailModal detail={detail} onClose={() => setDetail(null)} />
-      </ScreenFade>
+      </Modal>
     </ScrollView>
   );
 };
 
-const BillRow = ({ label, value, meta }: { label: string; value: string; meta: string }) => (
-  <View style={styles.billRow}>
-    <View style={styles.billCopy}>
-      <Text style={styles.billLabel}>{label}</Text>
-      <Text style={styles.billMeta}>{meta}</Text>
-    </View>
-    <Text style={styles.billValue}>{value}</Text>
-  </View>
-);
-
-const DetailModal = ({ detail, onClose }: { detail: { title: string; body: string } | null; onClose: () => void }) => (
-  <Modal transparent visible={!!detail} animationType="fade">
-    <View style={styles.modalOverlay}>
-      <Card style={styles.modalCard} glow>
-        <Text style={styles.modalTitle}>{detail?.title}</Text>
-        <Text style={styles.copy}>{detail?.body}</Text>
-        <PrimaryButton label="Close" onPress={onClose} style={styles.modalButton} />
-      </Card>
-    </View>
-  </Modal>
-);
-
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
     backgroundColor: colors.background,
+    flex: 1,
   },
   content: {
-    gap: spacing.sm,
     padding: spacing.xl,
-    paddingBottom: spacing.xxl * 2,
+    paddingBottom: spacing.xxl * 3,
   },
-  pillarGrid: {
-    gap: spacing.lg,
+  header: {
+    paddingTop: spacing.md,
   },
-  demoCard: {
-    backgroundColor: colors.card,
+  kicker: {
+    ...typography.eyebrow,
   },
-  demoTop: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: spacing.md,
-  },
-  demoStepBadge: {
-    alignItems: 'center',
-    backgroundColor: colors.surfaceLight,
-    borderRadius: radii.pill,
-    height: 42,
-    justifyContent: 'center',
-    width: 42,
-  },
-  demoStepText: {
+  title: {
     color: colors.textPrimary,
-    fontWeight: '900',
+    fontSize: 38,
+    fontWeight: '700',
+    lineHeight: 42,
+    marginTop: spacing.md,
   },
-  demoKicker: {
-    color: colors.accent,
-    fontSize: 12,
-    fontWeight: '900',
-  },
-  demoTitle: {
-    color: colors.textPrimary,
-    fontSize: 26,
-    fontWeight: '900',
-    lineHeight: 32,
-    marginTop: spacing.lg,
-  },
-  demoBody: {
+  subtitle: {
     ...typography.body,
-    marginTop: spacing.sm,
+    marginTop: spacing.md,
   },
-  demoProgress: {
+  momentumCard: {
+    backgroundColor: colors.surfaceDeep,
+    borderColor: 'rgba(221, 247, 232, 0.18)',
+  },
+  momentumTop: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.lg,
-  },
-  demoProgressDot: {
-    backgroundColor: colors.cardSoft,
-    borderRadius: radii.pill,
-    flex: 1,
-    height: 6,
-  },
-  demoProgressDotActive: {
-    backgroundColor: colors.primary,
-  },
-  demoActions: {
     gap: spacing.md,
-    marginTop: spacing.lg,
-  },
-  finalDemoPanel: {
-    backgroundColor: colors.surfaceLight,
-    borderRadius: radii.lg,
-    marginTop: spacing.lg,
-    padding: spacing.lg,
-  },
-  finalDemoTitle: {
-    color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '900',
-  },
-  finalDemoBody: {
-    color: colors.textSecondary,
-    lineHeight: 21,
-    marginTop: spacing.sm,
-  },
-  demoButton: {
-    flex: 1,
-  },
-  breakdownRow: {
-    borderBottomColor: colors.borderSoft,
-    borderBottomWidth: 1,
-    paddingVertical: spacing.lg,
-  },
-  breakdownHeader: {
-    alignItems: 'center',
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
   },
-  breakdownLabel: {
-    color: colors.textPrimary,
-    flex: 1,
-    fontWeight: '900',
+  momentumLabel: {
+    color: colors.mint,
+    fontSize: 15,
+    fontWeight: '800',
   },
-  breakdownChange: {
-    color: colors.accent,
+  momentumCaption: {
+    color: 'rgba(221, 247, 232, 0.68)',
     fontSize: 12,
-    fontWeight: '900',
-  },
-  breakdownWhy: {
-    ...typography.small,
-    marginTop: spacing.sm,
-  },
-  breakdownNext: {
-    color: colors.accent,
-    fontSize: 12,
-    fontWeight: '900',
     marginTop: spacing.xs,
   },
-  moversCard: {
-    backgroundColor: colors.card,
-  },
-  moverRow: {
-    backgroundColor: colors.backgroundElevated,
-    borderColor: colors.borderSoft,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    marginTop: spacing.md,
-    padding: spacing.lg,
-  },
-  moverTitle: {
-    color: colors.textPrimary,
-    fontSize: 17,
-    fontWeight: '900',
-  },
-  moverBody: {
-    ...typography.body,
-    marginTop: spacing.sm,
-  },
-  nextAction: {
-    backgroundColor: colors.surfaceLight,
-  },
-  demoBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(8, 13, 11, 0.08)',
+  delta: {
+    backgroundColor: 'rgba(221, 247, 232, 0.1)',
     borderRadius: radii.pill,
-    color: colors.primaryDark,
+    color: colors.mint,
     fontSize: 12,
-    fontWeight: '900',
-    marginBottom: spacing.md,
+    fontWeight: '800',
     overflow: 'hidden',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
   },
-  nextKicker: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '900',
+  score: {
+    color: colors.surfaceLight,
+    fontSize: 86,
+    fontWeight: '700',
+    letterSpacing: 0,
+    lineHeight: 92,
+    marginVertical: spacing.lg,
   },
-  nextTitle: {
-    color: colors.textPrimary,
-    fontSize: 28,
-    fontWeight: '900',
-    lineHeight: 34,
-    marginTop: spacing.md,
-  },
-  nextBody: {
-    color: colors.textSecondary,
-    fontSize: 15,
-    lineHeight: 23,
-    marginTop: spacing.md,
-  },
-  nextButton: {
-    marginTop: spacing.xl,
-  },
-  analyticsGrid: {
-    gap: spacing.lg,
-  },
-  analyticsCard: {
-    minHeight: 260,
-  },
-  simUpside: {
-    color: colors.accent,
-    fontWeight: '900',
-    marginTop: spacing.md,
-    textAlign: 'center',
-  },
-  scenarioRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
+  explanation: {
+    color: 'rgba(255, 255, 255, 0.76)',
+    fontSize: 14,
+    lineHeight: 22,
     marginTop: spacing.lg,
   },
-  scenarioButton: {
-    flex: 1,
-    paddingHorizontal: spacing.sm,
+  actionCard: {
+    backgroundColor: colors.surfaceLight,
   },
-  copy: {
+  actionKicker: {
+    color: colors.primaryDark,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  actionTitle: {
+    color: colors.textPrimary,
+    fontSize: 27,
+    fontWeight: '700',
+    lineHeight: 32,
+    marginTop: spacing.md,
+  },
+  actionBody: {
     ...typography.body,
     marginTop: spacing.md,
   },
-  disclaimer: {
-    ...typography.small,
-    color: colors.textMuted,
-    marginTop: spacing.lg,
-  },
-  billRow: {
-    alignItems: 'center',
-    borderBottomColor: colors.borderSoft,
-    borderBottomWidth: 1,
+  actionButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: spacing.md,
+    gap: spacing.md,
+    marginTop: spacing.xl,
   },
-  billCopy: {
+  actionButton: {
     flex: 1,
-    paddingRight: spacing.md,
   },
-  billLabel: {
+  statusGrid: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  statusCard: {
+    backgroundColor: colors.surfaceLight,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    flex: 1,
+    padding: spacing.md,
+    ...shadows.card,
+  },
+  statusDot: {
+    borderRadius: 5,
+    height: 10,
+    marginBottom: spacing.md,
+    width: 10,
+  },
+  successDot: {
+    backgroundColor: colors.success,
+  },
+  warningDot: {
+    backgroundColor: colors.warning,
+  },
+  infoDot: {
+    backgroundColor: colors.info,
+  },
+  statusLabel: {
+    color: colors.textMuted,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  statusValue: {
     color: colors.textPrimary,
-    fontWeight: '900',
-  },
-  billMeta: {
-    ...typography.small,
+    fontSize: 15,
+    fontWeight: '800',
     marginTop: spacing.xs,
   },
-  billValue: {
+  contextCard: {
+    backgroundColor: colors.cardSoft,
+  },
+  contextTitle: {
     color: colors.textPrimary,
-    fontWeight: '900',
+    fontSize: 21,
+    fontWeight: '700',
+  },
+  contextBody: {
+    ...typography.body,
+    marginTop: spacing.md,
   },
   modalOverlay: {
     backgroundColor: colors.overlay,
     flex: 1,
-    justifyContent: 'center',
-    padding: spacing.xl,
+    justifyContent: 'flex-end',
+    padding: spacing.lg,
   },
   modalCard: {
     borderRadius: radii.xl,
   },
   modalTitle: {
     color: colors.textPrimary,
-    fontSize: 22,
-    fontWeight: '900',
-    marginBottom: spacing.md,
+    fontSize: 28,
+    fontWeight: '700',
+    lineHeight: 34,
   },
-  modalButton: {
+  disclaimer: {
+    ...typography.small,
+    color: colors.textMuted,
+    marginTop: spacing.lg,
+  },
+  closeButton: {
     marginTop: spacing.xl,
   },
 });

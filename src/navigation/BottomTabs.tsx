@@ -1,15 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { Text, View, StyleSheet } from 'react-native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import { colors, shadows, spacing } from '../theme';
+import { CoachScreen } from '../screens/CoachScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { RoadmapScreen } from '../screens/RoadmapScreen';
-import { ProScreen } from '../screens/ProScreen';
-import { CoachScreen } from '../screens/CoachScreen';
-import { AlertsScreen } from '../screens/AlertsScreen';
-import { ProfileBuilderScreen } from '../screens/ProfileBuilderScreen';
 import { UserProfileScreen } from '../screens/UserProfileScreen';
-import { colors, shadows } from '../theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,20 +15,27 @@ const navTheme = {
   colors: {
     ...DefaultTheme.colors,
     background: colors.background,
-    card: colors.card,
+    card: colors.surfaceLight,
     text: colors.textPrimary,
     border: colors.border,
     primary: colors.primary,
   },
 };
 
-const tabLabel = (label: string) => ({ focused }: { focused: boolean }) => (
-  <Text style={[styles.label, focused && styles.labelActive]}>{label}</Text>
+const tabMeta: Record<string, { label: string; icon: string }> = {
+  Today: { label: 'Today', icon: 'T' },
+  Review: { label: 'Review', icon: 'R' },
+  Reflect: { label: 'Reflect', icon: 'F' },
+  Me: { label: 'Me', icon: 'M' },
+};
+
+const tabLabel = (name: keyof typeof tabMeta) => ({ focused }: { focused: boolean }) => (
+  <Text style={[styles.label, focused && styles.labelActive]}>{tabMeta[name].label}</Text>
 );
 
-const tabIcon = (abbr: string) => ({ focused }: { focused: boolean }) => (
+const tabIcon = (name: keyof typeof tabMeta) => ({ focused }: { focused: boolean }) => (
   <View style={[styles.icon, focused && styles.iconActive]}>
-    <Text style={[styles.iconText, focused && styles.iconTextActive]}>{abbr}</Text>
+    <Text style={[styles.iconText, focused && styles.iconTextActive]}>{tabMeta[name].icon}</Text>
   </View>
 );
 
@@ -46,59 +50,55 @@ export const BottomTabs = () => (
         tabBarInactiveTintColor: colors.textMuted,
       }}
     >
-      <Tab.Screen name="Dashboard" component={HomeScreen} options={{ tabBarLabel: tabLabel('Home'), tabBarIcon: tabIcon('H') }} />
-      <Tab.Screen name="Journal" component={RoadmapScreen} options={{ tabBarLabel: tabLabel('Journal'), tabBarIcon: tabIcon('J') }} />
-      <Tab.Screen name="Insights" component={AlertsScreen} options={{ tabBarLabel: tabLabel('Insights'), tabBarIcon: tabIcon('IN') }} />
-      <Tab.Screen name="Coach" component={CoachScreen} options={{ tabBarLabel: tabLabel('Coach'), tabBarIcon: tabIcon('C') }} />
-      <Tab.Screen name="Credit" component={ProfileBuilderScreen} options={{ tabBarLabel: tabLabel('Credit'), tabBarIcon: tabIcon('CR') }} />
-      <Tab.Screen name="Reviews" component={ProScreen} options={{ tabBarLabel: tabLabel('Reviews'), tabBarIcon: tabIcon('RV') }} />
-      <Tab.Screen name="Account" component={UserProfileScreen} options={{ tabBarLabel: tabLabel('Me'), tabBarIcon: tabIcon('ME') }} />
+      <Tab.Screen name="Today" component={HomeScreen} options={{ tabBarLabel: tabLabel('Today'), tabBarIcon: tabIcon('Today') }} />
+      <Tab.Screen name="Review" component={RoadmapScreen} options={{ tabBarLabel: tabLabel('Review'), tabBarIcon: tabIcon('Review') }} />
+      <Tab.Screen name="Reflect" component={CoachScreen} options={{ tabBarLabel: tabLabel('Reflect'), tabBarIcon: tabIcon('Reflect') }} />
+      <Tab.Screen name="Me" component={UserProfileScreen} options={{ tabBarLabel: tabLabel('Me'), tabBarIcon: tabIcon('Me') }} />
     </Tab.Navigator>
   </NavigationContainer>
 );
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: colors.surfaceLight,
+    backgroundColor: 'rgba(255, 255, 255, 0.94)',
     borderTopColor: colors.borderSoft,
     borderTopWidth: 1,
-    height: 82,
+    height: 78,
     paddingBottom: 12,
-    paddingTop: 10,
+    paddingTop: 9,
     ...shadows.card,
   },
   tabItem: {
-    gap: 2,
+    gap: spacing.xs,
   },
   label: {
     color: colors.textMuted,
-    fontSize: 9,
-    fontWeight: '800',
+    fontSize: 10,
+    fontWeight: '700',
   },
   labelActive: {
-    color: colors.accent,
+    color: colors.primaryDark,
   },
   icon: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: colors.cardSoft,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.cardSoft,
     borderColor: colors.borderSoft,
+    borderRadius: 16,
     borderWidth: 1,
+    height: 32,
+    justifyContent: 'center',
+    width: 32,
   },
   iconActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-    ...shadows.glow,
+    backgroundColor: colors.surfaceDeep,
+    borderColor: colors.surfaceDeep,
   },
   iconText: {
     color: colors.textMuted,
-    fontWeight: '900',
     fontSize: 11,
+    fontWeight: '800',
   },
   iconTextActive: {
-    color: colors.surfaceLight,
+    color: colors.mint,
   },
 });

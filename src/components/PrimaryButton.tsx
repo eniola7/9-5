@@ -27,7 +27,7 @@ export const PrimaryButton = ({ label, onPress, variant = 'primary', style }: Pr
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
-    borderRadius: radii.md,
+    borderRadius: radii.pill,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     alignItems: 'center',
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     ...shadows.glow,
   },
   ghost: {
-    backgroundColor: colors.cardSoft,
+    backgroundColor: colors.surfaceLight,
     borderColor: colors.borderSoft,
     shadowOpacity: 0,
     elevation: 0,
   },
   pressed: {
-    backgroundColor: colors.accent,
+    backgroundColor: colors.primaryDark,
     shadowOpacity: 0.42,
   },
   ghostPressed: {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.surfaceLight,
-    fontWeight: '900',
+    fontWeight: '800',
     fontSize: 14,
   },
   ghostText: {

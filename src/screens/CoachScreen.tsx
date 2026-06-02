@@ -1,124 +1,182 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
-import { CoachMessageBubble } from '../components/CoachMessageBubble';
-import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
-import { InsightCard } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { ScreenFade } from '../components/ScreenFade';
+import { ProgressBar } from '../components/ProgressBar';
 import { SectionHeader } from '../components/SectionHeader';
+import { StorySection } from '../components/StorySection';
+import { journalPosts, journalThemes } from '../data/financeMvp';
 import { loloEngineDisclaimer } from '../data/loloDemoData';
 import { useProfile } from '../context/ProfileContext';
-import { generateCoachResponse } from '../services/coachService';
-import { colors, radii, spacing } from '../theme';
-import { CoachMessage } from '../types';
+import { colors, radii, spacing, typography } from '../theme';
+
+const reflectionPrompts = [
+  'What felt more expensive than I expected?',
+  'Where did I feel most in control?',
+  'What money decision made life calmer?',
+  'What pattern should I protect next month?',
+  'What would future me want to remember?',
+];
+
+const lifeEvents = [
+  'Moved cities',
+  'Paid down a card',
+  'Caught subscription creep',
+  'Built emergency buffer',
+  'Rent week felt tight',
+];
 
 export const CoachScreen = () => {
-  const { profile, roadmap, signals, selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
-  const [query, setQuery] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [messages, setMessages] = useState<CoachMessage[]>([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      text: 'Ask LOLO Coach about credit habits, spending drift, subscriptions, stress forecasting, or your next reflection. Educational guidance only, not financial advice.',
-    },
-  ]);
+  const { selectedDemoUser, appUserProfile } = useProfile();
+  const [selectedPrompt, setSelectedPrompt] = useState(reflectionPrompts[0]);
+  const [selectedEvent, setSelectedEvent] = useState(lifeEvents[1]);
+  const [draft, setDraft] = useState('');
+  const [savedDrafts, setSavedDrafts] = useState<string[]>([]);
 
-  if (!profile) return null;
+  const primaryRecommendation = selectedDemoUser.recommendations[0];
+  const monthlyChange = selectedDemoUser.whatChanged[0] ?? 'Your month stayed mostly stable, with one habit worth watching.';
 
-  const promptChips = [
-    `What should ${selectedDemoUser.rawUser.name} do next?`,
-    `Why is ${selectedDemoUser.topRisk} the top risk?`,
-    `How can I improve ${selectedDemoUser.primaryCardName}?`,
-    `What changed for ${selectedDemoUser.label}?`,
-    'Write a monthly review from this data.',
-  ];
+  const aiReflection = useMemo(() => {
+    const action = primaryRecommendation?.title ?? selectedDemoUser.upside.action;
+    if (selectedPrompt.includes('expensive')) {
+      return {
+        title: 'Your convenience spending has a story',
+        why: `${selectedDemoUser.spendingDriftPercent > 0 ? 'Spending drift is up' : 'Spending drift is calmer'} because daily categories are absorbing the pressure from rent, commuting, and longer workdays.`,
+        next: `Name one recurring trigger, then try this action: ${action}.`,
+      };
+    }
+    if (selectedPrompt.includes('control')) {
+      return {
+        title: selectedDemoUser.topStrength,
+        why: `This is the strongest signal in your current profile. It suggests the month is not chaotic; it has a few pressure points that can be managed early.`,
+        next: `Protect that strength by keeping one reminder before your next statement close.`,
+      };
+    }
+    if (selectedPrompt.includes('calmer')) {
+      return {
+        title: 'Small actions reduced background stress',
+        why: monthlyChange,
+        next: `Turn the win into a repeatable rule for next month.`,
+      };
+    }
+    return {
+      title: 'A note for next month',
+      why: `${selectedDemoUser.topRisk} is the part of the story most likely to create stress if ignored.`,
+      next: selectedDemoUser.upside.action,
+    };
+  }, [monthlyChange, primaryRecommendation?.title, selectedDemoUser, selectedPrompt]);
 
-  const generateDemoResponse = (text: string) => {
-    const rec = selectedDemoUser.recommendations[0];
-    const changed = selectedDemoUser.whatChanged[0] ?? 'The profile stayed mostly stable this month.';
-    if (/risk|why/i.test(text)) {
-      return `Why this matters: ${selectedDemoUser.topRisk} is the weakest signal in this demo profile, which means it has the clearest ability to change how stable the user looks.\n\nWhat to do next: ${selectedDemoUser.upside.action}.\n\n${loloEngineDisclaimer}`;
-    }
-    if (/card|score|payment|improve/i.test(text)) {
-      return `Why this matters: utilization is ${selectedDemoUser.utilizationLabel}, and the engine simulation shows ${selectedDemoUser.simulations.make_payment.score_delta >= 0 ? '+' : ''}${selectedDemoUser.simulations.make_payment.score_delta} Money Momentum points after a payment scenario.\n\nWhat to do next: ${selectedDemoUser.simulations.make_payment.explanation}`;
-    }
-    if (/changed|month/i.test(text)) {
-      return `What changed: ${changed}\n\nWhy this matters: LOLO turns behavior into a clear money narrative before stress becomes reactive.\n\nWhat to do next: ${selectedDemoUser.upside.action}.`;
-    }
-    if (/review|journal|reflection/i.test(text)) {
-      return `Monthly review draft: ${selectedDemoUser.rawUser.name} is building steadier momentum through ${selectedDemoUser.topStrength.toLowerCase()}, while ${selectedDemoUser.topRisk.toLowerCase()} needs attention. The next best action is ${rec?.title ?? selectedDemoUser.upside.action}.`;
-    }
-    return `What to do next: ${rec?.title ?? selectedDemoUser.upside.action}.\n\nWhy this matters: ${rec?.explanation ?? selectedDemoUser.whatChanged.join(' ')}\n\nEstimated impact: ${rec?.estimated_impact ?? `+${selectedDemoUser.upside.points} possible points in the demo model`}.`;
-  };
-
-  const sendMessage = (text: string) => {
-    const trimmed = text.trim();
+  const saveReflection = () => {
+    const trimmed = draft.trim();
     if (!trimmed) return;
-    setMessages((current) => [...current, { id: `user-${Date.now()}`, role: 'user', text: trimmed }]);
-    setQuery('');
-    setIsTyping(true);
-    setTimeout(() => {
-      setMessages((current) => [
-        ...current,
-        {
-          id: `assistant-${Date.now()}`,
-          role: 'assistant',
-          text: `${generateDemoResponse(trimmed)}\n\n${generateCoachResponse(trimmed, profile, roadmap, signals)}`,
-        },
-      ]);
-      setIsTyping(false);
-    }, 650);
+    setSavedDrafts((current) => [`${selectedEvent}: ${trimmed}`, ...current]);
+    setDraft('');
   };
 
   return (
-    <View style={styles.screen}>
-      <ScrollView style={styles.messages} contentContainerStyle={styles.messageContent}>
-        <ScreenFade>
-          <BrandHeader title="LOLO Coach" subtitle={`${profile.persona} guidance engine`} />
-          <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
-          <Card glow>
-            <SectionHeader title="Ask what changed, why it matters, and what to do next." subtitle="A calm AI interface for credit growth, spending behavior, and financial clarity." eyebrow="LOLO Coach" />
-            {selectedDemoUser.recommendations[0] ? (
-              <InsightCard
-                title={selectedDemoUser.recommendations[0].title}
-                body={selectedDemoUser.recommendations[0].explanation}
-                action={`${selectedDemoUser.recommendations[0].urgency} urgency · ${selectedDemoUser.recommendations[0].estimated_impact}`}
-              />
-            ) : null}
-            <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
-          </Card>
-          {messages.map((message) => (
-            <CoachMessageBubble key={message.id} message={message} />
-          ))}
-          {isTyping ? <Text style={styles.typing}>LOLO Coach is typing...</Text> : null}
-        </ScreenFade>
-      </ScrollView>
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <StorySection>
+        <Text style={typography.eyebrow}>Reflect</Text>
+        <Text style={styles.title}>Make sense of the month before it becomes a blur.</Text>
+        <Text style={styles.subtitle}>
+          LOLO turns patterns into reflection prompts, useful explanations, and private notes you can return to later.
+        </Text>
+      </StorySection>
 
-      <View style={styles.panel}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
-          {promptChips.map((prompt) => (
-            <Pressable key={prompt} style={styles.chip} onPress={() => sendMessage(prompt)}>
-              <Text style={styles.chipText}>{prompt}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-        <Card style={styles.inputCard}>
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Ask LOLO Coach..."
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            onSubmitEditing={() => sendMessage(query)}
-            returnKeyType="send"
-          />
-          <PrimaryButton label="Send" onPress={() => sendMessage(query)} style={styles.send} />
+      <StorySection delay={80}>
+        <Card glow style={styles.promptCard}>
+          <Text style={styles.cardEyebrow}>Personalized prompt</Text>
+          <Text style={styles.promptText}>{selectedPrompt}</Text>
+          <View style={styles.promptGrid}>
+            {reflectionPrompts.map((prompt) => (
+              <Pressable
+                key={prompt}
+                onPress={() => setSelectedPrompt(prompt)}
+                style={[styles.promptChip, selectedPrompt === prompt && styles.promptChipActive]}
+              >
+                <Text style={[styles.promptChipText, selectedPrompt === prompt && styles.promptChipTextActive]}>{prompt}</Text>
+              </Pressable>
+            ))}
+          </View>
         </Card>
-      </View>
-    </View>
+      </StorySection>
+
+      <StorySection delay={140}>
+        <Card>
+          <SectionHeader title={aiReflection.title} subtitle="Why this matters" />
+          <Text style={styles.body}>{aiReflection.why}</Text>
+          <View style={styles.actionBox}>
+            <Text style={styles.actionLabel}>What to do next</Text>
+            <Text style={styles.actionText}>{aiReflection.next}</Text>
+          </View>
+          <Text style={styles.disclaimer}>{loloEngineDisclaimer}</Text>
+        </Card>
+      </StorySection>
+
+      <StorySection delay={200}>
+        <Card>
+          <SectionHeader title="Log a life event" subtitle="The moments around money often explain the numbers better than a category chart." />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.eventRow}>
+            {lifeEvents.map((event) => (
+              <Pressable
+                key={event}
+                onPress={() => setSelectedEvent(event)}
+                style={[styles.eventChip, selectedEvent === event && styles.eventChipActive]}
+              >
+                <Text style={[styles.eventText, selectedEvent === event && styles.eventTextActive]}>{event}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          <TextInput
+            value={draft}
+            onChangeText={setDraft}
+            placeholder={`Write a private note about "${selectedEvent.toLowerCase()}"`}
+            placeholderTextColor={colors.textMuted}
+            multiline
+            style={styles.reflectionInput}
+          />
+          <PrimaryButton label="Save reflection" onPress={saveReflection} style={styles.saveButton} />
+        </Card>
+      </StorySection>
+
+      <StorySection delay={260}>
+        <Card style={styles.reviewCard}>
+          <SectionHeader title="Monthly money review" subtitle="A Letterboxd-style layer for progress, tradeoffs, and honest notes." />
+          <View style={styles.reviewList}>
+            {[...savedDrafts, ...journalPosts.map((post) => post.title)].slice(0, 4).map((entry, index) => (
+              <View key={`${entry}-${index}`} style={styles.reviewItem}>
+                <View style={styles.reviewDot} />
+                <View style={styles.reviewCopy}>
+                  <Text style={styles.reviewTitle}>{entry}</Text>
+                  <Text style={styles.reviewMeta}>{index === 0 && savedDrafts.length ? 'Private reflection' : `${journalPosts[index % journalPosts.length]?.rating ?? '4.5'} rating · ${(journalPosts[index % journalPosts.length]?.helpful ?? 42)} helpful`}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </Card>
+      </StorySection>
+
+      <StorySection delay={320}>
+        <Card>
+          <SectionHeader title="Themes you are building" subtitle="Private tags that make the financial biography feel searchable over time." />
+          <View style={styles.themeWrap}>
+            {journalThemes.slice(0, 6).map((theme) => (
+              <Text key={theme} style={styles.theme}>{theme}</Text>
+            ))}
+          </View>
+          <ProgressBar label={`${appUserProfile?.preferredName ?? selectedDemoUser.rawUser.name.split(' ')[0]}'s reflection rhythm`} value={savedDrafts.length ? 72 : 38} />
+        </Card>
+      </StorySection>
+
+      {savedDrafts.length === 0 ? (
+        <StorySection delay={380}>
+          <Card style={styles.empty}>
+            <Text style={styles.emptyTitle}>No private reflections yet</Text>
+            <Text style={styles.emptyBody}>Start with one sentence. LOLO becomes more useful when the story around your money is saved alongside the numbers.</Text>
+          </Card>
+        </StorySection>
+      ) : null}
+    </ScrollView>
   );
 };
 
@@ -127,59 +185,192 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  messages: {
-    flex: 1,
-  },
-  messageContent: {
+  content: {
     padding: spacing.xl,
-    paddingBottom: spacing.md,
+    paddingBottom: spacing.xxl * 2,
   },
-  typing: {
-    color: colors.accent,
+  title: {
+    color: colors.textPrimary,
+    fontSize: 36,
     fontWeight: '800',
-    marginBottom: spacing.md,
+    letterSpacing: -0.2,
+    lineHeight: 42,
+    marginTop: spacing.sm,
   },
-  panel: {
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.md,
-    backgroundColor: colors.background,
+  subtitle: {
+    ...typography.body,
+    marginTop: spacing.md,
   },
-  chips: {
+  promptCard: {
+    backgroundColor: colors.surfaceDeep,
+  },
+  cardEyebrow: {
+    color: colors.secondaryGreen,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  promptText: {
+    color: colors.white,
+    fontSize: 30,
+    fontWeight: '800',
+    lineHeight: 36,
+    marginTop: spacing.md,
+  },
+  promptGrid: {
     gap: spacing.sm,
-    paddingBottom: spacing.md,
+    marginTop: spacing.xl,
   },
-  chip: {
-    backgroundColor: colors.cardSoft,
-    borderColor: colors.borderSoft,
+  promptChip: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderColor: 'rgba(255,255,255,0.12)',
+    borderRadius: radii.lg,
     borderWidth: 1,
-    borderRadius: radii.md,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    padding: spacing.md,
   },
-  chipText: {
-    color: colors.textPrimary,
-    fontWeight: '800',
+  promptChipActive: {
+    backgroundColor: colors.mint,
   },
-  inputCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    marginBottom: 0,
-  },
-  input: {
-    flex: 1,
-    minHeight: 44,
-    color: colors.textPrimary,
+  promptChipText: {
+    color: colors.white,
+    fontSize: 13,
     fontWeight: '700',
   },
-  send: {
-    minWidth: 76,
-    paddingVertical: spacing.sm,
+  promptChipTextActive: {
+    color: colors.primaryDark,
+  },
+  body: {
+    ...typography.body,
+    marginTop: spacing.sm,
+  },
+  actionBox: {
+    backgroundColor: colors.cardSoft,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    marginTop: spacing.lg,
+    padding: spacing.lg,
+  },
+  actionLabel: {
+    color: colors.primaryDark,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  actionText: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: '800',
+    lineHeight: 25,
+    marginTop: spacing.sm,
   },
   disclaimer: {
     color: colors.textMuted,
     fontSize: 12,
     lineHeight: 18,
     marginTop: spacing.lg,
+  },
+  eventRow: {
+    gap: spacing.sm,
+    paddingVertical: spacing.md,
+  },
+  eventChip: {
+    backgroundColor: colors.cardSoft,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.pill,
+    borderWidth: 1,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  eventChipActive: {
+    backgroundColor: colors.primary,
+  },
+  eventText: {
+    color: colors.textSecondary,
+    fontWeight: '800',
+  },
+  eventTextActive: {
+    color: colors.white,
+  },
+  reflectionInput: {
+    backgroundColor: colors.backgroundElevated,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    color: colors.textPrimary,
+    fontSize: 15,
+    fontWeight: '600',
+    minHeight: 110,
+    padding: spacing.lg,
+    textAlignVertical: 'top',
+  },
+  saveButton: {
+    marginTop: spacing.md,
+  },
+  reviewCard: {
+    backgroundColor: colors.card,
+  },
+  reviewList: {
+    gap: spacing.md,
+    marginTop: spacing.md,
+  },
+  reviewItem: {
+    alignItems: 'center',
+    backgroundColor: colors.backgroundElevated,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    padding: spacing.md,
+  },
+  reviewDot: {
+    backgroundColor: colors.primary,
+    borderRadius: radii.pill,
+    height: 10,
+    width: 10,
+  },
+  reviewCopy: {
+    flex: 1,
+  },
+  reviewTitle: {
+    color: colors.textPrimary,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  reviewMeta: {
+    color: colors.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+    marginTop: spacing.xs,
+  },
+  themeWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
+    marginTop: spacing.md,
+  },
+  theme: {
+    backgroundColor: colors.mint,
+    borderRadius: radii.pill,
+    color: colors.primaryDark,
+    fontSize: 12,
+    fontWeight: '800',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  empty: {
+    backgroundColor: colors.backgroundElevated,
+  },
+  emptyTitle: {
+    color: colors.textPrimary,
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  emptyBody: {
+    ...typography.body,
+    marginTop: spacing.sm,
   },
 });

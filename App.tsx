@@ -30,7 +30,7 @@ const demoAnswers: OnboardingAnswers = {
 };
 
 const AppInner = () => {
-  const { profile, isReady, completeOnboarding, startSixtySecondDemo, saveAppUserProfile } = useProfile();
+  const { profile, isReady, completeOnboarding, saveAppUserProfile } = useProfile();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [publicPage, setPublicPage] = useState<PublicPageKey>('landing');
   const [pendingUser, setPendingUser] = useState<{ id: string; name: string; email: string } | null>(null);
@@ -46,7 +46,6 @@ const AppInner = () => {
 
   const startDemo = async () => {
     await completeOnboarding(demoAnswers);
-    startSixtySecondDemo();
   };
 
   const handleSignup = (name: string, email: string) => {
@@ -104,7 +103,7 @@ export default function App() {
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <ProfileProvider>
           <AppInner />
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
         </ProfileProvider>
       </SafeAreaView>
     </SafeAreaProvider>

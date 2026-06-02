@@ -11,17 +11,22 @@
       "resizeMode": "contain",
       "backgroundColor": "#F7FAF6"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "web": {
       "bundler": "metro",
-      "name": "LOLO — Credit Intelligence Platform",
+      "name": "LOLO - Financial Reflection",
       "shortName": "LOLO",
-      "themeColor": "#16A34A",
+      "themeColor": "#1F8F5F",
       "backgroundColor": "#F7FAF6",
-      "description": "A behavioral trust layer for credit-invisible and credit-misunderstood consumers."
-    }
+      "description": "Financial clarity for people building real lives."
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

@@ -31,12 +31,12 @@ const journeys = [
 ];
 
 const demoWalkthrough = [
-  'Create profile',
-  'See your financial snapshot',
-  'Get one useful insight',
-  'Understand credit and spending risk',
-  'Forecast future stress',
-  'Reflect in your money journal',
+  'Create a profile',
+  'Open Today',
+  'Understand what changed',
+  'Read the monthly review',
+  'Reflect on the money moment',
+  'Check stress and credit pressure',
   'Take the next best action',
 ];
 
@@ -52,13 +52,13 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
 
     <View style={styles.hero}>
       <View style={styles.heroCopy}>
-        <Text style={typography.eyebrow}>Guided product demo</Text>
-        <Text style={styles.headline}>A calmer way to understand money, credit, and what comes next.</Text>
+        <Text style={typography.eyebrow}>Product demo</Text>
+        <Text style={styles.headline}>Your financial story, one month at a time.</Text>
         <Text style={styles.subheadline}>
-          LOLO helps young professionals understand spending, improve credit habits, forecast stress, and reflect on financial progress without shame or noise.
+          LOLO helps young professionals understand what changed financially, why it matters, and what to do next without turning money into a spreadsheet.
         </Text>
         <View style={styles.ctaRow}>
-          <PrimaryButton label="Launch 60-second demo" onPress={onLaunchDemo} />
+          <PrimaryButton label="Open product demo" onPress={onLaunchDemo} />
           <PrimaryButton label="Back to landing" variant="ghost" onPress={onBack} />
         </View>
       </View>
@@ -83,7 +83,7 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
       <ExplainerCard title="Advice is often too loud" body="LOLO keeps guidance calm: one clear insight, one reason it matters, one next step." />
     </View>
 
-    <SectionHeader title="Demo walkthrough" subtitle="A story-driven flow that feels like a user journey, not a feature tour." />
+    <SectionHeader title="Demo walkthrough" subtitle="A story-driven flow around Today, Review, Reflect, and Me." />
     <Card style={styles.lightCard}>
       {demoWalkthrough.map((step, index) => (
         <View key={step} style={styles.walkthroughRow}>
@@ -141,8 +141,8 @@ export const DemoPresentationScreen = ({ onLaunchDemo, onBack, onNavigate }: Dem
 
     <Card glow style={styles.finalCta}>
       <Text style={styles.finalTitle}>Ready to view the product.</Text>
-      <Text style={styles.finalBody}>Launch the guided demo to see the selected user, Money Momentum, score movement, simulation, journal layer, and AI next-best-action.</Text>
-      <PrimaryButton label="Launch 60-second demo" onPress={onLaunchDemo} style={styles.finalButton} />
+      <Text style={styles.finalBody}>Open the demo to see Today, the monthly review, Reflect, and the private profile layer working together.</Text>
+      <PrimaryButton label="Open product demo" onPress={onLaunchDemo} style={styles.finalButton} />
     </Card>
     {onNavigate ? <Footer onNavigate={onNavigate} onDemo={onLaunchDemo} /> : null}
   </ScrollView>

@@ -33,6 +33,6 @@ export const CreditScoreService = {
 export const OpenAICoachService = {
   sendPrompt: async (prompt: string) => {
     // TODO: Replace with a guardrailed OpenAI / AI assistant API call
-    return Promise.resolve({ text: `LOLO Coach reply to: ${prompt}` });
+    return Promise.resolve({ text: `LOLO Reflect reply to: ${prompt}` });
   },
 };

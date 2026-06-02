@@ -55,7 +55,7 @@ export const CreateProfileScreen = ({ userId, email, name, onComplete }: CreateP
       <Card glow>
         <Logo />
         <Text style={styles.title}>Create your LOLO profile</Text>
-        <Text style={styles.copy}>This demo profile shapes the dashboard, AI Coach, journal, and clarity narrative. No real financial data is connected.</Text>
+        <Text style={styles.copy}>This demo profile shapes Today, Review, Reflect, and your private money story. No real financial data is connected.</Text>
       </Card>
 
       <Card>

@@ -4,7 +4,7 @@ export type DemoUserId = keyof typeof engineOutput.trust_score_results;
 export type SimulationKey = keyof (typeof engineOutput.simulation_examples)[DemoUserId];
 
 export const loloEngineDisclaimer = engineOutput.metadata.disclaimer.replace(
-  'LOLO Trust Score',
+  /LOLO\s+Trust\s+Score/g,
   'LOLO Money Momentum'
 );
 

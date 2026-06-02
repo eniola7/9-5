@@ -3,7 +3,6 @@ import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { DashboardCard } from '../components/DashboardCard';
-import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { LineChartMock, UtilizationRing } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ProgressBar } from '../components/ProgressBar';
@@ -16,7 +15,7 @@ import { useProfile } from '../context/ProfileContext';
 import { colors, radii, spacing, typography } from '../theme';
 
 export const ProfileBuilderScreen = () => {
-  const { profile, resetDemo, selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
+  const { profile, resetDemo, selectedDemoUser } = useProfile();
   const [selectedSimulation, setSelectedSimulation] = useState<SimulationKey>('make_payment');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -30,8 +29,7 @@ export const ProfileBuilderScreen = () => {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
-        <BrandHeader title="Credit Profile" subtitle="What changed, why it matters, and what to do next." showReset onReset={resetDemo} />
-        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
+        <BrandHeader title="Credit context" subtitle="Credit behavior folded into your monthly money story." showReset onReset={resetDemo} />
 
         <Card glow style={styles.hero}>
           <View style={styles.heroTop}>

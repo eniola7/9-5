@@ -344,7 +344,7 @@ export const demoSteps = [
   },
   {
     title: 'Take the next best action',
-    body: 'LOLO Coach turns the pattern into a specific, doable next step without shame, noise, or fake urgency.',
+    body: 'LOLO Reflect turns the pattern into a specific, doable next step without shame, noise, or fake urgency.',
   },
 ];
 

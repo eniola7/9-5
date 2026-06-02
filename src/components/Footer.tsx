@@ -16,10 +16,10 @@ const columns: Array<{ title: string; items: Array<{ label: string; page?: Publi
     items: [
       { label: 'Demo', demo: true },
       { label: 'Pricing', page: 'pricing' },
-      { label: 'Credit Intelligence', page: 'demo' },
-      { label: 'Spending Intelligence', page: 'demo' },
-      { label: 'AI Coach', page: 'demo' },
-      { label: 'Journal & Community', page: 'demo' },
+      { label: 'Today', page: 'demo' },
+      { label: 'Monthly Review', page: 'demo' },
+      { label: 'Reflect', page: 'demo' },
+      { label: 'Me', page: 'demo' },
     ],
   },
   {

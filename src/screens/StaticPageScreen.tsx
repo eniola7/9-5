@@ -31,12 +31,12 @@ const pageContent: Record<string, { title: string; subtitle: string; sections: A
   },
   demo: {
     title: 'Product Demo',
-    subtitle: 'Explore the dashboard, credit profile, AI Coach, financial insights, and journal/community layer.',
+    subtitle: 'Explore Today, Review, Reflect, and Me as one calm monthly financial story.',
     sections: [
-      { title: 'Dashboard', body: 'Money Momentum, cash flow, utilization, stress forecast, and next-best action.' },
-      { title: 'Credit Profile', body: 'Utilization simulator, payment history, behavior factors, and action plan.' },
-      { title: 'AI Coach', body: 'Suggested prompts and responses based on selected demo-user data.' },
-      { title: 'Journal', body: 'Private monthly reviews and reflection cards for financial milestones.' },
+      { title: 'Today', body: 'A simple read on what changed, why it matters, and what to do next.' },
+      { title: 'Review', body: 'A monthly financial story with key metrics, changes, stress forecast, and a reflection prompt.' },
+      { title: 'Reflect', body: 'Personalized prompts, life event logging, goal reflections, and AI-style explanations.' },
+      { title: 'Me', body: 'Profile context, milestones, financial biography, connected account placeholder, and privacy settings.' },
     ],
   },
   pricing: {
@@ -90,7 +90,7 @@ export const StaticPageScreen = ({ page, onNavigate, onDemo }: StaticPageScreenP
       <Card glow style={styles.hero}>
         <Text style={styles.title}>{content.title}</Text>
         <Text style={styles.subtitle}>{content.subtitle}</Text>
-        {page === 'demo' ? <PrimaryButton label="Launch 60-second demo" onPress={onDemo} style={styles.cta} /> : null}
+        {page === 'demo' ? <PrimaryButton label="Open product demo" onPress={onDemo} style={styles.cta} /> : null}
       </Card>
       <View style={styles.sections}>
         {content.sections.map((section) => (

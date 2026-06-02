@@ -4,7 +4,7 @@ export const mockChatMessages: ChatMessage[] = [
   {
     id: 'message-1',
     role: 'assistant',
-    text: 'Welcome to LOLO Coach! Ask me about boosting credit, planning relocation, or managing your budget.',
+    text: 'Welcome to LOLO Reflect. Ask me what changed this month, why it matters, or what to carry forward.',
   },
   {
     id: 'message-2',

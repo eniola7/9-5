@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandHeader } from '../components/BrandHeader';
 import { Card } from '../components/Card';
 import { DashboardCard } from '../components/DashboardCard';
-import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
 import { InsightCard, MiniBars } from '../components/MetricWidgets';
 import { ProgressBar } from '../components/ProgressBar';
 import { ScreenFade } from '../components/ScreenFade';
@@ -14,14 +13,13 @@ import { useProfile } from '../context/ProfileContext';
 import { colors, spacing, typography } from '../theme';
 
 export const AlertsScreen = () => {
-  const { selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
+  const { selectedDemoUser } = useProfile();
   const drift = selectedDemoUser.spendingDriftPercent;
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <ScreenFade>
         <BrandHeader title="Financial Insights" subtitle="Spending behavior, cash pressure, and stress forecast." />
-        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
 
       <Card glow style={styles.hero}>
         <Text style={styles.heroKicker}>What changed</Text>

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderSoft,
     borderWidth: 1,
     borderRadius: radii.lg,
-    padding: spacing.lg,
+    padding: spacing.xl,
     marginBottom: spacing.lg,
     width: '100%',
     overflow: 'hidden',
@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 90,
-    backgroundColor: 'rgba(22, 163, 74, 0.035)',
+    backgroundColor: 'rgba(31, 143, 95, 0.035)',
   },
   highlightGlow: {
-    backgroundColor: 'rgba(22, 163, 74, 0.08)',
+    backgroundColor: 'rgba(31, 143, 95, 0.08)',
   },
   content: {
     position: 'relative',

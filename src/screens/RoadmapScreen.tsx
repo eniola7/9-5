@@ -1,266 +1,350 @@
 import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { BrandHeader } from '../components/BrandHeader';
+import { AnimatedNumber } from '../components/AnimatedNumber';
 import { Card } from '../components/Card';
-import { DemoUserSwitcher } from '../components/DemoUserSwitcher';
+import { LineChartMock, MiniBars } from '../components/MetricWidgets';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { PressableScale } from '../components/PressableScale';
-import { ScreenFade } from '../components/ScreenFade';
-import { SectionHeader } from '../components/SectionHeader';
-import { journalPosts, journalThemes, monthlyReviews } from '../data/financeMvp';
+import { StorySection } from '../components/StorySection';
+import { creditGrowthSeries, journalPosts, monthlyReviews, spendingDriftSeries } from '../data/financeMvp';
 import { useProfile } from '../context/ProfileContext';
-import { colors, radii, spacing, typography } from '../theme';
-
-type JournalPost = (typeof journalPosts)[number];
-type MonthlyReview = (typeof monthlyReviews)[number];
+import { colors, radii, shadows, spacing, typography } from '../theme';
 
 export const RoadmapScreen = () => {
-  const { selectedDemoUser, selectedDemoUserId, setSelectedDemoUserId } = useProfile();
-  const [selected, setSelected] = useState<JournalPost | null>(null);
-  const [selectedReview, setSelectedReview] = useState<MonthlyReview | null>(null);
+  const { selectedDemoUser } = useProfile();
+  const [storyOpen, setStoryOpen] = useState(false);
+  const review = monthlyReviews[0];
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <ScreenFade>
-        <BrandHeader title="Money Journal" subtitle="Milestones, monthly reviews, and honest financial reflections." />
-        <DemoUserSwitcher selectedId={selectedDemoUserId} onSelect={setSelectedDemoUserId} />
+      <StorySection>
+        <View style={styles.header}>
+          <Text style={styles.kicker}>Review</Text>
+          <Text style={styles.title}>Your financial story, one month at a time.</Text>
+          <Text style={styles.subtitle}>A monthly reflection that explains what changed, why it mattered, and what to carry forward.</Text>
+        </View>
+      </StorySection>
 
-        <Card glow>
-          <SectionHeader
-            title="A tasteful reflection layer for money"
-            subtitle="Log milestones, rate products or life decisions, and save short reflections that are useful without becoming public net worth theater."
-            eyebrow="Financial diary"
-          />
-          <View style={styles.themeRow}>
-            {journalThemes.map((theme) => (
-              <Text key={theme} style={styles.theme}>{theme}</Text>
-            ))}
+      <StorySection delay={80}>
+        <Card glow style={styles.coverCard}>
+          <Text style={styles.coverKicker}>May Money Review</Text>
+          <Text style={styles.coverTitle}>{review.title}</Text>
+          <Text style={styles.coverBody}>{review.body}</Text>
+          <View style={styles.coverMeta}>
+            <Text style={styles.coverMetaText}>Momentum {selectedDemoUser.trustScore}</Text>
+            <Text style={styles.coverMetaText}>+{selectedDemoUser.upside.points} possible</Text>
+          </View>
+          <PrimaryButton label="Open monthly story" onPress={() => setStoryOpen(true)} style={styles.coverButton} />
+        </Card>
+      </StorySection>
+
+      <StorySection delay={150}>
+        <Card>
+          <Text style={styles.sectionTitle}>Key metrics</Text>
+          <View style={styles.metricGrid}>
+            <Metric label="Runway" value={selectedDemoUser.runwayLabel} detail="+18 days this quarter" />
+            <Metric label="Spending drift" value={`${selectedDemoUser.spendingDriftPercent}%`} detail="Dining and convenience" />
+            <Metric label="Utilization" value={selectedDemoUser.utilizationLabel} detail="24% possible" />
           </View>
         </Card>
+      </StorySection>
 
-        <SectionHeader title="Monthly reviews" subtitle="Private progress cards that turn financial growth into memory." />
-        <Card style={styles.engineReviewCard}>
-          <View style={styles.reviewTop}>
-            <View style={styles.reviewCopy}>
-              <Text style={styles.reviewMonth}>Engine review</Text>
-              <Text style={styles.reviewTitle}>{selectedDemoUser.label}: Money Momentum {selectedDemoUser.trustScore}</Text>
+      <StorySection delay={220}>
+        <Card style={styles.summaryCard}>
+          <Text style={styles.sectionTitle}>What changed</Text>
+          {selectedDemoUser.whatChanged.slice(0, 3).map((item, index) => (
+            <View key={item} style={styles.storyRow}>
+              <Text style={styles.storyIndex}>0{index + 1}</Text>
+              <Text style={styles.storyText}>{item}</Text>
             </View>
-            <View style={styles.ratingBadge}>
-              <Text style={styles.rating}>+{selectedDemoUser.upside.points}</Text>
-            </View>
-          </View>
-          <Text style={styles.reviewBody}>{selectedDemoUser.whatChanged.join(' ')}</Text>
-          <Text style={styles.reviewAction}>What to do next: {selectedDemoUser.upside.action}</Text>
+          ))}
         </Card>
-        {monthlyReviews.map((review) => (
-          <PressableScale key={review.month} onPress={() => setSelectedReview(review)} pressedStyle={styles.pressed} hoveredStyle={styles.hovered}>
-            <Card style={styles.reviewCard}>
-              <View style={styles.reviewTop}>
-                <View style={styles.reviewCopy}>
-                  <Text style={styles.reviewMonth}>{review.month}</Text>
-                  <Text style={styles.reviewTitle}>{review.title}</Text>
-                </View>
-                <View style={styles.ratingBadge}>
-                  <Text style={styles.rating}>{review.score}</Text>
-                </View>
-              </View>
-              <Text style={styles.reviewBody}>{review.body}</Text>
-              <Text style={styles.reviewAction}>Open monthly review</Text>
-            </Card>
-          </PressableScale>
-        ))}
+      </StorySection>
 
-        <SectionHeader title="Anonymous community notes" subtitle="Tasteful reflections and product notes, kept secondary to personal progress." />
-        {journalPosts.map((post) => (
-          <PressableScale key={post.title} onPress={() => setSelected(post)} pressedStyle={styles.pressed} hoveredStyle={styles.hovered}>
-            <Card style={styles.postCard}>
-              <View style={styles.postTop}>
-                <View style={styles.ratingBadge}>
-                  <Text style={styles.rating}>{post.rating}</Text>
-                </View>
-                <Text style={styles.helpful}>{post.helpful} helpful</Text>
-              </View>
-              <Text style={styles.postTitle}>{post.title}</Text>
-              <Text style={styles.reflection}>{post.reflection}</Text>
-              <View style={styles.tagRow}>
-                {post.tags.map((tag) => (
-                  <Text key={tag} style={styles.tag}>{tag}</Text>
-                ))}
-              </View>
-            </Card>
-          </PressableScale>
-        ))}
+      <StorySection delay={290}>
+        <Card>
+          <Text style={styles.sectionTitle}>What I did</Text>
+          {journalPosts.slice(0, 3).map((post) => (
+            <View key={post.title} style={styles.journalRow}>
+              <Text style={styles.journalTitle}>{post.title}</Text>
+              <Text style={styles.journalMeta}>{post.rating} rating · {post.helpful} helpful · {post.tags.join(', ')}</Text>
+            </View>
+          ))}
+        </Card>
+      </StorySection>
 
-        <Modal transparent visible={!!selected} animationType="fade">
-          <View style={styles.modalOverlay}>
-            <Card glow>
-              <Text style={styles.modalTitle}>{selected?.title}</Text>
-              <Text style={styles.reflection}>{selected?.reflection}</Text>
-              <Text style={styles.modalMeta}>{selected?.rating} rating · {selected?.helpful} people found this helpful</Text>
-              <PrimaryButton label="Close" onPress={() => setSelected(null)} style={styles.closeButton} />
-            </Card>
-          </View>
-        </Modal>
+      <StorySection delay={360}>
+        <Card style={styles.promptCard}>
+          <Text style={styles.promptTitle}>Reflection prompt</Text>
+          <Text style={styles.promptBody}>What felt calmer this month, and what still felt heavier than it should?</Text>
+          <PrimaryButton label="Save a reflection" variant="ghost" onPress={() => setStoryOpen(true)} style={styles.promptButton} />
+        </Card>
+      </StorySection>
 
-        <Modal transparent visible={!!selectedReview} animationType="fade">
-          <View style={styles.modalOverlay}>
-            <Card glow>
-              <Text style={styles.modalTitle}>{selectedReview?.month} review</Text>
-              <Text style={styles.reviewModalTitle}>{selectedReview?.title}</Text>
-              <Text style={styles.reflection}>{selectedReview?.body}</Text>
-              <Text style={styles.modalMeta}>What to do next: preserve the habit that made this month feel calmer, then write one pressure point to watch.</Text>
-              <PrimaryButton label="Close" onPress={() => setSelectedReview(null)} style={styles.closeButton} />
-            </Card>
-          </View>
-        </Modal>
-      </ScreenFade>
+      <ReviewStoryModal visible={storyOpen} onClose={() => setStoryOpen(false)} score={selectedDemoUser.trustScore} />
     </ScrollView>
   );
 };
 
+const Metric = ({ label, value, detail }: { label: string; value: string; detail: string }) => (
+  <View style={styles.metric}>
+    <Text style={styles.metricLabel}>{label}</Text>
+    <Text style={styles.metricValue}>{value}</Text>
+    <Text style={styles.metricDetail}>{detail}</Text>
+  </View>
+);
+
+const ReviewStoryModal = ({ visible, onClose, score }: { visible: boolean; onClose: () => void; score: number }) => (
+  <Modal transparent visible={visible} animationType="slide">
+    <View style={styles.modal}>
+      <ScrollView contentContainerStyle={styles.modalContent}>
+        <StorySection>
+          <View style={styles.storyCover}>
+            <Text style={styles.storyCoverKicker}>May Money Review</Text>
+            <Text style={styles.storyCoverTitle}>A quieter month, with one watch area.</Text>
+            <Text style={styles.storyCoverBody}>This is your month unfolding: momentum, tradeoffs, pressure, and the next small action.</Text>
+          </View>
+        </StorySection>
+
+        <StorySection delay={160}>
+          <Card style={styles.storyPanel}>
+            <Text style={styles.storyPanelKicker}>Money Momentum</Text>
+            <AnimatedNumber value={score} style={styles.storyScore} />
+            <LineChartMock values={creditGrowthSeries} />
+          </Card>
+        </StorySection>
+
+        <StorySection delay={320}>
+          <Card>
+            <Text style={styles.sectionTitle}>Key insights</Text>
+            {[
+              'Emergency runway improved by 18 days.',
+              'Dining and convenience spending rose 18%.',
+              'Paying $320 could lower utilization to 24%.',
+            ].map((insight, index) => (
+              <View key={insight} style={styles.storyRow}>
+                <Text style={styles.storyIndex}>0{index + 1}</Text>
+                <Text style={styles.storyText}>{insight}</Text>
+              </View>
+            ))}
+            <MiniBars values={spendingDriftSeries} labels={['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']} />
+          </Card>
+        </StorySection>
+
+        <StorySection delay={480}>
+          <Card style={styles.promptCard}>
+            <Text style={styles.promptTitle}>What felt calmer this month?</Text>
+            <Text style={styles.promptBody}>Save one sentence now. LOLO will carry it into next month’s review.</Text>
+            <PrimaryButton label="Close story" onPress={onClose} style={styles.promptButton} />
+          </Card>
+        </StorySection>
+      </ScrollView>
+    </View>
+  </Modal>
+);
+
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
     backgroundColor: colors.background,
+    flex: 1,
   },
   content: {
     padding: spacing.xl,
-    paddingBottom: spacing.xxl * 2,
+    paddingBottom: spacing.xxl * 3,
   },
-  themeRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-    marginTop: spacing.lg,
+  header: {
+    paddingTop: spacing.md,
   },
-  theme: {
-    backgroundColor: colors.cardSoft,
-    borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
-    color: colors.textSecondary,
-    fontWeight: '800',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+  kicker: {
+    ...typography.eyebrow,
   },
-  postCard: {
-    backgroundColor: colors.card,
-  },
-  reviewCard: {
-    backgroundColor: colors.surfaceLight,
-  },
-  engineReviewCard: {
-    backgroundColor: colors.surfaceLight,
-  },
-  reviewTop: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    gap: spacing.md,
-    justifyContent: 'space-between',
-  },
-  reviewCopy: {
-    flex: 1,
-    paddingRight: spacing.md,
-  },
-  pressed: {
-    opacity: 0.92,
-  },
-  hovered: {
-    opacity: 0.98,
-  },
-  postTop: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-  },
-  ratingBadge: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(74, 222, 128, 0.12)',
-    borderColor: colors.primary,
-    borderRadius: radii.md,
-    borderWidth: 1,
-    justifyContent: 'center',
-    minWidth: 48,
-    padding: spacing.sm,
-  },
-  rating: {
-    color: colors.accent,
-    fontWeight: '900',
-  },
-  helpful: {
-    color: colors.textMuted,
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  postTitle: {
+  title: {
     color: colors.textPrimary,
-    fontSize: 21,
-    fontWeight: '900',
-    lineHeight: 26,
+    fontSize: 38,
+    fontWeight: '700',
+    lineHeight: 42,
+    marginTop: spacing.md,
   },
-  reflection: {
+  subtitle: {
     ...typography.body,
     marginTop: spacing.md,
   },
-  reviewMonth: {
-    color: colors.primaryDark,
+  coverCard: {
+    backgroundColor: colors.surfaceDeep,
+    borderColor: 'rgba(221, 247, 232, 0.18)',
+  },
+  coverKicker: {
+    color: colors.mint,
     fontSize: 12,
-    fontWeight: '900',
-    marginBottom: spacing.xs,
+    fontWeight: '800',
+    textTransform: 'uppercase',
   },
-  reviewTitle: {
-    color: colors.textPrimary,
-    fontSize: 21,
-    fontWeight: '900',
-    lineHeight: 26,
-  },
-  reviewBody: {
-    color: colors.textSecondary,
-    fontSize: 14,
-    lineHeight: 21,
+  coverTitle: {
+    color: colors.surfaceLight,
+    fontSize: 34,
+    fontWeight: '700',
+    lineHeight: 39,
     marginTop: spacing.md,
   },
-  reviewAction: {
-    color: colors.primaryDark,
-    fontSize: 12,
-    fontWeight: '900',
+  coverBody: {
+    color: 'rgba(255, 255, 255, 0.74)',
+    fontSize: 15,
+    lineHeight: 24,
     marginTop: spacing.md,
   },
-  reviewModalTitle: {
-    color: colors.textPrimary,
-    fontSize: 20,
-    fontWeight: '900',
-    marginTop: spacing.sm,
-  },
-  tagRow: {
+  coverMeta: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
+    marginTop: spacing.xl,
+  },
+  coverMetaText: {
+    backgroundColor: 'rgba(221, 247, 232, 0.1)',
+    borderRadius: radii.pill,
+    color: colors.mint,
+    fontSize: 12,
+    fontWeight: '800',
+    overflow: 'hidden',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  coverButton: {
+    marginTop: spacing.xl,
+  },
+  sectionTitle: {
+    color: colors.textPrimary,
+    fontSize: 23,
+    fontWeight: '700',
+    lineHeight: 28,
+  },
+  metricGrid: {
+    gap: spacing.md,
     marginTop: spacing.lg,
   },
-  tag: {
+  metric: {
+    backgroundColor: colors.cardSoft,
+    borderColor: colors.borderSoft,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    padding: spacing.lg,
+  },
+  metricLabel: {
+    color: colors.textMuted,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  metricValue: {
+    color: colors.textPrimary,
+    fontSize: 30,
+    fontWeight: '700',
+    marginTop: spacing.xs,
+  },
+  metricDetail: {
+    ...typography.small,
+    marginTop: spacing.xs,
+  },
+  summaryCard: {
+    backgroundColor: colors.card,
+  },
+  storyRow: {
+    alignItems: 'flex-start',
+    borderBottomColor: colors.borderSoft,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    gap: spacing.md,
+    paddingVertical: spacing.md,
+  },
+  storyIndex: {
     color: colors.accent,
     fontSize: 12,
-    fontWeight: '900',
+    fontWeight: '800',
+    width: 28,
   },
-  modalOverlay: {
-    backgroundColor: colors.overlay,
-    flex: 1,
-    justifyContent: 'center',
-    padding: spacing.xl,
-  },
-  modalTitle: {
+  storyText: {
     color: colors.textPrimary,
-    fontSize: 24,
-    fontWeight: '900',
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 22,
   },
-  modalMeta: {
-    color: colors.accent,
-    fontWeight: '900',
+  journalRow: {
+    borderBottomColor: colors.borderSoft,
+    borderBottomWidth: 1,
+    paddingVertical: spacing.md,
+  },
+  journalTitle: {
+    color: colors.textPrimary,
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  journalMeta: {
+    ...typography.small,
+    marginTop: spacing.xs,
+  },
+  promptCard: {
+    backgroundColor: colors.mint,
+  },
+  promptTitle: {
+    color: colors.textPrimary,
+    fontSize: 25,
+    fontWeight: '700',
+    lineHeight: 31,
+  },
+  promptBody: {
+    ...typography.body,
+    marginTop: spacing.md,
+  },
+  promptButton: {
+    marginTop: spacing.xl,
+  },
+  modal: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  modalContent: {
+    padding: spacing.lg,
+    paddingBottom: spacing.xxl,
+  },
+  storyCover: {
+    backgroundColor: colors.surfaceDeep,
+    borderRadius: radii.xl,
+    minHeight: 360,
+    padding: spacing.xxl,
+    justifyContent: 'flex-end',
+    ...shadows.glow,
+  },
+  storyCoverKicker: {
+    color: colors.mint,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  storyCoverTitle: {
+    color: colors.surfaceLight,
+    fontSize: 42,
+    fontWeight: '700',
+    lineHeight: 45,
+    marginTop: spacing.md,
+  },
+  storyCoverBody: {
+    color: 'rgba(255, 255, 255, 0.72)',
+    fontSize: 16,
+    lineHeight: 25,
     marginTop: spacing.lg,
   },
-  closeButton: {
-    marginTop: spacing.xl,
+  storyPanel: {
+    backgroundColor: colors.surfaceLight,
+  },
+  storyPanelKicker: {
+    color: colors.primaryDark,
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  storyScore: {
+    color: colors.textPrimary,
+    fontSize: 76,
+    fontWeight: '700',
+    lineHeight: 82,
+    marginVertical: spacing.lg,
   },
 });
